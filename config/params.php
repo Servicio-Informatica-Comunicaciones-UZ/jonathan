@@ -1,5 +1,3 @@
 <?php
 
-return [
-    'adminEmail' => 'admin@example.com',
-];
+$params = require __DIR__.'/env/'.APPLICATION_ENV.'/params.php';
