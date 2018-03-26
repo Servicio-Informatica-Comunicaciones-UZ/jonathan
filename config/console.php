@@ -13,9 +13,15 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'Da\User\Component\AuthDbManagerComponent',
+            // 'class' => 'yii\rbac\DbManager',
+            //'defaultRoles' => ['coordinadorPlan', 'CoorOPresiPlan'],
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'db' => $db,
         'log' => [
             'targets' => [
                 [
@@ -24,7 +30,19 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    //'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
     ],
     'controllerMap' => [
         'migrate' => [
@@ -35,19 +53,6 @@ $config = [
             ],
             'migrationNamespaces' => [
                 'Da\User\Migration',
-            ],
-        ],
-    ],
-    'i18n' => [
-        'translations' => [
-            '*' => [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@app/messages',
-                //'sourceLanguage' => 'en-US',
-                'fileMap' => [
-                    'app' => 'app.php',
-                    'app/error' => 'error.php',
-                ],
             ],
         ],
     ],
