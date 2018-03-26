@@ -12,17 +12,16 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'VNvd9TIBGgiFei-Eu4Yf6OWNX_nYJaQj',
+        'authManager' => [
+            'class' => 'Da\User\Component\AuthDbManagerComponent',
+            // 'class' => 'yii\rbac\DbManager',
+            // 'defaultRoles' => [],
         ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+        'db' => $db,
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -39,13 +38,6 @@ $config = [
                 ],
             ],
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -55,13 +47,27 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => true,
+        ],
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => 'VNvd9TIBGgiFei-Eu4Yf6OWNX_nYJaQj',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
+        /* user' => [  // En la sección modules está la clase user de 2amigos
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
+        ],*/
     ],
     'modules' => [
         'user' => [
