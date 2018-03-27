@@ -8,7 +8,7 @@ if (!defined('APPLICATION_ENV')) {
             getenv('APPLICATION_ENV')
         );
     } else {
-        // TODO: check if better stop execution or set prod.
+        // TODO: consider whether it is better to stop execution or to set env to prod.
         define('APPLICATION_ENV', 'prod');
     }
 }

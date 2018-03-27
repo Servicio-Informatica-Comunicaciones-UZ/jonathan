@@ -13,17 +13,17 @@
 if (!defined('APPLICATION_ENV')) {
     if (false != getenv('APPLICATION_ENV')) {
         define(
-        'APPLICATION_ENV',
-        getenv('APPLICATION_ENV')
-    );
+            'APPLICATION_ENV',
+            getenv('APPLICATION_ENV')
+        );
     } else {
-        // TODO: check if better stop execution or set prod.
+        // TODO: consider whether it is better to stop execution or to set env to prod.
         define('APPLICATION_ENV', 'prod');
     }
 }
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'dev');
+defined('YII_DEBUG') or define('YII_DEBUG', $env['debug']);
+defined('YII_ENV') or define('YII_ENV', APPLICATION_ENV);
 
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/vendor/yiisoft/yii2/Yii.php';
