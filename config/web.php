@@ -4,13 +4,13 @@ $params = require __DIR__.'/params.php';
 $db = require __DIR__.'/db.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'FIXME',  // Unique ID that differentiates an application from others.
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'bootstrap' => ['log'],
     'components' => [
         'authManager' => [
             'class' => 'Da\User\Component\AuthDbManagerComponent',
@@ -69,6 +69,7 @@ $config = [
             'enableAutoLogin' => true,
         ],*/
     ],
+    'language' => 'es',  // Language in which the application should display content to end users
     'modules' => [
         'user' => [
             'class' => Da\User\Module::class,
@@ -84,8 +85,9 @@ $config = [
             // 'switchIdentitySessionKey' => 'myown_usuario_admin_user_key',
         ],
     ],
+    'name' => 'FIXME',  // Application name that may be displayed to end users
     'params' => $params,
-    'timeZone' => 'Europe/Madrid',
+    'timeZone' => 'Europe/Madrid',  // Default time zone of the PHP runtime
 ];
 
 if (YII_ENV_DEV) {
