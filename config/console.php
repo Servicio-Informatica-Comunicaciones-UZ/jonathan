@@ -45,6 +45,25 @@ $config = [
         ],
     ],
     'controllerMap' => [
+        'batch' => [
+            'class' => 'schmunk42\giiant\commands\BatchController',
+            'overwrite' => true,
+            'modelNamespace' => 'app\\modules\\crud\\models',
+            'modelQueryNamespace' => 'app\\modules\\crud\\models\\query',
+            'crudControllerNamespace' => 'app\\modules\\crud\\controllers',
+            'crudSearchModelNamespace' => 'app\\modules\\crud\\models\\search',
+            'crudViewPath' => '@app/modules/crud/views',
+            'crudPathPrefix' => '/crud/',
+            'crudTidyOutput' => true,
+            'crudAccessFilter' => true,
+            'crudProviders' => [
+                'schmunk42\\giiant\\generators\\crud\\providers\\optsProvider',
+            ],
+            'tablePrefix' => 'app_',
+            /*'tables' => [
+                'app_profile',
+            ]*/
+        ],
         'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => [
