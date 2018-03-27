@@ -85,6 +85,7 @@ $config = [
         ],
     ],
     'params' => $params,
+    'timeZone' => 'Europe/Madrid',
 ];
 
 if (YII_ENV_DEV) {
