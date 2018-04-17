@@ -1,6 +1,8 @@
 <?php
+use app\models\Macroarea;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 ?>
 
@@ -29,14 +31,8 @@ use yii\bootstrap\ActiveForm;
     <?php echo $form->field($model, 'denominacion')->textInput(['maxlength' => true]); ?>
 
     <!-- Tabla propuesta_macroarea -->
-    <?php echo $form->field($model, 'propuestaMacroareas')->checkboxList(  // TODO: Poblar las checkboxes con el contenido de la tabla Macroarea
-        [
-            '1' => Yii::t('jonathan', 'Artes y Humanidades'),
-            '2' => Yii::t('jonathan', 'Ciencias Sociales y Jurídicas'),
-            '3' => Yii::t('jonathan', 'Ciencias de la Salud'),
-            '4' => Yii::t('jonathan', 'Ingeniería y Arquitectura'),
-            '5' => Yii::t('jonathan', 'Ciencias'),
-        ]
+    <?php echo $form->field($model, 'propuestaMacroareas')->checkboxList(
+        ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre')
         // ['separator' => '<br>']
     ); ?>
 
