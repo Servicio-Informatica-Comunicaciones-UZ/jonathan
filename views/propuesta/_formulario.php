@@ -13,7 +13,7 @@ use yii\bootstrap\ActiveForm;
         'enableClientValidation' => true,
         'errorSummaryCssClass' => 'error-summary alert alert-danger',
         'fieldConfig' => [
-            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}<br>",
+            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
                 'label' => 'col-sm-2',
                 //'offset' => 'col-sm-offset-4',
@@ -52,9 +52,9 @@ use yii\bootstrap\ActiveForm;
     <!-- attribute orientacion_id -->
     <?php
     echo $form->field($model, 'orientacion_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(app\models\Orientacion::find()->all(), 'id', 'id'),
+        \yii\helpers\ArrayHelper::map(app\models\Orientacion::find()->all(), 'id', 'nombre'),
         [
-            'prompt' => 'Select',
+            'prompt' => Yii::t('jonathan', 'Seleccione la orientación'),
             'disabled' => (isset($relAttributes) && isset($relAttributes['orientacion_id'])),
         ]
     ); ?>
@@ -68,9 +68,9 @@ use yii\bootstrap\ActiveForm;
     <!-- attribute modalidad_id -->
     <?php
     echo $form->field($model, 'modalidad_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map(app\models\Modalidad::find()->all(), 'id', 'id'),
+        \yii\helpers\ArrayHelper::map(app\models\Modalidad::find()->all(), 'id', 'nombre'),
         [
-            'prompt' => 'Select',
+            'prompt' => Yii::t('jonathan', 'Seleccione la modalidad'),
             'disabled' => (isset($relAttributes) && isset($relAttributes['modalidad_id'])),
         ]
     ); ?>

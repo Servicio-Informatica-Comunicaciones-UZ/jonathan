@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Class m180412_111849_insert_modalidad_table
+ * Class m180412_111849_insert_modalidad_table.
  */
 class m180412_111849_insert_modalidad_table extends Migration
 {
@@ -12,10 +12,6 @@ class m180412_111849_insert_modalidad_table extends Migration
      */
     public function safeUp()
     {
-        $this->insert('modalidad', [
-            'id' => 1,
-            'nombre' => null,
-        ]);
         $this->insert('modalidad', [
             'nombre' => 'Presencial',
         ]);

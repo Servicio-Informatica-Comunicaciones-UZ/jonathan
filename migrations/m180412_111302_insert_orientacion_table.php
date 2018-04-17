@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Class m180412_111302_insert_orientacion_table
+ * Class m180412_111302_insert_orientacion_table.
  */
 class m180412_111302_insert_orientacion_table extends Migration
 {
@@ -12,10 +12,6 @@ class m180412_111302_insert_orientacion_table extends Migration
      */
     public function safeUp()
     {
-        $this->insert('orientacion', [
-            'id' => 1,
-            'nombre' => null,
-        ]);
         $this->insert('orientacion', [
             'nombre' => 'Profesional',
         ]);
