@@ -2,14 +2,14 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('models', 'Propuesta');
+$this->title = Yii::t('models', 'Nueva propuesta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
 <h1>
-    <?php echo Yii::t('models', 'Propuesta'); ?>
+    <?php echo Yii::t('models', 'Nueva propuesta'); ?>
     <small>
         <?php echo $model->id; ?>
     </small>

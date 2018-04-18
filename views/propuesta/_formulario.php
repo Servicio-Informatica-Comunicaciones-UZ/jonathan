@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
     <?php
     $form = ActiveForm::begin([
         'id' => 'Propuesta',
-        // 'layout' => 'vertical',
+        'layout' => 'default',
         'enableClientValidation' => true,
         'errorSummaryCssClass' => 'error-summary alert alert-danger',
         'fieldConfig' => [
@@ -28,19 +28,45 @@ use yii\helpers\ArrayHelper;
     ?>
 
     <!-- attribute denominacion -->
-    <?php echo $form->field($model, 'denominacion')->textInput(['maxlength' => true]); ?>
+    <?php echo $form->field(
+        $model,
+        'denominacion'
+        // ['inputOptions' => ['placeholder' => $model->getAttributeLabel('denominacion')]]
+    )->textInput(['maxlength' => true]); ?>
 
     <!-- Tabla propuesta_macroarea -->
-    <?php echo $form->field($model, 'propuestaMacroareas')->checkboxList(
+    <?php echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
         ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre')
         // ['separator' => '<br>']
-    ); ?>
+    )->label(Yii::t('jonathan', 'Macroárea(s)')); ?>
 
     <!-- Tabla propuesta_centro -->
-    <?php echo $form->field($model, 'propuestaCentros[0]')->label('Centro 1')->textInput(['maxlength' => true]); ?>
-    <?php echo $form->field($model, 'propuestaCentros[1]')->label('Centro 2')->textInput(['maxlength' => true]); ?>
-    <?php echo $form->field($model, 'propuestaCentros[2]')->label('Centro 3')->textInput(['maxlength' => true]); ?>
+    <?php // echo $form->field($model, 'propuestaCentros[0]')->label(Yii::t('jonathan', 'Centro(s)'));?>
 
+    <div class="centros">
+        <label class="control-label"><?php echo Yii::t('jonathan', 'Centro(s)'); ?></label>
+    </div>
+    <div class="anyadir_centro btn btn-info">
+        <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir centro'); ?>
+    </div>
+
+    <?php $this->registerJs("
+    $(document).ready(function() {
+        var centros = $('.centros');
+        var boton = $('.anyadir_centro');
+
+        $(boton).click(function (e) {
+            e.preventDefault();
+            $(centros).append(\"<div><input type='text' class='form-control' name='Propuesta[propuestaCentros][]' style='display: inline; width: 90%'>\"
+              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+        });
+
+        $(centros).on('click', '.delete', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+        });
+    });
+    "); ?>
 
     <!-- attribute nip -->
     <?php echo $form->field($model, 'nip')->hiddenInput(['value' => 999999])->label(false); ?> <!-- FIXME: nip del usuario -->
@@ -85,7 +111,8 @@ use yii\helpers\ArrayHelper;
     <?php echo $form->errorSummary($model); ?>
 
     <?php echo Html::submitButton(
-        '<span class="glyphicon glyphicon-check"></span> '.($model->isNewRecord ? 'Create' : 'Save'),
+        '<span class="glyphicon glyphicon-check"></span> '.
+          ($model->isNewRecord ? Yii::t('jonathan', 'Crear') : Yii::t('jonathan', 'Guardar')),
         [
             'id' => 'save-'.$model->formName(),
             'class' => 'btn btn-success',
@@ -93,7 +120,8 @@ use yii\helpers\ArrayHelper;
     );
     ?>
 
-    <?php ActiveForm::end(); ?>
-
+    <?php
+    ActiveForm::end();
+    ?>
 </div>
 
