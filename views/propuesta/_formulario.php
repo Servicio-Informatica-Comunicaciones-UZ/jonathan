@@ -106,6 +106,85 @@ use yii\helpers\ArrayHelper;
     <!-- attribute creditos_practicas -->
     <?php echo $form->field($model, 'creditos_practicas')->textInput(['maxlength' => true]); ?>
 
+    <!-- Tabla propuesta_titulacion -->
+
+    <div class="titulaciones">
+        <label class="control-label"><?php echo Yii::t('jonathan', 'Titulaciones a las que va dirigido'); ?></label>
+    </div>
+    <div class="anyadir_titulacion btn btn-info">
+        <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir titulación'); ?>
+    </div>
+
+    <?php $this->registerJs("
+    $(document).ready(function() {
+        var titulaciones = $('.titulaciones');
+        var boton = $('.anyadir_titulacion');
+
+        $(boton).click(function (e) {
+            e.preventDefault();
+            $(titulaciones).append(\"<div><input type='text' class='form-control' name='Propuesta[propuestaTitulaciones][]' style='display: inline; width: 90%'>\"
+              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+        });
+
+        $(titulaciones).on('click', '.delete', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+        });
+    });
+    "); ?>
+    <!-- Tabla propuesta_doctorado -->
+
+    <div class="doctorados">
+        <label class="control-label"><?php echo Yii::t('jonathan', 'Programas de doctorado a los que podría dar acceso'); ?></label>
+    </div>
+    <div class="anyadir_doctorado btn btn-info">
+        <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir programa de doctorado'); ?>
+    </div>
+
+    <?php $this->registerJs("
+    $(document).ready(function() {
+        var doctorados = $('.doctorados');
+        var boton = $('.anyadir_doctorado');
+
+        $(boton).click(function (e) {
+            e.preventDefault();
+            $(doctorados).append(\"<div><input type='text' class='form-control' name='Propuesta[propuestaDoctorados][]' style='display: inline; width: 90%'>\"
+              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+        });
+
+        $(doctorados).on('click', '.delete', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+        });
+    });
+    "); ?>
+    <!-- Tabla propuesta_grupo_inves -->
+
+    <div class="grupos">
+        <label class="control-label"><?php echo Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'); ?></label>
+    </div>
+    <div class="anyadir_grupo btn btn-info">
+        <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir grupo de investigación'); ?>
+    </div>
+
+    <?php $this->registerJs("
+    $(document).ready(function() {
+        var grupos = $('.grupos');
+        var boton = $('.anyadir_grupo');
+
+        $(boton).click(function (e) {
+            e.preventDefault();
+            $(grupos).append(\"<div><input type='text' class='form-control' name='Propuesta[propuestaGruposInves][]' style='display: inline; width: 90%'>\"
+              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+        });
+
+        $(doctorados).on('click', '.delete', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+        });
+    });
+    "); ?>
+
     <hr/>
 
     <?php echo $form->errorSummary($model); ?>

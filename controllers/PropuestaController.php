@@ -4,7 +4,10 @@ namespace app\controllers;
 
 use app\models\Propuesta;
 use app\models\PropuestaCentro;
+use app\models\PropuestaDoctorado;
+use app\models\PropuestaGrupoInves;
 use app\models\PropuestaMacroarea;
+use app\models\PropuestaTitulacion;
 use Yii;
 use yii\base\Exception;
 
@@ -42,6 +45,48 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                             $pc->save();
                         } else {
                             $model->addError('_exception', $pc->getErrorSummary(true));
+                            throw new Exception();
+                        }
+                    }
+                }
+                $titulaciones = Yii::$app->request->post('Propuesta')['propuestaTitulaciones'];
+                foreach ($titulaciones as $titulacion) {
+                    if ($titulacion) {
+                        $pt = new PropuestaTitulacion();
+                        $pt->propuesta_id = $model->id;
+                        $pt->nombre_titulacion = $titulacion;
+                        if ($pt->validate()) {
+                            $pt->save();
+                        } else {
+                            $model->addError('_exception', $pt->getErrorSummary(true));
+                            throw new Exception();
+                        }
+                    }
+                }
+                $doctorados = Yii::$app->request->post('Propuesta')['propuestaDoctorados'];
+                foreach ($doctorados as $doctorado) {
+                    if ($doctorado) {
+                        $pd = new PropuestaDoctorado();
+                        $pd->propuesta_id = $model->id;
+                        $pd->nombre_doctorado = $doctorado;
+                        if ($pd->validate()) {
+                            $pd->save();
+                        } else {
+                            $model->addError('_exception', $pd->getErrorSummary(true));
+                            throw new Exception();
+                        }
+                    }
+                }
+                $grupos = Yii::$app->request->post('Propuesta')['propuestaGruposInves'];
+                foreach ($grupos as $grupo) {
+                    if ($grupo) {
+                        $pg = new PropuestaGrupoInves();
+                        $pg->propuesta_id = $model->id;
+                        $pg->nombre_grupo_inves = $grupo;
+                        if ($pg->validate()) {
+                            $pg->save();
+                        } else {
+                            $model->addError('_exception', $pg->getErrorSummary(true));
                             throw new Exception();
                         }
                     }
