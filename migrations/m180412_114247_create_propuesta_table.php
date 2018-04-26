@@ -14,6 +14,7 @@ class m180412_114247_create_propuesta_table extends Migration
     {
         $this->createTable('propuesta', [
             'id' => $this->primaryKey(),
+            'anyo' => $this->integer(),
             'nip' => $this->integer(),
             'denominacion' => $this->string(250),
             'orientacion_id' => $this->integer()->defaultValue(1),

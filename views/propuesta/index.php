@@ -180,6 +180,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			    },
 			    'format' => 'raw',
 			],
+			/*'anyo',*/
 			/*'creditos_practicas',*/
 			/*'denominacion',*/
         ],

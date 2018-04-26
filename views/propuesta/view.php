@@ -109,6 +109,7 @@ $this->params['breadcrumbs'][] = 'View';
         : 
         '<span class="label label-warning">?</span>'),
 ],
+        'anyo',
         'creditos_practicas',
         'denominacion',
     ],

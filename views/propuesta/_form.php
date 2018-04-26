@@ -82,6 +82,9 @@ $form->field($model, 'tipo_estudio_id')->dropDownList(
     ]
 ); ?>
 
+<!-- attribute anyo -->
+			<?= $form->field($model, 'anyo')->textInput() ?>
+
 <!-- attribute creditos_practicas -->
 			<?= $form->field($model, 'creditos_practicas')->textInput(['maxlength' => true]) ?>
 

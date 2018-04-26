@@ -19,6 +19,7 @@ use Yii;
  * @property integer $plazas
  * @property string $creditos_practicas
  * @property integer $tipo_estudio_id
+ * @property integer $anyo
  *
  * @property \app\models\Modalidad $modalidad
  * @property \app\models\Orientacion $orientacion
@@ -50,7 +51,7 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nip', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id'], 'integer'],
+            [['nip', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'anyo'], 'integer'],
             [['creditos_practicas'], 'number'],
             [['denominacion'], 'string', 'max' => 250],
             [['modalidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Modalidad::className(), 'targetAttribute' => ['modalidad_id' => 'id']],
@@ -75,6 +76,7 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             'plazas' => Yii::t('models', 'Plazas'),
             'creditos_practicas' => Yii::t('models', 'Creditos Practicas'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
+            'anyo' => Yii::t('models', 'Anyo'),
         ];
     }
 

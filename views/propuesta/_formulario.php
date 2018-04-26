@@ -103,6 +103,9 @@ use yii\helpers\ArrayHelper;
     <!-- attribute tipo_estudio_id -->
     <?php echo $form->field($model, 'tipo_estudio_id')->hiddenInput(['value' => 6])->label(false); ?>
 
+    <!-- attribute anyo -->
+    <?php echo $form->field($model, 'anyo')->hiddenInput(['value' => date('Y')])->label(false); ?>
+
     <!-- attribute creditos_practicas -->
     <?php echo $form->field($model, 'creditos_practicas')->textInput(['maxlength' => true]); ?>
 
