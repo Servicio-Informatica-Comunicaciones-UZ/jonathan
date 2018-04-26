@@ -35,59 +35,69 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         }
                     }
                 }
-                $centros = Yii::$app->request->post('Propuesta')['propuestaCentros'];
-                foreach ($centros as $centro) {
-                    if ($centro) {
-                        $pc = new PropuestaCentro();
-                        $pc->propuesta_id = $model->id;
-                        $pc->nombre_centro = $centro;
-                        if ($pc->validate()) {
-                            $pc->save();
-                        } else {
-                            $model->addError('_exception', $pc->getErrorSummary(true));
-                            throw new Exception();
+
+                $centros = Yii::$app->request->post('PropuestaCentro');
+                if ($centros) {
+                    foreach ($centros as $centro) {
+                        if ($centro['nombre_centro']) {
+                            $pc = new PropuestaCentro();
+                            $pc->propuesta_id = $model->id;
+                            $pc->nombre_centro = $centro['nombre_centro'];
+                            if ($pc->validate()) {
+                                $pc->save(false);
+                            } else {
+                                $model->addError('_exception', $pc->getErrorSummary(true));
+                                throw new Exception();
+                            }
                         }
                     }
                 }
-                $titulaciones = Yii::$app->request->post('Propuesta')['propuestaTitulaciones'];
-                foreach ($titulaciones as $titulacion) {
-                    if ($titulacion) {
-                        $pt = new PropuestaTitulacion();
-                        $pt->propuesta_id = $model->id;
-                        $pt->nombre_titulacion = $titulacion;
-                        if ($pt->validate()) {
-                            $pt->save();
-                        } else {
-                            $model->addError('_exception', $pt->getErrorSummary(true));
-                            throw new Exception();
+
+                $titulaciones = Yii::$app->request->post('PropuestaTitulacion');
+                if ($titulaciones) {
+                    foreach ($titulaciones as $titulacion) {
+                        if ($titulacion['nombre_titulacion']) {
+                            $pt = new PropuestaTitulacion();
+                            $pt->propuesta_id = $model->id;
+                            $pt->nombre_titulacion = $titulacion['nombre_titulacion'];
+                            if ($pt->validate()) {
+                                $pt->save(false);
+                            } else {
+                                $model->addError('_exception', $pt->getErrorSummary(true));
+                                throw new Exception();
+                            }
                         }
                     }
                 }
-                $doctorados = Yii::$app->request->post('Propuesta')['propuestaDoctorados'];
-                foreach ($doctorados as $doctorado) {
-                    if ($doctorado) {
-                        $pd = new PropuestaDoctorado();
-                        $pd->propuesta_id = $model->id;
-                        $pd->nombre_doctorado = $doctorado;
-                        if ($pd->validate()) {
-                            $pd->save();
-                        } else {
-                            $model->addError('_exception', $pd->getErrorSummary(true));
-                            throw new Exception();
+
+                $doctorados = Yii::$app->request->post('PropuestaDoctorado');
+                if ($doctorados) {
+                    foreach ($doctorados as $doctorado) {
+                        if ($doctorado['nombre_doctorado']) {
+                            $pd = new PropuestaDoctorado();
+                            $pd->propuesta_id = $model->id;
+                            $pd->nombre_doctorado = $doctorado['nombre_doctorado'];
+                            if ($pd->validate()) {
+                                $pd->save(false);
+                            } else {
+                                $model->addError('_exception', $pd->getErrorSummary(true));
+                                throw new Exception();
+                            }
                         }
                     }
                 }
-                $grupos = Yii::$app->request->post('Propuesta')['propuestaGruposInves'];
-                foreach ($grupos as $grupo) {
-                    if ($grupo) {
-                        $pg = new PropuestaGrupoInves();
-                        $pg->propuesta_id = $model->id;
-                        $pg->nombre_grupo_inves = $grupo;
-                        if ($pg->validate()) {
-                            $pg->save();
-                        } else {
-                            $model->addError('_exception', $pg->getErrorSummary(true));
-                            throw new Exception();
+
+                $grupos = Yii::$app->request->post('PropuestaGrupoInves');
+                if ($grupos) {
+                    foreach ($grupos as $grupo) {
+                        if ($grupo['nombre_grupo_inves']) {
+                            $pg = new PropuestaGrupoInves();
+                            $pg->propuesta_id = $model->id;
+                            $pg->nombre_grupo_inves = $grupo['nombre_grupo_inves'];
+                            if (!$pg->save()) {
+                                $model->addError('_exception', $pg->getErrorSummary(true));
+                                throw new Exception();
+                            }
                         }
                     }
                 }
