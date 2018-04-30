@@ -13,6 +13,13 @@ use yii\base\Model;
  */
 class RespuestaController extends \app\controllers\base\RespuestaController
 {
+    /**
+     * Crea las respuestas de una propuesta.
+     *
+     * @param int $propuesta_id
+     *
+     * @return mixed
+     */
     public function actionCrear($propuesta_id)
     {
         $respuestas = Yii::$app->request->post('Respuesta');
@@ -28,7 +35,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
                 $model->save(false);
             }
 
-            return $this->redirect(['propuesta/view', 'id' => $propuesta_id]);
+            return $this->redirect(['propuesta/ver', 'id' => $propuesta_id]);
         } elseif (!\Yii::$app->request->isPost) {
             $propuesta = Propuesta::findOne(['id' => $propuesta_id]);
 

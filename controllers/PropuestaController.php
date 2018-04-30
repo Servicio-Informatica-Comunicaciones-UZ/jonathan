@@ -10,12 +10,18 @@ use app\models\PropuestaMacroarea;
 use app\models\PropuestaTitulacion;
 use Yii;
 use yii\base\Exception;
+use yii\helpers\Url;
 
 /**
  * This is the class for controller "PropuestaController".
  */
 class PropuestaController extends \app\controllers\base\PropuestaController
 {
+    /**
+     * Crea una nueva propuesta.
+     *
+     * @return mixed
+     */
     public function actionCrear()
     {
         $model = new Propuesta();
@@ -115,5 +121,21 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         }
 
         return $this->render('crear', ['model' => $model]);
+    }
+
+    /**
+     * Muestra una única propuesta.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function actionVer($id)
+    {
+        Url::remember();
+
+        return $this->render('ver', [
+            'model' => $this->findModel($id),
+        ]);
     }
 }
