@@ -38,9 +38,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
                 ->all();
 
             foreach ($preguntas as $pregunta) {
-                $respuesta = new Respuesta();
-                $respuesta->propuesta_id = $propuesta_id;
-                $respuesta->pregunta_id = $pregunta->id;
+                $respuesta = new Respuesta(['propuesta_id' => $propuesta_id, 'pregunta_id' => $pregunta->id]);
                 $models[] = $respuesta;
             }
             if (Yii::$app->request->get('Respuesta')) {

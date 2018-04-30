@@ -30,8 +30,8 @@ use app\models\Respuesta;
         echo Html::activeHiddenInput($respuesta, "[$num]pregunta_id")."\n";
         echo Html::activeHiddenInput($respuesta, "[$num]propuesta_id")."\n";
         echo $form->field($respuesta, "[$num]valor")
-            ->label("<h2>{$respuesta->pregunta->titulo}</h2>")
-            ->hint($respuesta->pregunta->descripcion)
+            ->label('<h2>'.Html::encode($respuesta->pregunta->titulo).'</h2>')
+            ->hint(Html::encode($respuesta->pregunta->descripcion))
             ->textarea(['maxlength' => $respuesta->pregunta->max_longitud, 'rows' => 6])."\n\n";
     }
 
