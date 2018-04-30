@@ -25,26 +25,31 @@ use yii\helpers\ArrayHelper;
             ],
         ],
     ]);
-    ?>
 
-    <!-- attribute denominacion -->
-    <?php echo $form->field(
+    // attribute denominacion
+    echo $form->field(
         $model,
         'denominacion'
         // ['inputOptions' => ['placeholder' => $model->getAttributeLabel('denominacion')]]
-    )->textInput(['maxlength' => true]); ?>
+    )->textInput(['maxlength' => true]);
 
-    <!-- Tabla propuesta_macroarea -->
-    <?php echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
+    // Tabla propuesta_macroarea
+    // TODO: Marcar las casillas que ya estén guardadas
+    echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
         ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre')
         // ['separator' => '<br>']
-    )->label(Yii::t('jonathan', 'Macroárea(s)')); ?>
+    )->label(Yii::t('jonathan', 'Macroárea(s)'));
 
-    <!-- Tabla propuesta_centro -->
-    <?php // $centro = new app\models\PropuestaCentro(); echo $form->field($centro, '[]nombre_centro')->label(Yii::t('jonathan', 'Centro(s)'))->textInput(['maxlength' => true]);?>
-
+    // Tabla propuesta_centro
+    ?>
     <div class="centros">
         <label class="control-label"><?php echo Yii::t('jonathan', 'Centro(s)'); ?></label>
+        <?php
+        foreach ($model->propuestaCentros as $centro) {
+            echo "<div><input type='text' class='form-control' name='PropuestaCentro[][nombre_centro]' value='{$centro->nombre_centro}' maxlength='250' style='display: inline; width: 90%;'>";
+            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+        }
+        ?>
     </div>
     <div class="anyadir_centro btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir centro'); ?>
@@ -112,6 +117,12 @@ use yii\helpers\ArrayHelper;
     <!-- Tabla propuesta_titulacion -->
     <div class="titulaciones">
         <label class="control-label"><?php echo Yii::t('jonathan', 'Titulaciones a las que va dirigido'); ?></label>
+        <?php
+        foreach ($model->propuestaTitulacions as $titulacion) {
+            echo "<div><input type='text' class='form-control' name='PropuestaTitulacion[][nombre_titulacion]' value='{$titulacion->nombre_titulacion}' maxlength='250' style='display: inline; width: 90%;'>";
+            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+        }
+        ?>
     </div>
     <div class="anyadir_titulacion btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir titulación'); ?>
@@ -138,6 +149,12 @@ use yii\helpers\ArrayHelper;
     <!-- Tabla propuesta_doctorado -->
     <div class="doctorados">
         <label class="control-label"><?php echo Yii::t('jonathan', 'Programas de doctorado a los que podría dar acceso'); ?></label>
+        <?php
+        foreach ($model->propuestaDoctorados as $doctorado) {
+            echo "<div><input type='text' class='form-control' name='PropuestaDoctorado[][nombre_doctorado]' value='{$doctorado->nombre_doctorado}' maxlength='250' style='display: inline; width: 90%;'>";
+            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+        }
+        ?>
     </div>
     <div class="anyadir_doctorado btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir programa de doctorado'); ?>
@@ -164,6 +181,12 @@ use yii\helpers\ArrayHelper;
     <!-- Tabla propuesta_grupo_inves -->
     <div class="grupos">
         <label class="control-label"><?php echo Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'); ?></label>
+        <?php
+        foreach ($model->propuestaGrupoInves as $grupo) {
+            echo "<div><input type='text' class='form-control' name='PropuestaGrupoInves[][nombre_grupo_inves]' value='{$grupo->nombre_grupo_inves}' maxlength='250' style='display: inline; width: 90%;'>";
+            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+        }
+        ?>
     </div>
     <div class="anyadir_grupo btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir grupo de investigación'); ?>
@@ -187,21 +210,28 @@ use yii\helpers\ArrayHelper;
     });
     "); ?>
 
-    <hr/>
-
-    <?php echo $form->errorSummary($model); ?>
-
-    <?php echo Html::submitButton(
-        '<span class="glyphicon glyphicon-check"></span> '.
-          ($model->isNewRecord ? Yii::t('jonathan', 'Continuar') : Yii::t('jonathan', 'Guardar')),
-        [
-            'id' => 'save-'.$model->formName(),
-            'class' => 'btn btn-success',
-        ]
-    );
-    ?>
+    <hr>
 
     <?php
+    echo $form->errorSummary($model) . "\n";
+
+    echo "<div class='form-group'>\n";
+    echo Html::a(
+        Yii::t('jonathan', 'Cancelar'),
+        \yii\helpers\Url::previous(),
+        ['class' => 'btn btn-default']
+    ) . "&nbsp;\n&nbsp;";
+
+    echo Html::submitButton(
+        '<span class="glyphicon glyphicon-check"></span> ' .
+          ($model->isNewRecord ? Yii::t('jonathan', 'Continuar') : Yii::t('jonathan', 'Guardar')),
+        [
+            'id' => 'save-' . $model->formName(),
+            'class' => 'btn btn-success',
+        ]
+    ) . "\n";
+    echo "</div>\n";
+
     ActiveForm::end();
     ?>
 </div>

@@ -124,6 +124,92 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     }
 
     /**
+     * Edita una propuesta ya existente.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function actionEditar($id)
+    {
+        $model = $this->findModel($id);
+        $transaction = Yii::$app->db->beginTransaction();
+
+        if ($model->load($_POST) && $model->save()) {
+            foreach ($model->propuestaMacroareas as $m) {
+                 $m->delete();
+            }
+            $macroareas = Yii::$app->request->post('Propuesta')['propuestaMacroareas'];
+            if ($macroareas) {
+                foreach ($macroareas as $macroarea) {
+                    $pm = new PropuestaMacroarea(['propuesta_id' => $model->id, 'macroarea_id' => $macroarea]);
+                    $pm->save();
+                }
+            }
+
+            foreach ($model->propuestaCentros as $c) {
+                $c->delete();
+            }
+            $centros = Yii::$app->request->post('PropuestaCentro');
+            if ($centros) {
+                foreach ($centros as $centro) {
+                    if ($centro['nombre_centro']) {
+                        $pc = new PropuestaCentro(['propuesta_id' => $model->id, 'nombre_centro' => $centro['nombre_centro']]);
+                        $pc->save();
+                    }
+                }
+            }
+
+            foreach ($model->propuestaTitulacions as $t) {
+                $t->delete();
+            }
+            $titulaciones = Yii::$app->request->post('PropuestaTitulacion');
+            if ($titulaciones) {
+                foreach ($titulaciones as $titulacion) {
+                    if ($titulacion['nombre_titulacion']) {
+                        $pt = new PropuestaTitulacion(['propuesta_id' => $model->id, 'nombre_titulacion' => $titulacion['nombre_titulacion']]);
+                        $pt->save();
+                    }
+                }
+            }
+
+            foreach ($model->propuestaDoctorados as $d) {
+                $d->delete();
+            }
+            $doctorados = Yii::$app->request->post('PropuestaDoctorado');
+            if ($doctorados) {
+                foreach ($doctorados as $doctorado) {
+                    if ($doctorado['nombre_doctorado']) {
+                        $pd = new PropuestaDoctorado(['propuesta_id' => $model->id, 'nombre_doctorado' => $doctorado['nombre_doctorado']]);
+                        $pd->save();
+                    }
+                }
+            }
+
+            foreach ($model->propuestaGrupoInves as $g) {
+                $g->delete();
+            }
+            $grupos = Yii::$app->request->post('PropuestaGrupoInves');
+            if ($grupos) {
+                foreach ($grupos as $grupo) {
+                    if ($grupo['nombre_grupo_inves']) {
+                        $pg = new PropuestaGrupoInves(['propuesta_id' => $model->id, 'nombre_grupo_inves' => $grupo['nombre_grupo_inves']]);
+                        $pg->save();
+                    }
+                }
+            }
+
+            $transaction->commit();
+
+            return $this->redirect(Url::previous());
+        } else {
+            return $this->render('editar', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
      * Muestra una única propuesta.
      *
      * @param int $id

@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
 
 <?php
+/* Datos identificativos de la propuesta */
+
 echo '<h2>' . Yii::t('jonathan', 'Datos identificativos del máster') . '</h2>';
 
 echo DetailView::widget([
@@ -34,7 +36,7 @@ echo DetailView::widget([
                 }, $macroareas);
                 // $nombres = array_column(array_column($macroareas, 'macroarea'), 'nombre');
 
-                return '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>';
+                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -43,7 +45,7 @@ echo DetailView::widget([
                 $centros = $model->propuestaCentros;
                 $nombres = array_column($centros, 'nombre_centro');
 
-                return '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>';
+                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -63,7 +65,7 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaTitulacions, 'nombre_titulacion');
 
-                return '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>';
+                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -71,7 +73,7 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaDoctorados, 'nombre_doctorado');
 
-                return '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>';
+                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -79,12 +81,21 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaGrupoInves, 'nombre_grupo_inves');
 
-                return '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>';
+                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ],
     ],
 ]);
+
+echo Html::a(
+    '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
+    ['editar', 'id' => $model->id],
+    ['id' => 'editar', 'class' => 'btn btn-info']
+) . " &nbsp; \n";
+
+
+/* Preguntas de la propuesta */
 
 foreach ($model->respuestas as $respuesta) {
     echo '<br><h2>' . Html::encode($respuesta->pregunta->titulo) . '</h2>';
