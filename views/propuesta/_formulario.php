@@ -193,7 +193,7 @@ use yii\helpers\ArrayHelper;
 
     <?php echo Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> '.
-          ($model->isNewRecord ? Yii::t('jonathan', 'Crear') : Yii::t('jonathan', 'Guardar')),
+          ($model->isNewRecord ? Yii::t('jonathan', 'Continuar') : Yii::t('jonathan', 'Guardar')),
         [
             'id' => 'save-'.$model->formName(),
             'class' => 'btn btn-success',

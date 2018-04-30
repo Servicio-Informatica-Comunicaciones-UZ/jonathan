@@ -104,7 +104,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $transaction->commit();
 
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['respuesta/crear', 'propuesta_id' => $model->id]);
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load(Yii::$app->request->get());
             }
