@@ -34,14 +34,10 @@ use yii\helpers\ArrayHelper;
     )->textInput(['maxlength' => true]);
 
     // Tabla propuesta_macroarea
-    // TODO: Marcar las casillas que ya estén guardadas
-    $arrayChecks=[];
-    foreach ($model->propuestaMacroareas as $item){
-        $arrayChecks[]=$item->macroarea_id;
-    }
+    $checks = array_column($model->propuestaMacroareas, 'macroarea_id');
     echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
-        ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre'), ['value' => $arrayChecks]
-        // ['separator' => '<br>']
+        ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre'),
+        ['value' => $checks]  // , 'separator' => '<br>']
     )->label(Yii::t('jonathan', 'Macroárea(s)'));
 
     // Tabla propuesta_centro
