@@ -35,8 +35,12 @@ use yii\helpers\ArrayHelper;
 
     // Tabla propuesta_macroarea
     // TODO: Marcar las casillas que ya estén guardadas
+    $arrayChecks=[];
+    foreach ($model->propuestaMacroareas as $item){
+        $arrayChecks[]=$item->macroarea_id;
+    }
     echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
-        ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre')
+        ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre'), ['value' => $arrayChecks]
         // ['separator' => '<br>']
     )->label(Yii::t('jonathan', 'Macroárea(s)'));
 
