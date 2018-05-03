@@ -1,21 +1,28 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use \dmstr\bootstrap\Tabs;
-use yii\helpers\StringHelper;
+use yii\helpers\Html;
 
-
-/**
-* @var yii\web\View $this
-* @var app\models\Respuesta $model
-*/
-
-$this->title = Yii::t('models', 'Respuesta');
+$this->title = Yii::t('jonathan', 'Editar respuesta');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/index']];
+$this->params['breadcrumbs'][] = [
+    'label' => $model->propuesta->denominacion,
+    'url' => ['propuesta/ver', 'id' => $model->propuesta_id]
+];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud respuesta-update">
 
-    <?php     $form = ActiveForm::begin([
+<h1>
+    <?php echo $this->title; ?>
+    <small>
+        <?php echo Html::encode($model->propuesta->denominacion); ?>
+    </small>
+</h1>
+<hr><br>
+
+<div class="respuesta-form">
+    <?php
+    $form = ActiveForm::begin([
         'id' => 'respuesta',
         'layout' => 'default',
         'enableClientValidation' => true,
@@ -32,27 +39,32 @@ $this->title = Yii::t('models', 'Respuesta');
         ],
     ]);
 
+    echo Html::activeHiddenInput($model, 'pregunta_id') . "\n";
+    echo Html::activeHiddenInput($model, 'propuesta_id') . "\n";
+    echo $form->field($model, 'valor')
+        ->label('<h2>' . Html::encode($model->pregunta->titulo) . '</h2>')
+        ->hint(Html::encode($model->pregunta->descripcion))
+        ->textarea(['maxlength' => $model->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
+
+    echo $form->errorSummary($model) . "\n";
+
+    echo "<div class='form-group'>\n";
+    echo Html::a(
+        Yii::t('jonathan', 'Cancelar'),
+        \yii\helpers\Url::previous(),
+        ['class' => 'btn btn-default']
+    ) . "&nbsp;\n&nbsp;";
+
+    echo Html::submitButton(
+        '<span class="glyphicon glyphicon-check"></span> ' .
+            Yii::t('jonathan', 'Guardar'),
+        [
+            'id' => 'save-' . $model->formName(),
+            'class' => 'btn btn-success',
+        ]
+    ) . "\n";
+    echo "</div>\n";
+
+    ActiveForm::end();
     ?>
-
- 
-    <?php echo Html::activeHiddenInput($model, "pregunta_id")."\n";
-        echo Html::activeHiddenInput($model, "propuesta_id")."\n";
-        echo $form->field($model, "valor")
-            ->label('<h2>'.Html::encode($model->pregunta->titulo).'</h2>')
-            ->hint(Html::encode($model->pregunta->descripcion))
-            ->textarea(['maxlength' => $model->pregunta->max_longitud, 'rows' => 6])."\n\n";
-
-        echo Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> '.
-                Yii::t('jonathan', 'Guardar'),
-            [
-                'id' => 'save-' . $model->formName(),
-                'class' => 'btn btn-success',
-            ]
-        );
-        
-        ActiveForm::end();
-        
-    ?>
-
 </div>

@@ -62,17 +62,18 @@ class RespuestaController extends \app\controllers\base\RespuestaController
             ]
         );
     }
+
+
     public function actionEditar($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load($_POST) && $model->save()) {
-        return $this->redirect(Url::previous());
+            return $this->redirect(Url::previous());
         } else {
             return $this->render('editar', [
-            'model' => $model,
+                'model' => $model,
             ]);
-            }
+        }
     }
-
 }

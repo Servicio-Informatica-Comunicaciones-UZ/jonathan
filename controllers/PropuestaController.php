@@ -137,7 +137,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
         if ($model->load($_POST) && $model->save()) {
             foreach ($model->propuestaMacroareas as $m) {
-                 $m->delete();
+                $m->delete();
             }
             $macroareas = Yii::$app->request->post('Propuesta')['propuestaMacroareas'];
             if ($macroareas) {

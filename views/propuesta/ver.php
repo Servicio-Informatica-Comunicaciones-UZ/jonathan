@@ -100,8 +100,7 @@ echo Html::a(
 foreach ($model->respuestas as $respuesta) {
     echo "<br>\n<h2>" . Html::encode($respuesta->pregunta->titulo) . '</h2>' . PHP_EOL;
     echo '<p><strong>' . Html::encode($respuesta->pregunta->descripcion) . '</strong></p>' . PHP_EOL;
-    //Para mostrar los saltos de línea correctamente.
-    echo '<p>' . nl2br(Html::encode( $respuesta->valor)) . '</p>' . PHP_EOL;
+    echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
         ['respuesta/editar', 'id' => $respuesta->id],
