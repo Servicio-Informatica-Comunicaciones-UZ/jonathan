@@ -100,6 +100,11 @@ echo Html::a(
 foreach ($model->respuestas as $respuesta) {
     echo '<br><h2>' . Html::encode($respuesta->pregunta->titulo) . '</h2>';
     echo '<p>' . Html::encode($respuesta->valor) . '</p>';
+    echo Html::a(
+        '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
+        ['respuesta/update', 'id' => $respuesta->id],
+        ['id' => 'update', 'class' => 'btn btn-info']
+    ) . " &nbsp; \n";
 }
 ?>
 </div> <!-- container -->
