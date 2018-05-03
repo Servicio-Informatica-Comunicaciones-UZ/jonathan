@@ -8,6 +8,7 @@ use app\models\Respuesta;
 <div class="respuesta-form">
 
     <?php
+    $r = new Respuesta();
     $form = ActiveForm::begin([
         'id' => 'respuesta',
         'layout' => 'default',
@@ -27,12 +28,12 @@ use app\models\Respuesta;
 
     echo "\n\n";
     foreach ($models as $num => $respuesta) {
-        echo Html::activeHiddenInput($respuesta, "[$num]pregunta_id")."\n";
-        echo Html::activeHiddenInput($respuesta, "[$num]propuesta_id")."\n";
+        echo Html::activeHiddenInput($respuesta, "[$num]pregunta_id") . "\n";
+        echo Html::activeHiddenInput($respuesta, "[$num]propuesta_id") . "\n";
         echo $form->field($respuesta, "[$num]valor")
-            ->label('<h2>'.Html::encode($respuesta->pregunta->titulo).'</h2>')
+            ->label('<h2>' . Html::encode($respuesta->pregunta->titulo) . '</h2>')
             ->hint(Html::encode($respuesta->pregunta->descripcion))
-            ->textarea(['maxlength' => $respuesta->pregunta->max_longitud, 'rows' => 6])."\n\n";
+            ->textarea(['maxlength' => $respuesta->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
     }
 
     echo "<hr>\n\n";
@@ -40,10 +41,10 @@ use app\models\Respuesta;
     echo $form->errorSummary($models);
 
     echo Html::submitButton(
-        '<span class="glyphicon glyphicon-check"></span> '.
+        '<span class="glyphicon glyphicon-check"></span> ' .
             Yii::t('jonathan', 'Guardar'),
         [
-            'id' => 'save-'.$models[0]->formName(),
+            'id' => 'save-' . $r->formName(),
             'class' => 'btn btn-success',
         ]
     );
