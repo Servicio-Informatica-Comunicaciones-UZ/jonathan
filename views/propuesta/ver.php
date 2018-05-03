@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 /* Datos identificativos de la propuesta */
 
-echo '<h2>' . Yii::t('jonathan', 'Datos identificativos del máster') . '</h2>';
+echo '<h2>' . Yii::t('jonathan', 'Datos identificativos del máster') . '</h2>' . PHP_EOL;
 
 echo DetailView::widget([
     'model' => $model,
@@ -86,25 +86,26 @@ echo DetailView::widget([
             'format' => 'html',
         ],
     ],
-]);
+]) . "\n\n";
 
 echo Html::a(
     '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
     ['editar', 'id' => $model->id],
     ['id' => 'editar', 'class' => 'btn btn-info']
-) . " &nbsp; \n";
+) . " &nbsp; \n\n";
 
 
 /* Preguntas de la propuesta */
 
 foreach ($model->respuestas as $respuesta) {
-    echo '<br><h2>' . Html::encode($respuesta->pregunta->titulo) . '</h2>';
-    echo '<p>' . Html::encode($respuesta->valor) . '</p>';
+    echo "<br>\n<h2>" . Html::encode($respuesta->pregunta->titulo) . '</h2>' . PHP_EOL;
+    echo '<p><strong>' . Html::encode($respuesta->pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    echo '<p>' . Html::encode($respuesta->valor) . '</p>' . PHP_EOL;
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
-        ['respuesta/update', 'id' => $respuesta->id],
-        ['id' => 'update', 'class' => 'btn btn-info']
-    ) . " &nbsp; \n";
+        ['respuesta/editar', 'id' => $respuesta->id],
+        ['id' => 'editar', 'class' => 'btn btn-info']
+    ) . PHP_EOL . PHP_EOL;
 }
 ?>
 </div> <!-- container -->
