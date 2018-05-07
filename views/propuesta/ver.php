@@ -36,16 +36,31 @@ echo DetailView::widget([
                 }, $macroareas);
                 // $nombres = array_column(array_column($macroareas, 'macroarea'), 'nombre');
 
-                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                return $nombres ? '<ul class="listado"><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
             'label' => Yii::t('jonathan', 'Centro(s)'),
             'value' => function ($model) {
                 $centros = $model->propuestaCentros;
-                $nombres = array_column($centros, 'nombre_centro');
 
-                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                $salida = null;
+                if ($centros) {
+                    $salida = "<ul class='listado'>\n";
+                    foreach ($centros as $centro) {
+                        $salida .= "<li>{$centro->nombre_centro}";
+                        if ($centro->documento_firma) {
+                            $salida .= ' ['
+                            . Html::a(
+                                $centro->documento_firma,
+                                Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
+                            ) . ']';
+                        }
+                        $salida .= "</li>\n";
+                    }
+                    $salida .= "</ul>\n";
+                }
+                return $salida;
             },
             'format' => 'html',
         ], [
@@ -65,7 +80,7 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaTitulacions, 'nombre_titulacion');
 
-                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -73,7 +88,7 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaDoctorados, 'nombre_doctorado');
 
-                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ], [
@@ -81,7 +96,7 @@ echo DetailView::widget([
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaGrupoInves, 'nombre_grupo_inves');
 
-                return $nombres ? '<ul><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
         ],
@@ -104,7 +119,7 @@ foreach ($model->respuestas as $respuesta) {
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('jonathan', 'Editar'),
         ['respuesta/editar', 'id' => $respuesta->id],
-        ['id' => 'editar', 'class' => 'btn btn-info']
+        ['id' => "editar-{$respuesta->id}", 'class' => 'btn btn-info']
     ) . PHP_EOL . PHP_EOL;
 }
 ?>

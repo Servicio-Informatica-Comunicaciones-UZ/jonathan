@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use \app\models\base\PropuestaCentro as BasePropuestaCentro;
+use app\models\base\PropuestaCentro as BasePropuestaCentro;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -11,13 +11,23 @@ use yii\helpers\ArrayHelper;
  */
 class PropuestaCentro extends BasePropuestaCentro
 {
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(
+            parent::attributeLabels(),
+            [
+                'nombre_centro' => Yii::t('models', 'Nombre del centro'),
+                'documento_firma' => Yii::t('models', 'Documento firmado por el decano o director'),
+            ]
+        );
+    }
 
     public function behaviors()
     {
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                # custom behaviors
+                // custom behaviors
             ]
         );
     }
@@ -27,7 +37,7 @@ class PropuestaCentro extends BasePropuestaCentro
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
+                // custom validation rules
             ]
         );
     }

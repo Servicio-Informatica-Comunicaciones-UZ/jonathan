@@ -1,8 +1,12 @@
 <?php
+use app\models\FicheroPdf;
 use app\models\Macroarea;
-use yii\helpers\Html;
+use app\models\PropuestaCentro;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Button;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
 
@@ -24,6 +28,7 @@ use yii\helpers\ArrayHelper;
                 'hint' => '',
             ],
         ],
+        'options' => ['enctype' => 'multipart/form-data'],
     ]);
 
     // attribute denominacion
@@ -34,6 +39,7 @@ use yii\helpers\ArrayHelper;
     )->textInput(['maxlength' => true]);
 
     // Tabla propuesta_macroarea
+    // $checks = $model->getPropuestaMacroareas()->select('macroarea_id')->asArray()->column();
     $checks = array_column($model->propuestaMacroareas, 'macroarea_id');
     echo $form->field($model, 'propuestaMacroareas')->inline()->checkboxList(
         ArrayHelper::map(Macroarea::find()->all(), 'id', 'nombre'),
@@ -41,15 +47,57 @@ use yii\helpers\ArrayHelper;
     )->label(Yii::t('jonathan', 'Macroárea(s)'));
 
     // Tabla propuesta_centro
+    $pc = new PropuestaCentro();
     ?>
-    <div class="centros">
+    <div class='cabecera-azul'>
         <label class="control-label"><?php echo Yii::t('jonathan', 'Centro(s)'); ?></label>
+        <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th><?php echo $pc->getAttributeLabel('nombre_centro'); ?></th>
+                <th><?php echo $pc->getAttributeLabel('documento_firma'); ?></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody class="centros" id='centros'>
         <?php
-        foreach ($model->propuestaCentros as $centro) {
-            echo "<div><input type='text' class='form-control' name='PropuestaCentro[][nombre_centro]' value='{$centro->nombre_centro}' maxlength='250' style='display: inline; width: 90%;'>";
-            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+
+        foreach ($model->propuestaCentros as $num => $centro) {
+            $doc = new FicheroPdf();
+            echo '<tr>';
+            echo '<td>' . Html::activeHiddenInput($centro, "[{$num}]id", $options = []);
+            echo $form->field($centro, "[{$num}]nombre_centro")->label(false)->textInput(['maxlength' => true]) . "</td>\n";
+            echo '<td>';
+            if ($centro->documento_firma) {
+                echo Html::a(
+                    $centro->documento_firma,
+                    Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
+                );
+            }
+            echo $form->field($doc, "[{$num}]fichero")->label(false)->fileInput([
+                'class' => 'btn filestyle',
+                // 'data-badge' => false,
+                'data-buttonBefore' => 'true',
+                'data-buttonText' => Yii::t('jonathan', 'Reemplazar documento'),
+                // 'data-disabled' => 'true',
+                'data-icon' => 'false',
+                // 'data-iconName' => 'glyphicon glyphicon-folder-open',
+                // 'data-input' => 'false',
+                'data-placeholder' => $centro->documento_firma,
+                // 'data-size' => 'sm',
+                'accept' => '.pdf',
+            ]) . "</td>\n";
+            echo '<td>' . Button::widget([
+                'label' => "<span class='glyphicon glyphicon-trash'></span> " . Yii::t('jonathan', 'Borrar'),
+                'encodeLabel' => false,
+                'options' => ['class' => 'delete btn btn-danger'],
+            ]) . "</td>\n";
+            echo "</tr>\n";
         }
         ?>
+        </tbody>
+        </table>
     </div>
     <div class="anyadir_centro btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir centro'); ?>
@@ -62,13 +110,27 @@ use yii\helpers\ArrayHelper;
 
         $(boton).click(function (e) {
             e.preventDefault();
-            $(centros).append(\"<div><input type='text' class='form-control' name='PropuestaCentro[][nombre_centro]' maxlength='250' style='display: inline; width: 90%;'>\"
-              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+            var num = document.getElementById('centros').childElementCount;
+            $(centros).append(\"<tr>\"
+              + \"<td><div class='form-group field-propuestacentro-\"+num+\"-nombre_centro'>\"
+              + \"  <div>\"
+              + \"    <input id='propuestacentro-\"+num+\"-nombre_centro' class='form-control' name='PropuestaCentro[\"+num+\"][nombre_centro]' maxlength='250' type='text'>\"
+              + \"    <p class='help-block help-block-error'></p>\"
+              + \"  </div></div>\"
+              + \"</td>\"
+              + \"<td><div class='form-group field-ficheropdf-\"+num+\"-fichero'>\"
+              + \"  <div>\"
+              + \"    <input name='FicheroPdf[\"+num+\"][fichero]' value='' type='hidden'>\"
+              + \"    <input accept='.pdf' id='ficheropdf-\"+num+\"-fichero' class='btn filestyle' name='FicheroPdf[\"+num+\"][fichero]' type='file'>\"
+              + \"    <p class='help-block help-block-error'></p>\"
+              + \"  </div></div></td>\"
+              + \"<td><div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div></td>\"
+              + \"</tr>\");
         });
 
         $(centros).on('click', '.delete', function (e) {
             e.preventDefault();
-            $(this).parent('div').remove();
+            $(this).parent('td').parent('tr').remove();
         });
     });
     "); ?>

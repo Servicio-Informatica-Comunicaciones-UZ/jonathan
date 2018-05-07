@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\FicheroPdf;
 use app\models\Propuesta;
 use app\models\PropuestaCentro;
 use app\models\PropuestaDoctorado;
@@ -10,7 +11,9 @@ use app\models\PropuestaMacroarea;
 use app\models\PropuestaTitulacion;
 use Yii;
 use yii\base\Exception;
+use yii\base\Model;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * This is the class for controller "PropuestaController".
@@ -44,16 +47,24 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $centros = Yii::$app->request->post('PropuestaCentro');
                 if ($centros) {
-                    foreach ($centros as $centro) {
+                    foreach ($centros as $num => $centro) {
                         if ($centro['nombre_centro']) {
-                            $pc = new PropuestaCentro();
-                            $pc->propuesta_id = $model->id;
-                            $pc->nombre_centro = $centro['nombre_centro'];
+                            $pc = new PropuestaCentro([
+                                'propuesta_id' => $model->id,
+                                'nombre_centro' => $centro['nombre_centro'],
+                            ]);
                             if ($pc->validate()) {
                                 $pc->save(false);
                             } else {
                                 $model->addError('_exception', $pc->getErrorSummary(true));
                                 throw new Exception();
+                            }
+
+                            $ficheroPdf= new FicheroPdf();
+                            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[{$num}]fichero");
+                            if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
+                                $pc->documento_firma = $ficheroPdf->fichero->name;
+                                $pc->save();
                             }
                         }
                     }
@@ -136,28 +147,52 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $transaction = Yii::$app->db->beginTransaction();
 
         if ($model->load($_POST) && $model->save()) {
-            foreach ($model->propuestaMacroareas as $m) {
-                $m->delete();
-            }
-            $macroareas = Yii::$app->request->post('Propuesta')['propuestaMacroareas'];
-            if ($macroareas) {
-                foreach ($macroareas as $macroarea) {
+            /* Tabla propuesta_macroarea */
+            $pms = $model->propuestaMacroareas;
+            $macroareas = Yii::$app->request->post('Propuesta')['propuestaMacroareas'] ?: [];
+            // Añadimos las nuevas macroáreas que pueda haber
+            foreach ($macroareas as $macroarea) {
+                if (!array_filter($pms, function ($pm) use ($macroarea) {
+                    return $pm->macroarea_id == $macroarea;
+                })) {
                     $pm = new PropuestaMacroarea(['propuesta_id' => $model->id, 'macroarea_id' => $macroarea]);
                     $pm->save();
                 }
             }
-
-            foreach ($model->propuestaCentros as $c) {
-                $c->delete();
+            // Eliminamos las macroáreas que se hayan quitado
+            $pms_quitadas = array_filter($pms, function ($pm) use ($macroareas) {
+                return !in_array($pm->macroarea_id, $macroareas);
+            });
+            foreach ($pms_quitadas as $pm) {
+                $pm->delete();
             }
-            $centros = Yii::$app->request->post('PropuestaCentro');
-            if ($centros) {
-                foreach ($centros as $centro) {
-                    if ($centro['nombre_centro']) {
-                        $pc = new PropuestaCentro(['propuesta_id' => $model->id, 'nombre_centro' => $centro['nombre_centro']]);
-                        $pc->save();
-                    }
+
+            /* Tabla propuesta_centro */
+            // Guardamos los centros actuales.
+            $centros_anteriores = $model->propuestaCentros;
+            $centros_enviados = Yii::$app->request->post('PropuestaCentro') ?? [];
+            foreach ($centros_enviados as $num => $datos_centro) {
+                $pc = isset($datos_centro['id']) ? PropuestaCentro::findOne(['id' => $datos_centro['id']])
+                                                 : new PropuestaCentro;
+                $pc->attributes = $datos_centro;
+                $pc->propuesta_id = $model->id;
+                $pc->save();
+
+                $ficheroPdf = new FicheroPdf();
+                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[{$num}]fichero");
+                if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
+                    $pc->documento_firma = $ficheroPdf->fichero->name;
+                    $pc->save();
                 }
+            }
+            // Eliminamos los centros que se hayan quitado.
+            $ids_models = array_column($centros_enviados, 'id');
+            $centros_quitados = array_filter($centros_anteriores, function ($c) use ($ids_models) {
+                return !in_array($c->id, $ids_models);
+            });
+            foreach ($centros_quitados as $c) {
+                unlink(Yii::getAlias('@webroot') . "/pdf/firmas_centros/{$c->id}.pdf");
+                $c->delete();
             }
 
             foreach ($model->propuestaTitulacions as $t) {
@@ -167,7 +202,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             if ($titulaciones) {
                 foreach ($titulaciones as $titulacion) {
                     if ($titulacion['nombre_titulacion']) {
-                        $pt = new PropuestaTitulacion(['propuesta_id' => $model->id, 'nombre_titulacion' => $titulacion['nombre_titulacion']]);
+                        $pt = new PropuestaTitulacion([
+                            'propuesta_id' => $model->id,
+                            'nombre_titulacion' => $titulacion['nombre_titulacion']
+                        ]);
                         $pt->save();
                     }
                 }
