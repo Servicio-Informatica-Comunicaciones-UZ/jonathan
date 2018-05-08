@@ -121,11 +121,29 @@ use yii\helpers\Url;
               + \"<td><div class='form-group field-ficheropdf-\"+num+\"-fichero'>\"
               + \"  <div>\"
               + \"    <input name='FicheroPdf[\"+num+\"][fichero]' value='' type='hidden'>\"
-              + \"    <input accept='.pdf' id='ficheropdf-\"+num+\"-fichero' class='btn filestyle' name='FicheroPdf[\"+num+\"][fichero]' type='file'>\"
+              + \"    <input accept='.pdf' id='ficheropdf-\"+num+\"-fichero' class='btn filestyle'\"
+              + \"      name='FicheroPdf[\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
+              + \"      data-buttonText='Seleccionar documento'>\"
               + \"    <p class='help-block help-block-error'></p>\"
               + \"  </div></div></td>\"
               + \"<td><div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div></td>\"
               + \"</tr>\");
+            // Filestyle
+            $('.filestyle').each(function() {
+                var \$this = $(this), options = {
+                    'input' : \$this.attr('data-input') !== 'false',
+                    'icon' : \$this.attr('data-icon') !== 'false',
+                    'buttonBefore' : \$this.attr('data-buttonBefore') === 'true',
+                    'disabled' : \$this.attr('data-disabled') === 'true',
+                    'size' : \$this.attr('data-size'),
+                    'buttonText' : \$this.attr('data-buttonText'),
+                    'buttonName' : \$this.attr('data-buttonName'),
+                    'iconName' : \$this.attr('data-iconName'),
+                    'badge' : \$this.attr('data-badge') !== 'false',
+                    'placeholder': \$this.attr('data-placeholder')
+                };
+                \$this.filestyle(options);
+            });
         });
 
         $(centros).on('click', '.delete', function (e) {
