@@ -1,0 +1,332 @@
+body {
+    font-family: 'LatoLatinWeb', sans-serif;
+    /*
+    background: url("img/bg-pattern_nuevo1.png") #88A repeat scroll center 0;
+    background-size: 1500px;
+    */
+}
+
+.navbar-inverse {
+    background-color: #213C71; /* #212121; */
+    font-size: 1.8rem;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #d2d2d2;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #d2d2d2;
+}
+
+#contenedor-principal {
+    background-color: white;
+}
+
+.jumbotron h1 {
+    font-family: 'LatoLatinWebLight', sans-serif;
+    font-size: 4.8rem;
+}
+
+.jumbotron {
+    font-size: 4.8rem;
+}
+
+.footer {
+    background-color: #212121;
+    border-top: 0px;
+    color: #d2d2d2;
+    height: 280px;
+    margin: 0 auto;
+    max-width: 1500px;
+}
+
+.footer a {
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+
+#listado li {
+    font-size: 1.6rem;
+    list-style-type: none;
+    overflow: visible;
+    position: relative;
+}
+
+#listado li::before {
+    content: ">";
+    left: -2.8rem;
+    top: -1rem;
+    color: rgb(33, 102, 164);
+    /* font-family: 'LatoLatinWeb'; */
+    font-size: 2.8rem;
+    font-weight: bold;
+    position: absolute;
+    /* vertical-align: middle;
+    display: inline-block; */
+}
+
+.listado li {
+    font-size: 1.6rem;
+    list-style-type: none;
+    overflow: visible;
+    position: relative;
+}
+
+.listado li::before {
+    content: ">";
+    left: -2.8rem;
+    top: -1rem;
+    color: rgb(33, 102, 164);
+    /* font-family: 'LatoLatinWeb'; */
+    font-size: 2.8rem;
+    font-weight: bold;
+    position: absolute;
+    /* vertical-align: middle;
+    display: inline-block; */
+}
+
+h3 {
+    font-family: 'LatoLatinWebLight', sans-serif;
+    font-weight: 100;
+    margin: 3rem 0 2rem;
+}
+
+h2 {
+    margin: 3rem 0 2rem;
+}
+
+h2 a:hover {
+    text-decoration: none;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+@media print {
+    .nav, .breadcrumb, .footer, .noprint {
+        display: none;
+    }
+
+    /* Sobrescribo esta propiedad de Bootstrap para que
+     * al imprimir no se añada la URL a los enlaces.
+     */
+    a[href]:after {
+        content: "";
+    }
+
+    @page {
+        size: A4;
+    }
+
+    body {
+        font-size: 16pt;
+        /* URW Bookman taken from Debian package libgs9-common */
+        font-family: 'URW Bookman L', Garamond, Palatino, 'Times New Roman', Times, serif;
+        line-height: normal;
+        margin-right: 2cm;
+        margin-left: 3.5cm;
+    }
+
+    h1, h2, h3, h4, table {
+        font-family: 'LatoLatinWeb', sans-serif;
+    }
+
+    h3 { font-size: 20pt;}
+    h4 { font-size: 18pt; }
+
+    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+        float: left;
+    }
+    .col-sm-12 {
+        width: 100%;
+    }
+    .col-sm-11 {
+        width: 91.66666667%;
+    }
+    .col-sm-10 {
+        width: 83.33333333%;
+    }
+    .col-sm-9 {
+        width: 75%;
+    }
+    .col-sm-8 {
+        width: 66.66666667%;
+    }
+    .col-sm-7 {
+        width: 58.33333333%;
+    }
+    .col-sm-6 {
+        width: 50%;
+    }
+    .col-sm-5 {
+        width: 41.66666667%;
+    }
+    .col-sm-4 {
+        width: 33.33333333%;
+    }
+    .col-sm-3 {
+        width: 25%;
+    }
+    .col-sm-2 {
+        width: 16.66666667%;
+    }
+    .col-sm-1 {
+        width: 8.33333333%;
+    }
+}
+
+
+.region {
+    margin-top: 0px;
+}
+
+#block-marcadelsitio {
+    margin-top: 50px;
+    /* width: 1200px; */
+    margin: 0 auto;
+    position: relative;
+    height: 107px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.site-logo {
+    width: 220px;
+    max-width: 100%;
+    height: auto;
+    border: 0;
+    background-color: transparent;
+}
+
+#block-smallsitetitleblock {
+    height: 110px;
+    font-family: 'Lato',sans-serif;
+    background: url(img/imagen-ribbon-sup.jpg) no-repeat center center #ebebeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#block-smallsitetitleblock a {
+    text-decoration: none;
+}
+
+.rotulo-cabecera {
+    /* width: 1200px; */
+    margin: 0 0 0 50px;
+    position: relative;
+    font-family: 'Lato',sans-serif;
+    color: white;
+    font-size: 2.9rem;
+}
+
+.screen-reader {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+
+.cabecera-azul table {
+    border: 0px;
+}
+
+.cabecera-azul thead {
+    background: #6595C0;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.cabecera-azul thead tr {
+    border-bottom: 1px solid #167F92;
+}
+
+.cabecera-azul thead tr th {
+    border: 0px;
+    color: white;
+    padding: 0.375em 0.5em;
+    border-bottom: 0.1875em solid #C0C0C0;
+    font-weight: bold;
+}
+
+.cabecera-azul thead tr th a {
+    color: white;
+}
+
+.cabecera-azul tbody tr td {
+    border: 0px;
+}
+
+
+ /* Tooltip container */
+ .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    opacity: 1;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.alert .glyphicon{
+    float: left;
+    font-size: 30px;
+    margin-right: 9px;
+    padding-top: 1px;
+}
+
+.alert div, .alert span, .alert p {
+    overflow: hidden;
+}

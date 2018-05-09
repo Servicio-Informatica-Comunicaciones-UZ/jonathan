@@ -2,7 +2,17 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = Yii::t('db', Yii::$app->name);
+
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => Yii::t(
+        'app',
+        'FIXME'
+    ),
+]);
+
+$this->registerCssFile('@web/css/mainpage.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 <div class="site-index">
 

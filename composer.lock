@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2acbd02b086125ba17a1acf55696520c",
+    "content-hash": "3e3a0458e542e13ab2f604c8f9ef6460",
     "packages": [
         {
             "name": "2amigos/yii2-selectize-widget",
@@ -167,6 +167,25 @@
             ]
         },
         {
+            "name": "bower-asset/bootstrap-filestyle",
+            "version": "v1.2.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:markusslima/bootstrap-filestyle.git",
+                "reference": "30e9f0b996ab811d468bf0211a0b212cc9cf30fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/markusslima/bootstrap-filestyle/zipball/30e9f0b996ab811d468bf0211a0b212cc9cf30fe",
+                "reference": "30e9f0b996ab811d468bf0211a0b212cc9cf30fe",
+                "shasum": null
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
@@ -247,7 +266,7 @@
             "version": "v0.12.4",
             "source": {
                 "type": "git",
-                "url": "git@github.com:selectize/selectize.js.git",
+                "url": "https://github.com/selectize/selectize.js.git",
                 "reference": "47e048662d865c4f1ea3b2337de5e06e92fd9530"
             },
             "dist": {
