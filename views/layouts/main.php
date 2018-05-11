@@ -51,8 +51,10 @@ $this->registerMetaTag([
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Login', 'url' => ['/saml/login']]
             ) : (
+                ['label' => 'Logout', 'url' => ['/saml/logout']]
+                /*
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
@@ -61,6 +63,7 @@ $this->registerMetaTag([
                 )
                 . Html::endForm()
                 . '</li>'
+                */
             )
         ],
     ]);

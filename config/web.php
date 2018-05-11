@@ -1,7 +1,7 @@
 <?php
 
-$params = require __DIR__.'/params.php';
-$db = require __DIR__.'/db.php';
+$params = require __DIR__ . '/params.php';
+$db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'FIXME',  // Unique ID that differentiates an application from others.
@@ -17,7 +17,6 @@ $config = [
             // 'class' => 'yii\rbac\DbManager',
             // 'defaultRoles' => [],
         ],
-
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -58,16 +57,22 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'VNvd9TIBGgiFei-Eu4Yf6OWNX_nYJaQj',
         ],
+        'saml' => [
+            'class' => 'asasmoyo\yii2saml\Saml',
+            'configFileName' => '@app/config/env/' . APPLICATION_ENV . '/saml.php',  // OneLogin_Saml config file (Optional)
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        /* user' => [  // En la sección modules está la clase user de 2amigos
+        /*
+        'user' => [  // En la sección modules está la clase user de 2amigos
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
-        ],*/
+        ],
+        */
     ],
     'language' => 'es',  // Language in which the application should display content to end users
     'modules' => [
@@ -78,6 +83,7 @@ $config = [
             'administratorPermissionName' => 'SuperAdmin',
             'classMap' => [
                 //'LoginForm' => 'app\models\LoginForm'
+                'User' => app\models\User::class,  // Para poder extender la clase Da\User\Model\User
             ],
 
             // ...other configs from here: [Configuration Options](installation/configuration-options.md), e.g.

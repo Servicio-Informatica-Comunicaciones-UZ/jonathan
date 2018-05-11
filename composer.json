@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "2amigos/yii2-usuario": "~1.0",
         "schmunk42/yii2-giiant": "@stable",
-        "bower-asset/bootstrap-filestyle": "~1.2.3"
+        "bower-asset/bootstrap-filestyle": "~1.2.3",
+        "asasmoyo/yii2-saml": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

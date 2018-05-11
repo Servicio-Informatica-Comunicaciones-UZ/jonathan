@@ -126,4 +126,15 @@ class SiteController extends \app\controllers\base\AppController
     {
         return $this->render('about');
     }
+
+    /**
+     * Displays session page to test authentication with SAML.
+     *
+     * @return string
+     */
+    public function actionSession()
+    {
+        // Render all session variables.  We will read them in the view file.
+        return $this->render('session');
+    }
 }
