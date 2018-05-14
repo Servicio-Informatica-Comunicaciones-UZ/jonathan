@@ -19,6 +19,13 @@ body {
     color: #d2d2d2;
 }
 
+.navbar-icono {
+    font-size: 29px;
+    line-height: 0;
+    margin-top: 9px;
+    vertical-align: top;
+}
+
 #contenedor-principal {
     background-color: white;
 }

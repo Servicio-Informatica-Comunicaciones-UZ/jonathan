@@ -56,33 +56,34 @@ $this->registerMetaTag([
             [
                 'encode' => false,
                 'label' => /* "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .  //*/
-                    '<i class="glyphicon glyphicon-globe" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' .  //*/
+                    '<i class="glyphicon glyphicon-globe navbar-icono"></i> &nbsp;' .  //*/
                     strtoupper(Yii::$app->language),
                 'items' => [
                     [
                         'label' => 'Castellano',
-                        'url' => Url::to(['language/set', 'language' => 'es']),
-                        'options' => ['style' => 'font-family: LatoLatinWeb, sans-serif;'],
+                        'url' => ['language/set', 'language' => 'es'],
                     ], [
                         'label' => 'English',
-                        'url' => Url::to(['language/set', 'language' => 'en']),
-                        'options' => ['style' => 'font-family: LatoLatinWeb, sans-serif;'],
+                        'url' => ['language/set', 'language' => 'en'],
                     ],
                 ],
             ], [
                 'encode' => false,
-                'label' => '<i class="glyphicon glyphicon-question-sign" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . Yii::t('app', 'Ayuda'),
+                'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
+                            Yii::t('app', 'Ayuda'),
                 'url' => ['site/ayuda']
             ],
-            Yii::$app->user->isGuest ? ([
+            Yii::$app->user->isGuest ? [
                 'encode' => false,
-                'label' => '<i class="glyphicon glyphicon-log-in" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . Yii::t('app', 'Iniciar sesión'),
+                'label' => '<i class="glyphicon glyphicon-log-in navbar-icono"></i> &nbsp;' .
+                            Yii::t('app', 'Iniciar sesión'),
                 'url' => ['saml/login']
-            ]) : ([
+            ] : [
                 'encode' => false,
-                'label' => '<i class="glyphicon glyphicon-log-out" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . sprintf('%s (%s)', Yii::t('app', 'Cerrar sesión'), Yii::$app->user->identity->username),
+                'label' => '<i class="glyphicon glyphicon-log-out navbar-icono"></i> &nbsp;' .
+                            sprintf('%s (%s)', Yii::t('app', 'Cerrar sesión'), Yii::$app->user->identity->username),
                 'url' => ['saml/logout'],
-            ])
+            ]
         ],
         'options' => ['class' => 'navbar-nav navbar-right'],
     ]);
