@@ -1,4 +1,10 @@
 <?php
+/**
+ * Vista de la plantilla principal de las páginas web.
+ *
+ * @author  Enrique Matías Sánchez <quique@unizar.es>
+ * @license GPL-3.0+
+ */
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -22,13 +28,13 @@ $this->registerMetaTag([
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?php echo Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
+    <meta charset="<?php echo Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <?php echo Html::csrfMetaTags() ?>
+    <title><?php echo Html::encode($this->title) ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo Url::home(); ?>favicon.ico">
     <?php $this->head() ?>
 </head>
@@ -45,27 +51,40 @@ $this->registerMetaTag([
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/saml/login']]
-            ) : (
-                ['label' => 'Logout', 'url' => ['/saml/logout']]
-                /*
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-                */
-            )
+            /* ['label' => Yii::t('app', 'Inicio'), 'url' => ['/site/index']], */
+            [
+                'encode' => false,
+                'label' => /* "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .  //*/
+                    '<i class="glyphicon glyphicon-globe" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' .  //*/
+                    strtoupper(Yii::$app->language),
+                'items' => [
+                    [
+                        'label' => 'Castellano',
+                        'url' => Url::to(['language/set', 'language' => 'es']),
+                        'options' => ['style' => 'font-family: LatoLatinWeb, sans-serif;'],
+                    ], [
+                        'label' => 'English',
+                        'url' => Url::to(['language/set', 'language' => 'en']),
+                        'options' => ['style' => 'font-family: LatoLatinWeb, sans-serif;'],
+                    ],
+                ],
+            ], [
+                'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-question-sign" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . Yii::t('app', 'Ayuda'),
+                'url' => ['site/ayuda']
+            ],
+            Yii::$app->user->isGuest ? ([
+                'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-log-in" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . Yii::t('app', 'Iniciar sesión'),
+                'url' => ['saml/login']
+            ]) : ([
+                'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-log-out" style="font-size: 29px; vertical-align: top; margin-top: 9px; line-height: 0;"></i> &nbsp;' . sprintf('%s (%s)', Yii::t('app', 'Cerrar sesión'), Yii::$app->user->identity->username),
+                'url' => ['saml/logout'],
+            ])
         ],
+        'options' => ['class' => 'navbar-nav navbar-right'],
     ]);
     NavBar::end();
     ?>

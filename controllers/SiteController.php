@@ -118,13 +118,13 @@ class SiteController extends \app\controllers\base\AppController
     }
 
     /**
-     * Displays about page.
+     * Displays help page.
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionAyuda()
     {
-        return $this->render('about');
+        return $this->render('ayuda');
     }
 
     /**

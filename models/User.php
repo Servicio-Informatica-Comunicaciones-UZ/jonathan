@@ -1,4 +1,10 @@
 <?php
+/**
+ * Modelo de la tabla User.
+ *
+ * @author  Enrique Matías Sánchez <quique@unizar.es>
+ * @license GPL-3.0+
+ */
 
 namespace app\models;
 
@@ -22,7 +28,7 @@ class User extends BaseUser
         $ldap_port = Yii::$app->params['ldap']['port'];
         $base_dn = Yii::$app->params['ldap']['base_dn']; // Active Directory base DN
 
-        // Connecting to LDAP server
+        // Connecting to LDAP server (data source)
         // The "@" will silence any php errors and warnings the function could raise.
         // See http://php.net/manual/en/language.operators.errorcontrol.php
         if (!$ds = @ldap_connect($ldap_host, $ldap_port)) {
