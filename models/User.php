@@ -52,7 +52,7 @@ class User extends BaseUser
         $attributes = ['mail'];
         $results = @ldap_search($ds, $base_dn, $filter, $attributes);
         if (!$results) {
-            throw new ServerErrorHttpException(Yii::t('cati', 'Unable to search LDAP server'));
+            throw new ServerErrorHttpException(Yii::t('app', 'Unable to search LDAP server'));
         }
         // $number_returned = ldap_count_entries($ds, $results);
         $entries = ldap_get_entries($ds, $results);

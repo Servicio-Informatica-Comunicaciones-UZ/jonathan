@@ -17,14 +17,22 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Aviso legal' => 'Legal warning',
-    'Condiciones generales de uso' => 'General Use Conditions',
+    'Could not bind to the LDAP server.' => '',
     'FIXME' => '',
     'Off' => '',
     'On' => '',
+    'The provided LDAP parameters are syntactically wrong.' => '',
+    'Unable to search LDAP server' => '',
+    'You are not allowed to {0} record #{1}' => '',
+    'Aviso legal' => 'Legal warning',
+    'Ayuda' => 'Help',
+    'Cerrar sesión' => 'Log out',
+    'Condiciones generales de uso' => 'General Use Conditions',
+    'Contacte con nosotros si piensa que es un error del servidor. Gracias.' => 'Please contact us if you think this is a server error. Thank you.',
+    'Iniciar sesión' => 'Log in',
     'Política de privacidad' => 'Privacy Policy',
+    'Se produjo el error superior mientras el servidor web procesaba su petición.' => 'The above error occurred while the Web server was processing your request',
     'Servicio de Informática y Comunicaciones de la Universidad de Zaragoza' => 'ICT Service of the University of Zaragoza',
     'Universidad de Zaragoza' => 'University of Zaragoza',
-    'You are not allowed to {0} record #{1}' => '',
     'Área de Aplicaciones. Servicio de Informática y Comunicaciones de la Universidad de Zaragoza.' => 'Area of applications. ICT Service of the University of Zaragoza',
 ];

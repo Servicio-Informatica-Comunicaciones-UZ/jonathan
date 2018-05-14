@@ -18,13 +18,21 @@
  */
 return [
     'Aviso legal' => '',
+    'Ayuda' => '',
+    'Cerrar sesión' => '',
     'Condiciones generales de uso' => '',
-    'FIXME' => '',
+    'Contacte con nosotros si piensa que es un error del servidor. Gracias.' => '',
+    'Iniciar sesión' => '',
     'Off' => '',
     'On' => '',
     'Política de privacidad' => '',
+    'Se produjo el error superior mientras el servidor web procesaba su petición.' => '',
     'Servicio de Informática y Comunicaciones de la Universidad de Zaragoza' => '',
+    'Unable to search LDAP server' => 'No fue posible buscar en el servidor LDAP.',
     'Universidad de Zaragoza' => '',
-    'You are not allowed to {0} record #{1}' => 'No está autorizado para {0} el registro nº {1}',
     'Área de Aplicaciones. Servicio de Informática y Comunicaciones de la Universidad de Zaragoza.' => '',
+    'Could not bind to the LDAP server.' => 'No fue posible conectarse al servidor LDAP.',
+    'FIXME' => 'ARRÉGLAME',
+    'The provided LDAP parameters are syntactically wrong.' => 'Los parámetros de LDAP proporcionados no son sintácticamente correctos.',
+    'You are not allowed to {0} record #{1}' => 'No está autorizado para {0} el registro nº {1}',
 ];
