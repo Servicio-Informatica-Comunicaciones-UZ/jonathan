@@ -28,7 +28,7 @@ $this->registerMetaTag([
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?php echo Yii::$app->language ?>">
+<html lang="<?php echo Html::encode(Yii::$app->language) ?>">
 <head>
     <meta charset="<?php echo Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,7 +57,7 @@ $this->registerMetaTag([
                 'encode' => false,
                 'label' => /* "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .  //*/
                     '<i class="glyphicon glyphicon-globe navbar-icono"></i> &nbsp;' .  //*/
-                    strtoupper(Yii::$app->language),
+                    strtoupper(Html::encode(Yii::$app->language)),
                 'items' => [
                     [
                         'label' => 'Castellano',
