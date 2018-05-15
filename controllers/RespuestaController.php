@@ -57,7 +57,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
         return $this->render(
             'crear',
             [
-                'propuesta' => $propuesta,
+                'propuesta' => Propuesta::findOne(['id' => $propuesta_id]),
                 'models' => $models,
             ]
         );

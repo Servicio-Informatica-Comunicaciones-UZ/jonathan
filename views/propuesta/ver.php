@@ -25,7 +25,16 @@ echo DetailView::widget([
     'attributes' => [
         // 'id',
         // 'anyo',
-        // 'nip',
+        [
+            'label' => Yii::t('jonathan', 'Usuario responsable'),
+            'attribute' => 'user.username',
+        ], [
+            'label' => Yii::t('jonathan', 'Nombre del responsable'),
+            'attribute' => 'user.profile.name',
+        ], [
+            'label' => Yii::t('jonathan', 'Correo del responsable'),
+            'attribute' => 'user.email',
+        ],
         'denominacion',
         [
             'label' => Yii::t('jonathan', 'Macroárea(s)'),

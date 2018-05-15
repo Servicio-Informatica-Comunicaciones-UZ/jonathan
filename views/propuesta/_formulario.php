@@ -153,8 +153,8 @@ use yii\helpers\Url;
     });
     "); ?>
 
-    <!-- attribute nip -->
-    <?php echo $form->field($model, 'nip')->hiddenInput(['value' => 999999])->label(false); ?> <!-- FIXME: nip del usuario -->
+    <!-- attribute user_id -->
+    <?php echo $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
 
     <!-- attribute orientacion_id -->
     <?php

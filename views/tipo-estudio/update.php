@@ -10,7 +10,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('models', 'Tipo Estudio');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Tipo Estudio'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Edit';
+$this->params['breadcrumbs'][] = Yii::t('cruds', 'Edit');
 ?>
 <div class="giiant-crud tipo-estudio-update">
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = 'Edit';
     </h1>
 
     <div class="crud-navigation">
-        <?= Html::a('<span class="glyphicon glyphicon-file"></span> ' . 'View', ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-file"></span> ' . Yii::t('cruds', 'View'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     </div>
 
     <hr />

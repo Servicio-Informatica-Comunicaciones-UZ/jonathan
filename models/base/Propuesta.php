@@ -10,7 +10,8 @@ use Yii;
  * This is the base-model class for table "propuesta".
  *
  * @property integer $id
- * @property integer $nip
+ * @property integer $anyo
+ * @property integer $user_id
  * @property string $denominacion
  * @property integer $orientacion_id
  * @property integer $creditos
@@ -19,11 +20,13 @@ use Yii;
  * @property integer $plazas
  * @property string $creditos_practicas
  * @property integer $tipo_estudio_id
- * @property integer $anyo
+ * @property integer $estado_id
  *
+ * @property \app\models\Estado $estado
  * @property \app\models\Modalidad $modalidad
  * @property \app\models\Orientacion $orientacion
  * @property \app\models\TipoEstudio $tipoEstudio
+ * @property \app\models\User $user
  * @property \app\models\PropuestaCentro[] $propuestaCentros
  * @property \app\models\PropuestaDoctorado[] $propuestaDoctorados
  * @property \app\models\PropuestaGrupoInves[] $propuestaGrupoInves
@@ -51,12 +54,14 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nip', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'anyo'], 'integer'],
+            [['anyo', 'user_id', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'estado_id'], 'integer'],
             [['creditos_practicas'], 'number'],
             [['denominacion'], 'string', 'max' => 250],
+            [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['modalidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Modalidad::className(), 'targetAttribute' => ['modalidad_id' => 'id']],
             [['orientacion_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Orientacion::className(), 'targetAttribute' => ['orientacion_id' => 'id']],
-            [['tipo_estudio_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEstudio::className(), 'targetAttribute' => ['tipo_estudio_id' => 'id']]
+            [['tipo_estudio_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEstudio::className(), 'targetAttribute' => ['tipo_estudio_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\User::className(), 'targetAttribute' => ['user_id' => 'id']]
         ];
     }
 
@@ -67,7 +72,8 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('models', 'ID'),
-            'nip' => Yii::t('models', 'Nip'),
+            'anyo' => Yii::t('models', 'Anyo'),
+            'user_id' => Yii::t('models', 'User ID'),
             'denominacion' => Yii::t('models', 'Denominacion'),
             'orientacion_id' => Yii::t('models', 'Orientacion ID'),
             'creditos' => Yii::t('models', 'Creditos'),
@@ -76,8 +82,16 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             'plazas' => Yii::t('models', 'Plazas'),
             'creditos_practicas' => Yii::t('models', 'Creditos Practicas'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
-            'anyo' => Yii::t('models', 'Anyo'),
+            'estado_id' => Yii::t('models', 'Estado ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstado()
+    {
+        return $this->hasOne(\app\models\Estado::className(), ['id' => 'estado_id']);
     }
 
     /**
@@ -102,6 +116,14 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     public function getTipoEstudio()
     {
         return $this->hasOne(\app\models\TipoEstudio::className(), ['id' => 'tipo_estudio_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(\app\models\User::className(), ['id' => 'user_id']);
     }
 
     /**
