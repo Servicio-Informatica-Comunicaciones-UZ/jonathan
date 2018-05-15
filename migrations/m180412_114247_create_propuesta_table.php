@@ -24,6 +24,7 @@ class m180412_114247_create_propuesta_table extends Migration
             'plazas' => $this->integer(),
             'creditos_practicas' => $this->decimal(5,2),
             'tipo_estudio_id' => $this->integer(),
+            'estado_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'fk-propuesta-orientacion_id',
@@ -46,6 +47,14 @@ class m180412_114247_create_propuesta_table extends Migration
             'propuesta',
             'tipo_estudio_id',
             'tipo_estudio',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk-propuesta-estado_id',
+            'propuesta',
+            'estado_id',
+            'estado',
             'id',
             'CASCADE'
         );
