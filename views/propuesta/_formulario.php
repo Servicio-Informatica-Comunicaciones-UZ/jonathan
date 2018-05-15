@@ -1,4 +1,5 @@
 <?php
+use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Macroarea;
 use app\models\PropuestaCentro;
@@ -30,6 +31,12 @@ use yii\helpers\Url;
         ],
         'options' => ['enctype' => 'multipart/form-data'],
     ]);
+
+    // attribute anyo
+    echo $form->field($model, 'anyo')->hiddenInput(['value' => date('Y')])->label(false);
+
+    // attribute user_id
+    echo $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false);
 
     // attribute denominacion
     echo $form->field(
@@ -153,9 +160,6 @@ use yii\helpers\Url;
     });
     "); ?>
 
-    <!-- attribute user_id -->
-    <?php echo $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
-
     <!-- attribute orientacion_id -->
     <?php
     echo $form->field($model, 'orientacion_id')->dropDownList(
@@ -185,14 +189,14 @@ use yii\helpers\Url;
     <!-- attribute plazas -->
     <?php echo $form->field($model, 'plazas')->textInput(); ?>
 
+    <!-- attribute creditos_practicas -->
+    <?php echo $form->field($model, 'creditos_practicas')->textInput(['maxlength' => true]); ?>
+
     <!-- attribute tipo_estudio_id -->
     <?php echo $form->field($model, 'tipo_estudio_id')->hiddenInput(['value' => 6])->label(false); ?>
 
-    <!-- attribute anyo -->
-    <?php echo $form->field($model, 'anyo')->hiddenInput(['value' => date('Y')])->label(false); ?>
-
-    <!-- attribute creditos_practicas -->
-    <?php echo $form->field($model, 'creditos_practicas')->textInput(['maxlength' => true]); ?>
+    <!-- attribute estado_id -->
+    <?php echo $form->field($model, 'estado_id')->hiddenInput(['value' => Estado::BORRADOR])->label(false); ?>
 
     <!-- Tabla propuesta_titulacion -->
     <div class="titulaciones">

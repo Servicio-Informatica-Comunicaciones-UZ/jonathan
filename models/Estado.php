@@ -11,6 +11,9 @@ use yii\helpers\ArrayHelper;
  */
 class Estado extends BaseEstado
 {
+    // Valores definidos en m180410_100001_insert_estado_values
+    const BORRADOR = 1;
+    const PRESENTADA = 2;
 
     public function behaviors()
     {

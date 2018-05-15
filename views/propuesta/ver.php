@@ -108,7 +108,10 @@ echo DetailView::widget([
                 return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
             'format' => 'html',
-        ],
+        ], [
+            'label' => 'Estado de la propuesta',
+            'attribute' => 'estado.nombre',
+        ]
     ],
 ]) . "\n\n";
 

@@ -18,8 +18,9 @@ class m180410_100001_insert_estado_values extends Migration
         ]);
         $this->insert('estado', [
             'id' => 2,
-            'nombre' => 'Presentado',
+            'nombre' => 'Presentada',
         ]);
+        /* Al añadir o modificar estados, actualizar las constantes del modelo Estado. */
     }
 
     /**
