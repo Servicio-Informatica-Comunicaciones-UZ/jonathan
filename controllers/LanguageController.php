@@ -24,7 +24,7 @@ class LanguageController extends Controller
         // Add a new cookie to the response to be sent
         $cookies->add(new \yii\web\Cookie([
             'name' => 'language',
-            'value' => $language,
+            'value' => preg_replace('/[^a-z_A-Z\.0-9\-]/', '', $language),
         ]));
 
         return $this->redirect(Yii::$app->request->referrer);
