@@ -61,28 +61,28 @@ $this->registerMetaTag([
                 'items' => [
                     [
                         'label' => 'Castellano',
-                        'url' => ['language/set', 'language' => 'es'],
+                        'url' => ['/language/set', 'language' => 'es'],
                     ], [
                         'label' => 'English',
-                        'url' => ['language/set', 'language' => 'en'],
+                        'url' => ['/language/set', 'language' => 'en'],
                     ],
                 ],
             ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Ayuda'),
-                'url' => ['site/ayuda']
+                'url' => ['/site/ayuda'],
             ],
             Yii::$app->user->isGuest ? [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-log-in navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Iniciar sesión'),
-                'url' => ['saml/login']
+                'url' => ['/saml/login']
             ] : [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-log-out navbar-icono"></i> &nbsp;' .
                             sprintf('%s (%s)', Yii::t('app', 'Cerrar sesión'), Yii::$app->user->identity->username),
-                'url' => ['saml/logout'],
+                'url' => ['/saml/logout'],
             ]
         ],
         'options' => ['class' => 'navbar-nav navbar-right'],

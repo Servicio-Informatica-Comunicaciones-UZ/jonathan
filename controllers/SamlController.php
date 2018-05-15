@@ -30,11 +30,11 @@ class SamlController extends Controller
             ],
             'logout' => [
                 'class' => 'asasmoyo\yii2saml\actions\LogoutAction',
-                'returnTo' => Url::to(['site/index']),
+                'returnTo' => Url::to(['/site/index']),
             ],
             'sls' => [
                 'class' => 'asasmoyo\yii2saml\actions\SlsAction',
-                'successUrl' => Url::to(['site/index']),
+                'successUrl' => Url::to(['/site/index']),
             ],
         ];
     }
