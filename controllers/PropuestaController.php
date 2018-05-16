@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Estado;
 use app\models\FicheroPdf;
+use app\models\Pregunta;
 use app\models\Propuesta;
 use app\models\PropuestaCentro;
 use app\models\PropuestaDoctorado;
@@ -301,9 +302,15 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionVer($id)
     {
         Url::remember();
+        $propuesta = $this->findModel($id);
+        $preguntas = Pregunta::find()
+            ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id])
+            ->orderBy('orden')
+            ->all();
 
         return $this->render('ver', [
-            'model' => $this->findModel($id),
+            'model' => $propuesta,
+            'preguntas' => $preguntas,
         ]);
     }
 

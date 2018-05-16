@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Estado;
+use app\models\Respuesta;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -136,21 +137,28 @@ if ($model->estado_id == Estado::BORRADOR) {
         '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
         ['editar', 'id' => $model->id],
         ['id' => 'editar', 'class' => 'btn btn-info']
-    ) . " &nbsp; \n\n";
+    ) . "<br>\n\n";
 }
 
-/* Preguntas de la propuesta */
-
-foreach ($model->respuestas as $respuesta) {
-    echo "<br>\n<h2>" . Html::encode($respuesta->pregunta->titulo) . '</h2>' . PHP_EOL;
-    echo '<p><strong>' . Html::encode($respuesta->pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+/* Preguntas y respuestas de la propuesta */
+foreach ($preguntas as $pregunta) {
+    echo "<br>\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
+    echo '<p><strong>' . Html::encode($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    $respuestas = array_filter($model->respuestas, function ($r) use ($pregunta) {
+        return $r->pregunta_id == $pregunta->id;
+    });
+    $respuesta= isset($respuestas[0]) ? $respuestas[0] : null;
+    if (!$respuesta) {
+        $respuesta = new Respuesta(['propuesta_id' => $model->id, 'pregunta_id' => $pregunta->id]);
+        $respuesta->save();
+    }
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
     if ($model->estado_id == Estado::BORRADOR) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
             ['respuesta/editar', 'id' => $respuesta->id],
             ['id' => "editar-{$respuesta->id}", 'class' => 'btn btn-info']
-        ) . PHP_EOL . PHP_EOL;
+        ) . "<br>\n\n";
     }
 }
 
