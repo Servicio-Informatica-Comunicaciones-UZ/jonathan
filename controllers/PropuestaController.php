@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Propuesta;
 use app\models\PropuestaCentro;
@@ -13,6 +14,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\Model;
 use yii\helpers\Url;
+use yii\web\ServerErrorHttpException;
 use yii\web\UploadedFile;
 
 /**
@@ -241,7 +243,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             $grupos_enviados = Yii::$app->request->post('PropuestaGrupoInves') ?? [];
             foreach ($grupos_enviados as $num => $datos_grupo) {
                 $pg = isset($datos_grupo['id']) ? PropuestaGrupoInves::findOne(['id' => $datos_grupo['id']])
-                                                 : new PropuestaGrupoInves;
+                                                : new PropuestaGrupoInves;
                 $pg->attributes = $datos_grupo;
                 $pg->propuesta_id = $model->id;
                 $pg->save();
@@ -287,5 +289,34 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         return $this->render('ver', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Cambia el estado de una propuesta a Presentada
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function actionPresentar($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->estado_id == Estado::PRESENTADA) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta ya estaba presentada. 😨'));
+        }
+        $model->estado_id = Estado::PRESENTADA;
+        $model->save();
+        Yii::info(
+            sprintf(
+                '%s (%s) ha presentado la propuesta %d (%s)',
+                Yii::$app->user->identity->username,
+                Yii::$app->user->identity->profile->name,
+                $id,
+                $model->denominacion
+            ),
+            'usuarios'
+        );
+
+        return $this->redirect(['ver', 'id' => $id]);
     }
 }

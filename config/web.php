@@ -1,7 +1,7 @@
 <?php
 
-$params = require __DIR__.'/params.php';
-$db = require __DIR__.'/db.php';
+$params = require __DIR__ . '/params.php';
+$db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'FIXME',  // Unique ID that differentiates an application from others.
@@ -44,7 +44,12 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                ],
+                ], [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['usuarios'],
+                    'logFile' => '@runtime/logs/usuarios.log',
+                ]
             ],
         ],
         'mailer' => [
