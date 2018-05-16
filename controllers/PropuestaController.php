@@ -282,6 +282,16 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     }
 
     /**
+     * Muestra un listado de las propuestas realizadas por un usuario.
+     */
+    public function actionListado()
+    {
+        $dpPropuestas = Propuesta::getDpPropuestasDelUsuario(Yii::$app->user->identity->id);
+
+        return $this->render('listado', ['dpPropuestas' => $dpPropuestas]);
+    }
+
+    /**
      * Muestra una única propuesta.
      *
      * @param int $id
