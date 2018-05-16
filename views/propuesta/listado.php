@@ -48,3 +48,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'tableOptions' => ['class' => 'table table-striped table-hover'],
     ]); ?>
 </div>
+
+<?php
+echo Html::a(
+    '<span class="glyphicon glyphicon-plus"></span> &nbsp;' . Yii::t('jonathan', 'Nueva propuesta'),
+    ['crear'],
+    [
+        'id' => 'crear',
+        'class' => 'btn btn-info',
+        'title' => Yii::t('jonathan', 'Crear una nueva propuesta'),
+    ]
+) . "\n";
