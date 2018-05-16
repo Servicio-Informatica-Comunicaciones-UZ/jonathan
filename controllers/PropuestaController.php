@@ -156,6 +156,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionEditar($id)
     {
         $model = $this->findModel($id);
+        if ($model->estado_id != Estado::BORRADOR) {
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'Esta propuesta ya ha sido presentada, por lo que ya no se puede editar. 😨')
+            );
+        }
+
         $transaction = Yii::$app->db->beginTransaction();
 
         if ($model->load($_POST) && $model->save()) {
