@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\Estado;
 use app\models\Propuesta;
 use app\models\Pregunta;
 use app\models\Respuesta;
 use yii\helpers\Url;
 use Yii;
 use yii\base\Model;
+use yii\web\ServerErrorHttpException;
 
 /**
  * This is the class for controller "RespuestaController".
@@ -23,6 +25,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
      */
     public function actionCrear($propuesta_id)
     {
+        $propuesta = Propuesta::getPropuesta($propuesta_id);
         $respuestas = Yii::$app->request->post('Respuesta');
         if (!$respuestas) {
             $respuestas = [];
@@ -38,8 +41,6 @@ class RespuestaController extends \app\controllers\base\RespuestaController
 
             return $this->redirect(['propuesta/ver', 'id' => $propuesta_id]);
         } elseif (!\Yii::$app->request->isPost) {
-            $propuesta = Propuesta::findOne(['id' => $propuesta_id]);
-
             $preguntas = Pregunta::find()
                 ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id])
                 ->orderBy('orden')
@@ -57,7 +58,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
         return $this->render(
             'crear',
             [
-                'propuesta' => Propuesta::findOne(['id' => $propuesta_id]),
+                'propuesta' => $propuesta,
                 'models' => $models,
             ]
         );
@@ -67,6 +68,12 @@ class RespuestaController extends \app\controllers\base\RespuestaController
     public function actionEditar($id)
     {
         $model = $this->findModel($id);
+        $propuesta = $model->propuesta;
+        if ($propuesta->estado_id != Estado::BORRADOR) {
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'Esta propuesta ya ha sido presentada, por lo que ya no se puede editar. 😨')
+            );
+        }
 
         if ($model->load($_POST) && $model->save()) {
             return $this->redirect(Url::previous());

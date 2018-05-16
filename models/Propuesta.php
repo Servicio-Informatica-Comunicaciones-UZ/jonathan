@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 use \app\models\base\Propuesta as BasePropuesta;
 
 /**
@@ -65,5 +66,24 @@ class Propuesta extends BasePropuesta
         ]);
 
         return $dataProvider;
+    }
+
+    /**
+     * Finds the Propuesta model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @throws HttpException if the model cannot be found
+     *
+     * @param int $id
+     *
+     * @return Propuesta the loaded model
+     */
+    public static function getPropuesta($id)
+    {
+        if (null !== ($model = self::findOne(['id' => $id]))) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa propuesta.  ☹'));
     }
 }
