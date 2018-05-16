@@ -103,9 +103,24 @@ echo DetailView::widget([
         ], [
             'label' => Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'),
             'value' => function ($model) {
-                $nombres = array_column($model->propuestaGrupoInves, 'nombre_grupo_inves');
-
-                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                $salida = null;
+                $grupos = $model->propuestaGrupoInves;
+                if ($grupos) {
+                    $salida = "<ul class='listado'>\n";
+                    foreach ($grupos as $grupo) {
+                        $salida .= "<li>{$grupo->nombre_grupo_inves}";
+                        if ($grupo->documento_firma) {
+                            $salida .= ' ['
+                            . Html::a(
+                                $grupo->documento_firma,
+                                Url::home() . "pdf/firmas_grupos_inves/{$grupo->id}.pdf"
+                            ) . ']';
+                        }
+                        $salida .= "</li>\n";
+                    }
+                    $salida .= "</ul>\n";
+                }
+                return $salida;
             },
             'format' => 'html',
         ], [

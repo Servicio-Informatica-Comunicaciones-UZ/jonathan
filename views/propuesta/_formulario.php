@@ -3,6 +3,7 @@ use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Macroarea;
 use app\models\PropuestaCentro;
+use app\models\PropuestaGrupoInves;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 use yii\helpers\ArrayHelper;
@@ -82,7 +83,7 @@ use yii\helpers\Url;
                     Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
                 );
             }
-            echo $form->field($doc, "[{$num}]fichero")->label(false)->fileInput([
+            echo $form->field($doc, "[centro-{$num}]fichero")->label(false)->fileInput([
                 'class' => 'btn filestyle',
                 // 'data-badge' => false,
                 'data-buttonBefore' => 'true',
@@ -127,9 +128,9 @@ use yii\helpers\Url;
               + \"</td>\"
               + \"<td><div class='form-group field-ficheropdf-\"+num+\"-fichero'>\"
               + \"  <div>\"
-              + \"    <input name='FicheroPdf[\"+num+\"][fichero]' value='' type='hidden'>\"
-              + \"    <input accept='.pdf' id='ficheropdf-\"+num+\"-fichero' class='btn filestyle'\"
-              + \"      name='FicheroPdf[\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
+              + \"    <input name='FicheroPdf[centro-\"+num+\"][fichero]' value='' type='hidden'>\"
+              + \"    <input accept='.pdf' id='ficheropdf-centro-\"+num+\"-fichero' class='btn filestyle'\"
+              + \"      name='FicheroPdf[centro-\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
               + \"      data-buttonText='Seleccionar documento'>\"
               + \"    <p class='help-block help-block-error'></p>\"
               + \"  </div></div></td>\"
@@ -263,14 +264,56 @@ use yii\helpers\Url;
     "); ?>
 
     <!-- Tabla propuesta_grupo_inves -->
-    <div class="grupos">
+    <?php $pg = new PropuestaGrupoInves(); ?>
+    <div class='cabecera-azul'>
         <label class="control-label"><?php echo Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'); ?></label>
+        <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th><?php echo $pc->getAttributeLabel('nombre_grupo_inves'); ?></th>
+                <th><?php echo $pc->getAttributeLabel('documento_firma'); ?></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody class="grupos_inves" id='grupos_inves'>
         <?php
-        foreach ($model->propuestaGrupoInves as $grupo) {
-            echo "<div><input type='text' class='form-control' name='PropuestaGrupoInves[][nombre_grupo_inves]' value='{$grupo->nombre_grupo_inves}' maxlength='250' style='display: inline; width: 90%;'>";
-            echo "  <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>";
+        foreach ($model->propuestaGrupoInves as $num => $grupo_inves) {
+            $doc = new FicheroPdf();
+            echo '<tr>';
+            echo '<td>' . Html::activeHiddenInput($grupo_inves, "[{$num}]id", $options = []);
+            echo $form->field($grupo_inves, "[{$num}]nombre_grupo_inves")->label(false)->textInput(['maxlength' => true]) . "</td>\n";
+            echo '<td>';
+            if ($grupo_inves->documento_firma) {
+                echo Html::a(
+                    $grupo_inves->documento_firma,
+                    Url::home() . "pdf/firmas_grupo_inves/{$grupo_inves->id}.pdf"
+                );
+            }
+            echo $form->field($doc, "[grupo-{$num}]fichero")->label(false)->fileInput([
+                'class' => 'btn filestyle',
+                // 'data-badge' => false,
+                'data-buttonBefore' => 'true',
+                'data-buttonText' => Yii::t('jonathan', 'Reemplazar documento'),
+                // 'data-disabled' => 'true',
+                'data-icon' => 'false',
+                // 'data-iconName' => 'glyphicon glyphicon-folder-open',
+                // 'data-input' => 'false',
+                'data-placeholder' => $grupo_inves->documento_firma,
+                // 'data-size' => 'sm',
+                'accept' => '.pdf',
+            ]) . "</td>\n";
+            echo '<td>' . Button::widget([
+                'label' => "<span class='glyphicon glyphicon-trash'></span> " . Yii::t('jonathan', 'Borrar'),
+                'encodeLabel' => false,
+                'options' => ['class' => 'delete btn btn-danger'],
+            ]) . "</td>\n";
+            echo "</tr>\n";
         }
         ?>
+        </tbody>
+        </table>
+    </div>
     </div>
     <div class="anyadir_grupo btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir grupo de investigación'); ?>
@@ -278,18 +321,50 @@ use yii\helpers\Url;
 
     <?php $this->registerJs("
     $(document).ready(function() {
-        var grupos = $('.grupos');
+        var grupos = $('.grupos_inves');
         var boton = $('.anyadir_grupo');
 
         $(boton).click(function (e) {
             e.preventDefault();
-            $(grupos).append(\"<div><input type='text' class='form-control' name='PropuestaGrupoInves[][nombre_grupo_inves]' maxlength='250' style='display: inline; width: 90%;'>\"
-              + \" <div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div><br><br></div>\");
+            var num = document.getElementById('grupos_inves').childElementCount;
+            $(grupos).append(\"<tr>\"
+              + \"<td><div class='form-group field-propuestagrupoinves-\"+num+\"-nombre_grupo'>\"
+              + \"  <div>\"
+              + \"    <input id='propuestagrupoinves-\"+num+\"-nombre_grupo_inves' class='form-control' name='PropuestaGrupoInves[\"+num+\"][nombre_grupo_inves]' maxlength='250' type='text'>\"
+              + \"    <p class='help-block help-block-error'></p>\"
+              + \"  </div></div>\"
+              + \"</td>\"
+              + \"<td><div class='form-group field-ficheropdf-grupo-\"+num+\"-fichero'>\"
+              + \"  <div>\"
+              + \"    <input name='FicheroPdf[grupo-\"+num+\"][fichero]' value='' type='hidden'>\"
+              + \"    <input accept='.pdf' id='ficheropdf-grupo-\"+num+\"-fichero' class='btn filestyle'\"
+              + \"      name='FicheroPdf[grupo-\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
+              + \"      data-buttonText='Seleccionar documento'>\"
+              + \"    <p class='help-block help-block-error'></p>\"
+              + \"  </div></div></td>\"
+              + \"<td><div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div></td>\"
+              + \"</tr>\");
+            // Filestyle
+            $('.filestyle').each(function() {
+                var \$this = $(this), options = {
+                    'input' : \$this.attr('data-input') !== 'false',
+                    'icon' : \$this.attr('data-icon') !== 'false',
+                    'buttonBefore' : \$this.attr('data-buttonBefore') === 'true',
+                    'disabled' : \$this.attr('data-disabled') === 'true',
+                    'size' : \$this.attr('data-size'),
+                    'buttonText' : \$this.attr('data-buttonText'),
+                    'buttonName' : \$this.attr('data-buttonName'),
+                    'iconName' : \$this.attr('data-iconName'),
+                    'badge' : \$this.attr('data-badge') !== 'false',
+                    'placeholder': \$this.attr('data-placeholder')
+                };
+                \$this.filestyle(options);
+            });
         });
 
         $(grupos).on('click', '.delete', function (e) {
             e.preventDefault();
-            $(this).parent('div').remove();
+            $(this).parent('td').parent('tr').remove();
         });
     });
     "); ?>

@@ -61,7 +61,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                             }
 
                             $ficheroPdf= new FicheroPdf();
-                            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[{$num}]fichero");
+                            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[centro-{$num}]fichero");
                             if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
                                 $pc->documento_firma = $ficheroPdf->fichero->name;
                                 $pc->save();
@@ -106,14 +106,24 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $grupos = Yii::$app->request->post('PropuestaGrupoInves');
                 if ($grupos) {
-                    foreach ($grupos as $grupo) {
+                    foreach ($grupos as $num => $grupo) {
                         if ($grupo['nombre_grupo_inves']) {
-                            $pg = new PropuestaGrupoInves();
-                            $pg->propuesta_id = $model->id;
-                            $pg->nombre_grupo_inves = $grupo['nombre_grupo_inves'];
-                            if (!$pg->save()) {
+                            $pg = new PropuestaGrupoInves([
+                                'propuesta_id' => $model->id,
+                                'nombre_grupo_inves' => $grupo['nombre_grupo_inves']
+                            ]);
+                            if ($pg->validate()) {
+                                $pg->save(false);
+                            } else {
                                 $model->addError('_exception', $pg->getErrorSummary(true));
                                 throw new Exception();
+                            }
+
+                            $ficheroPdf= new FicheroPdf();
+                            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[grupo-{$num}]fichero");
+                            if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_grupos_inves', $pg->id)) {
+                                $pg->documento_firma = $ficheroPdf->fichero->name;
+                                $pg->save();
                             }
                         }
                     }
@@ -179,7 +189,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 $pc->save();
 
                 $ficheroPdf = new FicheroPdf();
-                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[{$num}]fichero");
+                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[centro-{$num}]fichero");
                 if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
                     $pc->documento_firma = $ficheroPdf->fichero->name;
                     $pc->save();
@@ -224,17 +234,33 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 }
             }
 
-            foreach ($model->propuestaGrupoInves as $g) {
-                $g->delete();
-            }
-            $grupos = Yii::$app->request->post('PropuestaGrupoInves');
-            if ($grupos) {
-                foreach ($grupos as $grupo) {
-                    if ($grupo['nombre_grupo_inves']) {
-                        $pg = new PropuestaGrupoInves(['propuesta_id' => $model->id, 'nombre_grupo_inves' => $grupo['nombre_grupo_inves']]);
-                        $pg->save();
-                    }
+
+            /* Tabla propuesta_grupo_inves */
+            // Guardamos los grupos de investigación actuales.
+            $grupos_anteriores = $model->propuestaGrupoInves;
+            $grupos_enviados = Yii::$app->request->post('PropuestaGrupoInves') ?? [];
+            foreach ($grupos_enviados as $num => $datos_grupo) {
+                $pg = isset($datos_grupo['id']) ? PropuestaGrupoInves::findOne(['id' => $datos_grupo['id']])
+                                                 : new PropuestaGrupoInves;
+                $pg->attributes = $datos_grupo;
+                $pg->propuesta_id = $model->id;
+                $pg->save();
+
+                $ficheroPdf = new FicheroPdf();
+                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[grupo-{$num}]fichero");
+                if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_grupos_inves', $pg->id)) {
+                    $pg->documento_firma = $ficheroPdf->fichero->name;
+                    $pg->save();
                 }
+            }
+            // Eliminamos los grupos de investigación que se hayan quitado.
+            $ids_models = array_column($grupos_enviados, 'id');
+            $grupos_quitados = array_filter($grupos_anteriores, function ($g) use ($ids_models) {
+                return !in_array($g->id, $ids_models);
+            });
+            foreach ($grupos_quitados as $g) {
+                unlink(Yii::getAlias('@webroot') . "/pdf/firmas_grupos_inves/{$g->id}.pdf");
+                $g->delete();
             }
 
             $transaction->commit();
