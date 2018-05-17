@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $this->title = Yii::t('jonathan', 'Editar respuesta');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/listado']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->propuesta->denominacion,
     'url' => ['propuesta/ver', 'id' => $model->propuesta_id]

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = Yii::t('models', 'Nueva propuesta');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/listado']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

@@ -4,7 +4,6 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = Yii::t('models', 'Propuestas realizadas');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

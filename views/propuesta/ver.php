@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->title = $model->denominacion;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['listado']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

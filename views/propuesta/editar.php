@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = Yii::t('jonathan', 'Editar datos identificativos');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['listado']];
 $this->params['breadcrumbs'][] = ['label' => $model->denominacion, 'url' => ['ver', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
