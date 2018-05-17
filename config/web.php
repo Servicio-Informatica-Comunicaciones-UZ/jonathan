@@ -43,7 +43,12 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                ],
+                ], [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['usuarios'],
+                    'logFile' => '@runtime/logs/usuarios.log',
+                ]
             ],
         ],
         'mailer' => [
