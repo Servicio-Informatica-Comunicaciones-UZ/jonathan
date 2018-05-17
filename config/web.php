@@ -96,7 +96,7 @@ $config = [
             // 'switchIdentitySessionKey' => 'myown_usuario_admin_user_key',
         ],
     ],
-    'name' => 'FIXME',  // Application name that may be displayed to end users
+    'name' => 'Propuestas de másteres universitarios',  // Application name that may be displayed to end users
     'params' => $params,
     'timeZone' => 'Europe/Madrid',  // Default time zone of the PHP runtime
 ];
