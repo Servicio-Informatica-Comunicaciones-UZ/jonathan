@@ -23,7 +23,7 @@ class SamlController extends Controller
             'acs' => [
                 'class' => 'asasmoyo\yii2saml\actions\AcsAction',
                 'successCallback' => [$this, 'callback'],
-                'successUrl' => Url::to('@web/site/session'),
+                'successUrl' => Url::to('@web/propuesta/listado'),
             ],
             'metadata' => [
                 'class' => 'asasmoyo\yii2saml\actions\MetadataAction'
