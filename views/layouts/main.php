@@ -53,10 +53,10 @@ $this->registerMetaTag([
     echo Nav::widget([
         'items' => [
             /* ['label' => Yii::t('app', 'Inicio'), 'url' => ['/site/index']], */
-            [
+            /* [
                 'encode' => false,
-                'label' => /* "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .  //*/
-                    '<i class="glyphicon glyphicon-globe navbar-icono"></i> &nbsp;' .  //*/
+                'label' => // "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .
+                    '<i class="glyphicon glyphicon-globe navbar-icono"></i> &nbsp;' .
                     strtoupper(Html::encode(Yii::$app->language)),
                 'items' => [
                     [
@@ -67,6 +67,13 @@ $this->registerMetaTag([
                         'url' => ['/language/set', 'language' => 'en'],
                     ],
                 ],
+            ], */
+            [
+                'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-education navbar-icono"></i> &nbsp;' .
+                            Yii::t('app', 'Propuestas'),
+                'url' => ['/propuesta/listado'],
+                'visible' => !Yii::$app->user->isGuest,
             ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
