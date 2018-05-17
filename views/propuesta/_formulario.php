@@ -57,7 +57,7 @@ use yii\helpers\Url;
     // Tabla propuesta_centro
     $pc = new PropuestaCentro();
     ?>
-    <div class='cabecera-azul'>
+    <div class='cabecera-azul table-responsive'>
         <label class="control-label"><?php echo Yii::t('jonathan', 'Centro(s)'); ?></label>
         <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -107,6 +107,7 @@ use yii\helpers\Url;
         </tbody>
         </table>
     </div>
+
     <div class="anyadir_centro btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir centro'); ?>
     </div><br><br>
@@ -265,7 +266,7 @@ use yii\helpers\Url;
 
     <!-- Tabla propuesta_grupo_inves -->
     <?php $pg = new PropuestaGrupoInves(); ?>
-    <div class='cabecera-azul'>
+    <div class='cabecera-azul table-responsive'>
         <label class="control-label"><?php echo Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'); ?></label>
         <table class="table table-bordered table-striped table-hover">
         <thead>
