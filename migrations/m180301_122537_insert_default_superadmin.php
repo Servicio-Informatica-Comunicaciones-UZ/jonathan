@@ -12,7 +12,8 @@ class m180301_122537_insert_default_superadmin extends Migration
      */
     public function safeUp()
     {
-        // Default administrator "superadmin" creation. Password: superadmin. Change it!!
+        // Create default administrator "superadmin".
+        // Password: superadmin.  Change it!!
         // Login URL: user/login
         $time_now = time();
 
@@ -27,6 +28,10 @@ class m180301_122537_insert_default_superadmin extends Migration
             'updated_at' => $time_now,
             'created_at' => $time_now,
         ]);
+
+        $this->insert('profile', [
+            'name' => 'Bastard Operator From Hell',
+        ]);
     }
 
     /**
@@ -37,7 +42,7 @@ class m180301_122537_insert_default_superadmin extends Migration
         // username is unique index
         $this->delete('user', [
             'username' => 'superadmin',
-            ]);
+        ]);
     }
 
     /*

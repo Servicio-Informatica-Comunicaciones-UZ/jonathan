@@ -60,6 +60,8 @@ class SamlController extends Controller
 
             $profile = Profile::findOne(['user_id' => $user->id]);
             $profile->name = $attributes['cn'][0];
+            $profile->gravatar_email = $user->email;
+            // TODO: Extender el profile para guardar el colectivo, nombres y apellidos por separado, etc.
             $profile->save();
         }
 
