@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1>
     <?php echo $this->title; ?>
     <small>
-        <?php echo Yii::$app->user->identity->profile->name; ?>
+        <?php echo Html::encode(Yii::$app->user->identity->profile->name); ?>
     </small>
 </h1>
 <hr><br>
@@ -58,3 +58,4 @@ echo Html::a(
         'title' => Yii::t('jonathan', 'Crear una nueva propuesta'),
     ]
 ) . "\n";
+?>

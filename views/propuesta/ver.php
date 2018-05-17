@@ -15,8 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <hr><br>
 
-<div class="container">
-
 <?php
 /* Datos identificativos de la propuesta */
 
@@ -179,5 +177,3 @@ if ($model->estado_id == Estado::BORRADOR) {
     ) . "\n";
 }
 ?>
-
-</div> <!-- container -->

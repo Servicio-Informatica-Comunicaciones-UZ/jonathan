@@ -109,7 +109,7 @@ use yii\helpers\Url;
     </div>
     <div class="anyadir_centro btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir centro'); ?>
-    </div>
+    </div><br><br>
 
     <?php $this->registerJs("
     $(document).ready(function() {
@@ -314,7 +314,7 @@ use yii\helpers\Url;
         </tbody>
         </table>
     </div>
-    </div>
+
     <div class="anyadir_grupo btn btn-info">
         <span class="glyphicon glyphicon-plus"></span> <?php echo Yii::t('jonathan', 'Añadir grupo de investigación'); ?>
     </div>
