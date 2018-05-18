@@ -187,10 +187,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             }
 
             /* Tabla propuesta_centro */
-            // Guardamos los centros actuales.
+            // Guardamos los centros recibidos.
             $centros_anteriores = $model->propuestaCentros;
-            $centros_enviados = Yii::$app->request->post('PropuestaCentro') ?? [];
-            foreach ($centros_enviados as $num => $datos_centro) {
+            $centros_recibidos = Yii::$app->request->post('PropuestaCentro') ?? [];
+            foreach ($centros_recibidos as $num => $datos_centro) {
                 $pc = isset($datos_centro['id']) ? PropuestaCentro::findOne(['id' => $datos_centro['id']])
                                                  : new PropuestaCentro;
                 $pc->attributes = $datos_centro;
@@ -205,12 +205,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 }
             }
             // Eliminamos los centros que se hayan quitado.
-            $ids_models = array_column($centros_enviados, 'id');
-            $centros_quitados = array_filter($centros_anteriores, function ($c) use ($ids_models) {
-                return !in_array($c->id, $ids_models);
+            $ids_recibidos = array_column($centros_recibidos, 'id');
+            $centros_quitados = array_filter($centros_anteriores, function ($c) use ($ids_recibidos) {
+                return !in_array($c->id, $ids_recibidos);
             });
             foreach ($centros_quitados as $c) {
-                unlink(Yii::getAlias('@webroot') . "/pdf/firmas_centros/{$c->id}.pdf");
+                @unlink(Yii::getAlias('@webroot') . "/pdf/firmas_centros/{$c->id}.pdf");
                 $c->delete();
             }
 
@@ -237,7 +237,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             if ($doctorados) {
                 foreach ($doctorados as $doctorado) {
                     if ($doctorado['nombre_doctorado']) {
-                        $pd = new PropuestaDoctorado(['propuesta_id' => $model->id, 'nombre_doctorado' => $doctorado['nombre_doctorado']]);
+                        $pd = new PropuestaDoctorado([
+                            'propuesta_id' => $model->id,
+                            'nombre_doctorado' => $doctorado['nombre_doctorado']
+                        ]);
                         $pd->save();
                     }
                 }
@@ -245,10 +248,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
 
             /* Tabla propuesta_grupo_inves */
-            // Guardamos los grupos de investigación actuales.
+            // Guardamos los grupos de investigación recibidos.
             $grupos_anteriores = $model->propuestaGrupoInves;
-            $grupos_enviados = Yii::$app->request->post('PropuestaGrupoInves') ?? [];
-            foreach ($grupos_enviados as $num => $datos_grupo) {
+            $grupos_recibidos = Yii::$app->request->post('PropuestaGrupoInves') ?? [];
+            foreach ($grupos_recibidos as $num => $datos_grupo) {
                 $pg = isset($datos_grupo['id']) ? PropuestaGrupoInves::findOne(['id' => $datos_grupo['id']])
                                                 : new PropuestaGrupoInves;
                 $pg->attributes = $datos_grupo;
@@ -263,16 +266,20 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 }
             }
             // Eliminamos los grupos de investigación que se hayan quitado.
-            $ids_models = array_column($grupos_enviados, 'id');
-            $grupos_quitados = array_filter($grupos_anteriores, function ($g) use ($ids_models) {
-                return !in_array($g->id, $ids_models);
+            $ids_recibidos = array_column($grupos_recibidos, 'id');
+            $grupos_quitados = array_filter($grupos_anteriores, function ($g) use ($ids_recibidos) {
+                return !in_array($g->id, $ids_recibidos);
             });
             foreach ($grupos_quitados as $g) {
-                unlink(Yii::getAlias('@webroot') . "/pdf/firmas_grupos_inves/{$g->id}.pdf");
+                @unlink(Yii::getAlias('@webroot') . "/pdf/firmas_grupos_inves/{$g->id}.pdf");
                 $g->delete();
             }
 
             $transaction->commit();
+            Yii::$app->session->addFlash(
+                'success',
+                Yii::t('jonathan', 'Cambios guardados con éxito.')
+            );
 
             return $this->redirect(Url::previous());
         } else {
@@ -338,6 +345,13 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 $model->denominacion
             ),
             'usuarios'
+        );
+        Yii::$app->session->addFlash(
+            'success',
+            Yii::t(
+                'jonathan',
+                'La propuesta ha sido presentada. Si lo desea puede imprimir está página a modo de resguardo.'
+            )
         );
 
         return $this->redirect(['ver', 'id' => $id]);
