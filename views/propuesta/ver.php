@@ -167,10 +167,11 @@ echo "<hr><br>\n";
 if (Estado::BORRADOR == $model->estado_id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
-        ['presentar', 'id' => $model->id],
+        ['', '#' => 'modalPresentar'],
         [
             'id' => 'presentar',
             'class' => 'btn btn-danger',
+            'data-toggle' => 'modal',
             'title' => Yii::t(
                 'jonathan',
                 "Presentar la propuesta para su evaluación.\nYa no se podrán hacer más modificaciones."
@@ -179,3 +180,45 @@ if (Estado::BORRADOR == $model->estado_id) {
     ) . "\n";
 }
 ?>
+
+<!-- Diálogo modal -->
+<div id="modalPresentar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><?php echo Yii::t('jonathan', '¿Presentar la propuesta?'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p><?php printf(
+                    Yii::t(
+                        'jonathan',
+                        '¿Seguro que ha finalizado y desea presentar la propuesta de «%s>?<br>'
+                        . 'Una vez la haya presentado ya no podrá modificarla.'
+                    ),
+                    $model->denominacion
+                ); ?></p>
+            </div>
+            <div class="modal-footer">
+                <?php
+                echo Html::a(
+                    '<span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;'
+                        . Yii::t('jonathan', 'Presentar la propuesta'),
+                    [
+                        'presentar',
+                        'id' => $model->id,
+                    ],
+                    [
+                        'id' => 'confirmar-presentacion',
+                        'class' => 'btn btn-danger',  // Botón
+                        'title' => Yii::t('jonathan', 'La propuesta está acabada. Presentarla.'),
+                    ]
+                );
+                ?>
+                <button type="button" class="btn btn-info" data-dismiss="modal">
+                    <?php echo '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Cancelar'); ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
