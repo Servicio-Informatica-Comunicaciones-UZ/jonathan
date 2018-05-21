@@ -69,6 +69,7 @@ echo DetailView::widget([
                     }
                     $salida .= "</ul>\n";
                 }
+
                 return $salida;
             },
             'format' => 'html',
@@ -101,7 +102,8 @@ echo DetailView::widget([
             },
             'format' => 'html',
         ], [
-            'label' => Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón que apoyan la propuesta'),
+            'label' => Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón' .
+                ' que apoyan la propuesta'),
             'value' => function ($model) {
                 $salida = null;
                 $grupos = $model->propuestaGrupoInves;
@@ -120,17 +122,18 @@ echo DetailView::widget([
                     }
                     $salida .= "</ul>\n";
                 }
+
                 return $salida;
             },
             'format' => 'html',
         ], [
             'label' => 'Estado de la propuesta',
             'attribute' => 'estado.nombre',
-        ]
+        ],
     ],
 ]) . "\n\n";
 
-if ($model->estado_id == Estado::BORRADOR) {
+if (Estado::BORRADOR == $model->estado_id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
         ['editar', 'id' => $model->id],
@@ -145,13 +148,13 @@ foreach ($preguntas as $pregunta) {
     $respuestas = array_filter($model->respuestas, function ($r) use ($pregunta) {
         return $r->pregunta_id == $pregunta->id;
     });
-    $respuesta= isset($respuestas[0]) ? $respuestas[0] : null;
+    $respuesta = reset($respuestas);  // Returns the value of the first array element, or FALSE if the array is empty.
     if (!$respuesta) {
         $respuesta = new Respuesta(['propuesta_id' => $model->id, 'pregunta_id' => $pregunta->id]);
         $respuesta->save();
     }
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
-    if ($model->estado_id == Estado::BORRADOR) {
+    if (Estado::BORRADOR == $model->estado_id) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
             ['respuesta/editar', 'id' => $respuesta->id],
@@ -160,9 +163,8 @@ foreach ($preguntas as $pregunta) {
     }
 }
 
-
 echo "<hr><br>\n";
-if ($model->estado_id == Estado::BORRADOR) {
+if (Estado::BORRADOR == $model->estado_id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
         ['presentar', 'id' => $model->id],
