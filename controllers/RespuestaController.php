@@ -38,6 +38,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
             foreach ($models as $model) {
                 $model->save(false);
             }
+            Yii::$app->session->addFlash('success', Yii::t('jonathan', 'Propuesta guardada con éxito.'));
 
             return $this->redirect(['propuesta/ver', 'id' => $propuesta_id]);
         } elseif (!\Yii::$app->request->isPost) {
@@ -76,7 +77,8 @@ class RespuestaController extends \app\controllers\base\RespuestaController
         }
 
         if ($model->load($_POST) && $model->save()) {
-            return $this->redirect(Url::previous());
+            Yii::$app->session->addFlash('success', Yii::t('jonathan', 'Cambios guardados con éxito.'));
+            return $this->redirect(['propuesta/ver', 'id' => $model->propuesta_id]);
         } else {
             return $this->render('editar', [
                 'model' => $model,
