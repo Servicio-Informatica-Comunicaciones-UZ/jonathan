@@ -63,7 +63,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                                 throw new Exception();
                             }
 
-                            $ficheroPdf= new FicheroPdf();
+                            $ficheroPdf = new FicheroPdf();
                             $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[centro-{$num}]fichero");
                             if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
                                 $pc->documento_firma = $ficheroPdf->fichero->name;
@@ -113,7 +113,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         if ($grupo['nombre_grupo_inves']) {
                             $pg = new PropuestaGrupoInves([
                                 'propuesta_id' => $model->id,
-                                'nombre_grupo_inves' => $grupo['nombre_grupo_inves']
+                                'nombre_grupo_inves' => $grupo['nombre_grupo_inves'],
                             ]);
                             if ($pg->validate()) {
                                 $pg->save(false);
@@ -122,7 +122,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                                 throw new Exception();
                             }
 
-                            $ficheroPdf= new FicheroPdf();
+                            $ficheroPdf = new FicheroPdf();
                             $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[grupo-{$num}]fichero");
                             if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_grupos_inves', $pg->id)) {
                                 $pg->documento_firma = $ficheroPdf->fichero->name;
@@ -157,7 +157,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionEditar($id)
     {
         $model = $this->findModel($id);
-        if ($model->estado_id != Estado::BORRADOR) {
+        if (Estado::BORRADOR != $model->estado_id) {
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'Esta propuesta ya ha sido presentada, por lo que ya no se puede editar. 😨')
             );
@@ -192,7 +192,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             $centros_recibidos = Yii::$app->request->post('PropuestaCentro') ?? [];
             foreach ($centros_recibidos as $num => $datos_centro) {
                 $pc = isset($datos_centro['id']) ? PropuestaCentro::findOne(['id' => $datos_centro['id']])
-                                                 : new PropuestaCentro;
+                                                 : new PropuestaCentro();
                 $pc->attributes = $datos_centro;
                 $pc->propuesta_id = $model->id;
                 $pc->save();
@@ -223,7 +223,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                     if ($titulacion['nombre_titulacion']) {
                         $pt = new PropuestaTitulacion([
                             'propuesta_id' => $model->id,
-                            'nombre_titulacion' => $titulacion['nombre_titulacion']
+                            'nombre_titulacion' => $titulacion['nombre_titulacion'],
                         ]);
                         $pt->save();
                     }
@@ -239,7 +239,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                     if ($doctorado['nombre_doctorado']) {
                         $pd = new PropuestaDoctorado([
                             'propuesta_id' => $model->id,
-                            'nombre_doctorado' => $doctorado['nombre_doctorado']
+                            'nombre_doctorado' => $doctorado['nombre_doctorado'],
                         ]);
                         $pd->save();
                     }
@@ -253,7 +253,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             $grupos_recibidos = Yii::$app->request->post('PropuestaGrupoInves') ?? [];
             foreach ($grupos_recibidos as $num => $datos_grupo) {
                 $pg = isset($datos_grupo['id']) ? PropuestaGrupoInves::findOne(['id' => $datos_grupo['id']])
-                                                : new PropuestaGrupoInves;
+                                                : new PropuestaGrupoInves();
                 $pg->attributes = $datos_grupo;
                 $pg->propuesta_id = $model->id;
                 $pg->save();
@@ -322,7 +322,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     }
 
     /**
-     * Cambia el estado de una propuesta a Presentada
+     * Cambia el estado de una propuesta a Presentada.
      *
      * @param int $id
      *
@@ -331,7 +331,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionPresentar($id)
     {
         $model = $this->findModel($id);
-        if ($model->estado_id == Estado::PRESENTADA) {
+        if (Estado::PRESENTADA == $model->estado_id) {
             throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta ya estaba presentada. 😨'));
         }
         $model->estado_id = Estado::PRESENTADA;
