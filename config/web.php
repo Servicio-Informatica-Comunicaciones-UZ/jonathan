@@ -4,7 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'FIXME',  // Unique ID that differentiates an application from others.
+    'id' => 'jonathan',  // Unique ID that differentiates an application from others.
     'basePath' => dirname(__DIR__),
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -96,7 +96,7 @@ $config = [
             // 'switchIdentitySessionKey' => 'myown_usuario_admin_user_key',
         ],
     ],
-    'name' => 'Propuestas de másteres universitarios',  // Application name that may be displayed to end users
+    'name' => 'Propuestas de másteres de referencia',  // Application name that may be displayed to end users
     'params' => $params,
     'timeZone' => 'Europe/Madrid',  // Default time zone of the PHP runtime
 ];

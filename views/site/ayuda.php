@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2>Soporte administrativo</h2>
 
-    <p>Contacte con: XXX</p>
+    <p>Contacte con la Dirección de Organización Académica &lt;diroa@unizar.es&gt;.</p>
 
 
     <h2>Soporte técnico</h2>

@@ -17,7 +17,7 @@ class PropuestaCentro extends BasePropuestaCentro
             parent::attributeLabels(),
             [
                 'nombre_centro' => Yii::t('models', 'Nombre del centro'),
-                'documento_firma' => Yii::t('models', 'Documento firmado por el decano o director'),
+                'documento_firma' => Yii::t('models', 'Informe favorable de la Junta de Centro'),
             ]
         );
     }

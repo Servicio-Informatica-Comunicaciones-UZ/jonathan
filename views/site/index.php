@@ -20,7 +20,7 @@ $this->registerCssFile('@web/css/mainpage.css', ['depends' => 'app\assets\AppAss
         <span class="icon-graduation-cap2"></span>
         <h1><?php echo Yii::t(
             'jonathan',
-            'Propuestas de <strong>másteres</strong><br>universitarios'
+            'Propuestas de <strong>másteres</strong><br>de referencia'
         ); ?></h1>
         <span class="icon-stars" style="font-size: 2.4rem;"></span>
     </div>

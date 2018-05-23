@@ -59,6 +59,7 @@ use yii\helpers\Url;
     ?>
     <div class='cabecera-azul table-responsive'>
         <label class="control-label"><?php echo Yii::t('jonathan', 'Centro(s)'); ?></label>
+        <p><?php echo Yii::t('jonathan', 'En caso de haber más de uno, el primero será el centro gestor.'); ?></p>
         <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
@@ -271,8 +272,8 @@ use yii\helpers\Url;
         <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th><?php echo $pc->getAttributeLabel('nombre_grupo_inves'); ?></th>
-                <th><?php echo $pc->getAttributeLabel('documento_firma'); ?></th>
+                <th><?php echo $pg->getAttributeLabel('nombre_grupo_inves'); ?></th>
+                <th><?php echo $pg->getAttributeLabel('documento_firma'); ?></th>
                 <th></th>
             </tr>
         </thead>
