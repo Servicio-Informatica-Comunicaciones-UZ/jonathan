@@ -10,6 +10,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
+use app\models\Enlace;
 use app\widgets\Alert;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -25,6 +26,10 @@ $this->registerMetaTag([
         'Área de Aplicaciones. Servicio de Informática y Comunicaciones de la Universidad de Zaragoza.'
     ),
 ]);
+
+$enlaces = array_map(function ($e) {
+    return ['label' => $e->nombre, 'url' => $e->uri];
+}, Enlace::find()->all());
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -69,6 +74,12 @@ $this->registerMetaTag([
                 ],
             ], */
             [
+                'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-link navbar-icono"></i> &nbsp;' .
+                            Yii::t('app', 'Enlaces'),
+                'items' => $enlaces,
+                'visible' => !empty($enlaces),
+            ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-education navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Propuestas'),
