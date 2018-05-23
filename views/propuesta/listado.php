@@ -31,11 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     );
                 }
             ], [
-                'attribute' => 'orientacion.nombre',
-                'label' => Yii::t('jonathan', 'Orientación'),
-            ], [
-                'attribute' => 'modalidad.nombre',
-                'label' => Yii::t('jonathan', 'Modalidad'),
+                'label' => Yii::t('jonathan', 'Centro gestor'),
+                'value' => function ($propuesta) {
+                    // Se considera centro gestor al primero de la lista.
+                    $centro_gestor = $propuesta->getPropuestaCentros()->orderBy(['id' => SORT_ASC])->limit(1)->one();
+                    return $centro_gestor ? $centro_gestor->nombre_centro : null;
+                },
             ], [
                 'attribute' => 'estado.nombre',
                 'label' => Yii::t('jonathan', 'Estado'),
