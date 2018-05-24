@@ -37,6 +37,9 @@ body {
 
 .jumbotron {
     font-size: 4.8rem;
+    margin: 16rem 0 16rem 0;
+    position: relative;
+    top: 30%;
 }
 
 .footer {
@@ -132,20 +135,26 @@ h1 a:hover {
     }
 
     body {
-        font-size: 16pt;
+        font-size: 12pt;
         /* URW Bookman taken from Debian package libgs9-common */
         font-family: 'URW Bookman L', Garamond, Palatino, 'Times New Roman', Times, serif;
         line-height: normal;
-        margin-right: 2cm;
-        margin-left: 3.5cm;
+        margin-right: 1cm;
+        margin-left: 1.5cm;
     }
 
-    h1, h2, h3, h4, table {
+    .listado { margin-left: -3rem; }
+    .listado li, .listado li::before { font-size: 1.2rem; }
+    .listado li::before { top: 0rem; left: -1rem; }
+
+    h1, h2, h3, h4, table, table {
         font-family: 'LatoLatinWeb', sans-serif;
+        font-size: 80%;
     }
-
-    h3 { font-size: 20pt;}
-    h4 { font-size: 18pt; }
+    h1 { font-size: 20pt; }
+    h2 { font-size: 18pt; }
+    h3 { font-size: 16pt; }
+    h4 { font-size: 14pt; }
 
     .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
         float: left;
