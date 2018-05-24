@@ -55,7 +55,7 @@ $enlaces = array_map(function ($e) {
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
+    echo "\n" . Nav::widget([
         'items' => [
             /* ['label' => Yii::t('app', 'Inicio'), 'url' => ['/site/index']], */
             /* [
@@ -108,12 +108,13 @@ $enlaces = array_map(function ($e) {
     NavBar::end();
     ?>
 
+
     <div class="container" id="contenedor-principal">
         <?php
         echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]);
-        echo Alert::widget();
+        echo $this->render('//site/_flashes');  // Looked for under the view path of the application
         echo $content;
         echo '<hr class="hideinmainpage">';
         echo Breadcrumbs::widget([

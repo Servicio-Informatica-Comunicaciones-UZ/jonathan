@@ -189,6 +189,7 @@ if (Estado::BORRADOR == $model->estado_id) {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><?php echo Yii::t('jonathan', '¿Presentar la propuesta?'); ?></h4>
             </div>
+
             <div class="modal-body">
                 <p><?php printf(
                     Yii::t(
@@ -199,6 +200,7 @@ if (Estado::BORRADOR == $model->estado_id) {
                     $model->denominacion
                 ); ?></p>
             </div>
+
             <div class="modal-footer">
                 <?php
                 echo Html::a(
@@ -215,6 +217,7 @@ if (Estado::BORRADOR == $model->estado_id) {
                     ]
                 );
                 ?>
+
                 <button type="button" class="btn btn-info" data-dismiss="modal">
                     <?php echo '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Cancelar'); ?>
                 </button>

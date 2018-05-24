@@ -350,7 +350,9 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'success',
             Yii::t(
                 'jonathan',
-                'La propuesta ha sido presentada. Si lo desea puede imprimir está página a modo de resguardo.'
+                "La propuesta ha sido presentada correctamente.\n" .
+                    "En breve debería recibir un correo electrónico de confirmación.\n" .
+                    'No obstante, si lo desea puede imprimir está página a modo de resguardo.'
             )
         );
 
