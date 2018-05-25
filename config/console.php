@@ -10,7 +10,10 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'queue',  // The component registers its own console commands
+    ],
     'components' => [
         'authManager' => [
             'class' => 'Da\User\Component\AuthDbManagerComponent',
@@ -42,6 +45,16 @@ $config = [
                 ],
             ],
         ],
+        'queue' => [
+            // 'as log' => \yii\queue\LogBehavior::class,
+            'channel' => 'default',  // Queue channel key
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db',  // DB connection component or its config.
+            'mutex' => \yii\mutex\MysqlMutex::class,  // Mutex used to sync queries
+            'tableName' => '{{%queue}}',  // Table name
+            'ttr' => 5 * 60,  // Max time for job execution
+            'attempts' => 3,  // Max number of attempts
+        ],
     ],
     'controllerMap' => [
         'batch' => [
@@ -71,6 +84,7 @@ $config = [
             ],
             'migrationNamespaces' => [
                 'Da\User\Migration',
+                'yii\queue\db\migrations'
             ],
         ],
     ],

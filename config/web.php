@@ -10,7 +10,10 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'queue',  // The component registers its own console commands
+    ],
     'components' => [
         'authManager' => [
             'class' => 'Da\User\Component\AuthDbManagerComponent',
@@ -57,6 +60,16 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+        ],
+        'queue' => [
+            // 'as log' => \yii\queue\LogBehavior::class,
+            'channel' => 'default',  // Queue channel key
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db',  // DB connection component or its config.
+            'mutex' => \yii\mutex\MysqlMutex::class,  // Mutex used to sync queries
+            'tableName' => '{{%queue}}',  // Table name
+            'ttr' => 5 * 60,  // Max time for job execution
+            'attempts' => 3,  // Max number of attempts
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -106,6 +119,9 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'panels' => [
+            'queue' => \yii\queue\debug\Panel::class,
+        ],
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];

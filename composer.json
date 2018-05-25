@@ -15,13 +15,14 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "~2.0.14",
+        "yiisoft/yii2": "~2.0.15",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "2amigos/yii2-usuario": "~1.0",
         "schmunk42/yii2-giiant": "@stable",
         "bower-asset/bootstrap-filestyle": "~1.2.3",
-        "asasmoyo/yii2-saml": "*"
+        "asasmoyo/yii2-saml": "*",
+        "yiisoft/yii2-queue": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
