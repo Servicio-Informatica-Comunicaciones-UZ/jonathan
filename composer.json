@@ -22,7 +22,9 @@
         "schmunk42/yii2-giiant": "@stable",
         "bower-asset/bootstrap-filestyle": "~1.2.3",
         "asasmoyo/yii2-saml": "*",
-        "yiisoft/yii2-queue": "^2.1"
+        "yiisoft/yii2-queue": "^2.1",
+        "dawood/phpchromepdf": "^1.3",
+        "cocur/background-process": "^0.7.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

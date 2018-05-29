@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdedceefe7665d1787c9458f94630c6d",
+    "content-hash": "6771bba65a36725f75ee78f7a970ab38",
     "packages": [
         {
             "name": "2amigos/2fa-library",
@@ -683,6 +683,44 @@
             "time": "2018-01-02T21:17:57+00:00"
         },
         {
+            "name": "cocur/background-process",
+            "version": "v0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cocur/background-process.git",
+                "reference": "9ae2902922f02ec5544d723756758eb7304c6869"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cocur/background-process/zipball/9ae2902922f02ec5544d723756758eb7304c6869",
+                "reference": "9ae2902922f02ec5544d723756758eb7304c6869",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8|~5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cocur\\BackgroundProcess\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Start processes in the background that continue running when the PHP process exists.",
+            "keywords": [
+                "background",
+                "process",
+                "unix"
+            ],
+            "time": "2017-02-11T12:41:41+00:00"
+        },
+        {
             "name": "composer/semver",
             "version": "1.4.2",
             "source": {
@@ -743,6 +781,52 @@
                 "versioning"
             ],
             "time": "2016-08-30T16:08:34+00:00"
+        },
+        {
+            "name": "dawood/phpchromepdf",
+            "version": "v1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/daudmalik06/PhpChromeToPdf.git",
+                "reference": "8e713417fa4cf8d636af27e60e75f34ce8a03706"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/daudmalik06/PhpChromeToPdf/zipball/8e713417fa4cf8d636af27e60e75f34ce8a03706",
+                "reference": "8e713417fa4cf8d636af27e60e75f34ce8a03706",
+                "shasum": ""
+            },
+            "require": {
+                "mikehaertl/php-shellcommand": "^1.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "dawood\\phpChrome\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dawood Ikhlaq",
+                    "email": "daudmalik06@gmail.com"
+                }
+            ],
+            "description": "A slim PHP wrapper around google-chrome to convert url to pdf or to take screenshots , easy to use and clean OOP interface",
+            "keywords": [
+                "chrome",
+                "pdf",
+                "php",
+                "screenshots",
+                "shell"
+            ],
+            "time": "2017-07-24T16:41:27+00:00"
         },
         {
             "name": "dmstr/yii2-bootstrap",

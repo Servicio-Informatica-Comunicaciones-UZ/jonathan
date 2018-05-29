@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\jobs\PrintPdfJob;
 use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Pregunta;
@@ -11,6 +12,7 @@ use app\models\PropuestaDoctorado;
 use app\models\PropuestaGrupoInves;
 use app\models\PropuestaMacroarea;
 use app\models\PropuestaTitulacion;
+use Cocur\BackgroundProcess\BackgroundProcess;
 use Yii;
 use yii\base\Exception;
 use yii\base\Model;
@@ -246,7 +248,6 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 }
             }
 
-
             /* Tabla propuesta_grupo_inves */
             // Guardamos los grupos de investigación recibidos.
             $grupos_anteriores = $model->propuestaGrupoInves;
@@ -346,6 +347,18 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             ),
             'usuarios'
         );
+
+        Yii::$app->queue->push(new PrintPdfJob([
+            'chromePath' => Yii::$app->params['chromePath'],
+            'url' => Url::to(['propuesta/ver', 'id' => $id], true),
+            'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
+            'filename' => "{$id}.pdf",
+        ]));
+        // Launch queue processing in background
+        $cmd = Yii::getAlias('@app') . '/yii queue/run';
+        $bgprocess = new BackgroundProcess($cmd);
+        $bgprocess->run();
+
         Yii::$app->session->addFlash(
             'success',
             Yii::t(
