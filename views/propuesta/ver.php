@@ -197,7 +197,7 @@ if (Estado::BORRADOR == $model->estado_id) {
                 <p><?php printf(
                     Yii::t(
                         'jonathan',
-                        '¿Seguro que ha finalizado y desea presentar la propuesta de «%s>?<br>'
+                        '¿Seguro que ha finalizado y desea presentar la propuesta de «%s»?<br>'
                         . 'Una vez la haya presentado ya no podrá modificarla.'
                     ),
                     $model->denominacion
