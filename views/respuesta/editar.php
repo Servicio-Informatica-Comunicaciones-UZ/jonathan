@@ -43,8 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
     echo Html::activeHiddenInput($model, 'propuesta_id') . "\n";
     echo $form->field($model, 'valor')
         ->label('<h2>' . Html::encode($model->pregunta->titulo) . '</h2>')
-        ->hint(Html::encode($model->pregunta->descripcion) . '<br>' .
-            sprintf(Yii::t('jonathan', 'Máximo: %d caracteres'), $model->pregunta->max_longitud))
+        ->hint(
+            Html::encode($model->pregunta->descripcion) . '<br>' .
+            sprintf(
+                Yii::t('jonathan', 'Máximo: %d caracteres, aprox. %d palabras'),
+                $model->pregunta->max_longitud,
+                floor($model->pregunta->max_longitud/5)
+            )
+        )
         ->textarea(['maxlength' => $model->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
 
     echo $form->errorSummary($model) . "\n";

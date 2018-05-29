@@ -32,7 +32,14 @@ use app\models\Respuesta;
         echo Html::activeHiddenInput($respuesta, "[$num]propuesta_id") . "\n";
         echo $form->field($respuesta, "[$num]valor")
             ->label('<h2>' . Html::encode($respuesta->pregunta->titulo) . '</h2>')
-            ->hint(Html::encode($respuesta->pregunta->descripcion))
+            ->hint(
+                Html::encode($respuesta->pregunta->descripcion) . '<br>' .
+                sprintf(
+                    Yii::t('jonathan', 'Máximo: %d caracteres, aprox. %d palabras'),
+                    $respuesta->pregunta->max_longitud,
+                    floor($respuesta->pregunta->max_longitud/5)
+                )
+            )
             ->textarea(['maxlength' => $respuesta->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
     }
 
