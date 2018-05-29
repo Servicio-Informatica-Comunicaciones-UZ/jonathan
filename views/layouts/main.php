@@ -57,7 +57,7 @@ $enlaces = array_map(function ($e) {
     ]);
     echo "\n" . Nav::widget([
         'items' => [
-            /* ['label' => Yii::t('app', 'Inicio'), 'url' => ['/site/index']], */
+            /* ['label' => Yii::t('app', 'Inicio'), 'url' => ['//site/index']], */
             /* [
                 'encode' => false,
                 'label' => // "<span style='font-size: 36px; font-family: Universidad-de-Zaragoza; vertical-align: top;'>🗺</span> &nbsp;" .
@@ -66,10 +66,10 @@ $enlaces = array_map(function ($e) {
                 'items' => [
                     [
                         'label' => 'Castellano',
-                        'url' => ['/language/set', 'language' => 'es'],
+                        'url' => ['//language/set', 'language' => 'es'],
                     ], [
                         'label' => 'English',
-                        'url' => ['/language/set', 'language' => 'en'],
+                        'url' => ['//language/set', 'language' => 'en'],
                     ],
                 ],
             ], */
@@ -83,24 +83,24 @@ $enlaces = array_map(function ($e) {
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-education navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Propuestas'),
-                'url' => ['/propuesta/listado'],
+                'url' => ['//propuesta/listado'],
                 'visible' => !Yii::$app->user->isGuest,
             ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Ayuda'),
-                'url' => ['/site/ayuda'],
+                'url' => ['//site/ayuda'],
             ],
             Yii::$app->user->isGuest ? [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-log-in navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Iniciar sesión'),
-                'url' => ['/saml/login']
+                'url' => ['//saml/login']
             ] : [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-log-out navbar-icono"></i> &nbsp;' .
                             sprintf('%s (%s)', Yii::t('app', 'Cerrar sesión'), Yii::$app->user->identity->username),
-                'url' => ['/saml/logout'],
+                'url' => ['//saml/logout'],
             ]
         ],
         'options' => ['class' => 'navbar-nav navbar-right'],
