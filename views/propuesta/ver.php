@@ -34,9 +34,12 @@ echo DetailView::widget([
         ], [
             'label' => Yii::t('jonathan', 'Correo del responsable'),
             'attribute' => 'user.email',
-        ],
-        'denominacion',
-        [
+        ], [
+            'attribute' => 'denominacion',
+            'value' => function ($model) {
+                return trim($model->denominacion) ?: null;
+            }
+        ], [
             'label' => Yii::t('jonathan', 'Macroárea(s)'),
             'value' => function ($model) {
                 $macroareas = $model->propuestaMacroareas;
