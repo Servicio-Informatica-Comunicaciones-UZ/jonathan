@@ -18,19 +18,19 @@ use dawood\phpChrome\Chrome;
 class SendMailJob extends BaseObject implements \yii\queue\JobInterface
 {
     public $attachmentPath;
-    public $body;
     public $recipients;
     public $sender;
     public $subject;
+    public $view;
+    public $viewParams;
 
     public function execute($queue)
     {
         $message = Yii::$app->mailer
-            ->compose()
+            ->compose($this->view, $this->viewParams)  // By default located at @app/mail
             ->setFrom($this->sender)
             ->setTo($this->recipients)
             ->setSubject($this->subject)
-            ->setTextBody($this->body)
         ;
         $message->attach($this->attachmentPath);
         $message->send();

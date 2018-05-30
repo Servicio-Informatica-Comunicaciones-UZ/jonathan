@@ -360,10 +360,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         // Encolamos otra tarea a continuación de la anterior, para enviar correo.
         Yii::$app->queue->push(new SendMailJob([
             'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}.pdf",
-            'body' => sprintf(Yii::t('jonathan', 'Propuesta presentada: %s (adjunta)'), $model->denominacion),
             'recipients' => $model->user->email,
             'sender' => [Yii::$app->params['adminEmail'] => 'Robot Olba'],
             'subject' => Yii::t('jonathan', 'Propuesta presentada') . ': ' . $model->denominacion,
+            'view' => 'propuesta-presentada',  // Fichero de vista, por omisión en @app/mail
+            'viewParams' => ['denominacion' => $model->denominacion],
         ]));
 
         // Lanzamos el procesamiento de la cola en segundo plano
