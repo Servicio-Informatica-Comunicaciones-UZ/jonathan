@@ -1,6 +1,7 @@
 <?php
 
 $db = require __DIR__ . '/db.php';
+$mailer = require __DIR__ . '/mailer.php';
 $params = require __DIR__ . '/params.php';
 
 $config = [
@@ -45,6 +46,7 @@ $config = [
                 ],
             ],
         ],
+        'mailer' => $mailer,
         'queue' => [
             // 'as log' => \yii\queue\LogBehavior::class,
             'channel' => 'default',  // Queue channel key

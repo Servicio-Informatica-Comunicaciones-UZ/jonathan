@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\jobs\PrintPdfJob;
+use app\jobs\SendMailJob;
 use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Pregunta;
@@ -348,14 +349,25 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'usuarios'
         );
 
+        // Creamos una tarea para generar un PDF.
         Yii::$app->queue->push(new PrintPdfJob([
             'chromePath' => Yii::$app->params['chromePath'],
             'url' => Url::to(['propuesta/ver', 'id' => $id], true),
             'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
             'filename' => "{$id}.pdf",
         ]));
-        // Launch queue processing in background
-        $cmd = Yii::getAlias('@app') . '/yii queue/run';
+
+        // Encolamos otra tarea a continuación de la anterior, para enviar correo.
+        Yii::$app->queue->push(new SendMailJob([
+            'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}.pdf",
+            'body' => sprintf(Yii::t('jonathan', 'Propuesta presentada: %s (adjunta)'), $model->denominacion),
+            'recipients' => $model->user->email,
+            'sender' => [Yii::$app->params['adminEmail'] => 'Robot Olba'],
+            'subject' => Yii::t('jonathan', 'Propuesta presentada') . ': ' . $model->denominacion,
+        ]));
+
+        // Lanzamos el procesamiento de la cola en segundo plano
+        $cmd = Yii::getAlias('@app') . '/yii queue/run';  // --verbose --isolate
         $bgprocess = new BackgroundProcess($cmd);
         $bgprocess->run();
 
