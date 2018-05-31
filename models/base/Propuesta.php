@@ -21,6 +21,7 @@ use Yii;
  * @property string $creditos_practicas
  * @property integer $tipo_estudio_id
  * @property integer $estado_id
+ * @property string $log
  *
  * @property \app\models\Estado $estado
  * @property \app\models\Modalidad $modalidad
@@ -56,6 +57,7 @@ abstract class Propuesta extends \yii\db\ActiveRecord
         return [
             [['anyo', 'user_id', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'estado_id'], 'integer'],
             [['creditos_practicas'], 'number'],
+            [['log'], 'string'],
             [['denominacion'], 'string', 'max' => 250],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['modalidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Modalidad::className(), 'targetAttribute' => ['modalidad_id' => 'id']],
@@ -83,6 +85,7 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             'creditos_practicas' => Yii::t('models', 'Creditos Practicas'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
             'estado_id' => Yii::t('models', 'Estado ID'),
+            'log' => Yii::t('models', 'Log'),
         ];
     }
 
