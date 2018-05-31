@@ -16,6 +16,47 @@ use yii\web\ServerErrorHttpException;
  */
 class RespuestaController extends \app\controllers\base\RespuestaController
 {
+    public function behaviors()
+    {
+        $id = Yii::$app->request->get('id');
+        $propuesta_id = Yii::$app->request->get('propuesta_id');
+
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['crear'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) use ($propuesta_id) {
+                            $usuario = Yii::$app->user;
+                            $propuesta = Propuesta::getPropuesta($propuesta_id);
+                            return $usuario->id === $propuesta->user_id;
+                        },
+                        'roles' => ['@'],
+                    ], [
+                        'actions' => ['editar'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) use ($id) {
+                            $usuario = Yii::$app->user;
+                            $respuesta = $this->findModel($id);  // Respuesta::getPropuesta($id);
+                            return $usuario->id === $respuesta->propuesta->user_id;
+                        },
+                        'roles' => ['@'],
+                    ],
+                ],
+                'denyCallback' => function ($rule, $action) {
+                    if (Yii::$app->user->isGuest) {
+                        return Yii::$app->getResponse()->redirect(['//saml/login']);
+                    }
+                    throw new ForbiddenHttpException(
+                        Yii::t('app', 'No tiene permisos para acceder a esta página. 😨')
+                    );
+                },
+            ],
+        ];
+    }
+
     /**
      * Crea las respuestas de una propuesta.
      *
@@ -65,7 +106,9 @@ class RespuestaController extends \app\controllers\base\RespuestaController
         );
     }
 
-
+    /**
+     * Edita una respuesta ya existente.
+     */
     public function actionEditar($id)
     {
         $model = $this->findModel($id);

@@ -10,15 +10,36 @@ namespace app\controllers\base;
 
 use Locale;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 
 class AppController extends Controller
 {
-    /*
-    * @var Array $freeAccessActions Array of public accesible actions.
-    */
-    protected $freeAccessActions = [];
+    /** Por omisión, deniega el acceso a todas las acciones */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => false,
+                    ],
+                ],
+                'denyCallback' => function ($rule, $action) {
+                    if (Yii::$app->user->isGuest) {
+                        return Yii::$app->getResponse()->redirect(['//saml/login']);
+                    }
+                    throw new ForbiddenHttpException(
+                        Yii::t('app', 'No tiene permisos para acceder a esta página. 😨')
+                    );
+                },
+            ],
+        ];
+    }
 
+    /** Configura el idioma antes de ejecutar una acción */
     public function beforeAction($event)
     {
         $supported_languages = Yii::$app->params['languages'];

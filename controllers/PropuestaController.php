@@ -18,6 +18,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\Model;
 use yii\helpers\Url;
+use yii\web\ForbiddenHttpException;
 use yii\web\ServerErrorHttpException;
 use yii\web\UploadedFile;
 
@@ -26,6 +27,41 @@ use yii\web\UploadedFile;
  */
 class PropuestaController extends \app\controllers\base\PropuestaController
 {
+    public function behaviors()
+    {
+        $id = Yii::$app->request->get('id');
+
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['crear', 'listado'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ], [
+                        'actions' => ['editar', 'ver', 'presentar'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) use ($id) {
+                            $usuario = Yii::$app->user;
+                            $propuesta = $this->findModel($id);
+                            return $usuario->id === $propuesta->user_id;
+                        },
+                        'roles' => ['@'],
+                    ],
+                ],
+                'denyCallback' => function ($rule, $action) {
+                    if (Yii::$app->user->isGuest) {
+                        return Yii::$app->getResponse()->redirect(['//saml/login']);
+                    }
+                    throw new ForbiddenHttpException(
+                        Yii::t('app', 'No tiene permisos para acceder a esta página. 😨')
+                    );
+                },
+            ],
+        ];
+    }
+
     /**
      * Crea una nueva propuesta.
      *
