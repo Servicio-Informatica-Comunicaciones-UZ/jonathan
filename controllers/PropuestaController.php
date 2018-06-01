@@ -386,6 +386,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta ya estaba presentada. 😨'));
         }
         $model->estado_id = Estado::PRESENTADA;
+        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Presentación de la propuesta') . "\n";
         $model->save();
         Yii::info(
             sprintf(
