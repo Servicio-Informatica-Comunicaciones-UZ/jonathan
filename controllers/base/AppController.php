@@ -13,18 +13,23 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
+use Da\User\Filter\AccessRuleFilter;
 
 class AppController extends Controller
 {
-    /** Por omisión, deniega el acceso a todas las acciones */
+    /** Por omisión, deniega el acceso a todas las acciones, salvo al rol «admin». */
     public function behaviors()
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
+                'ruleConfig' => [
+                    'class' => AccessRuleFilter::class,
+                ],
                 'rules' => [
                     [
-                        'allow' => false,
+                        'allow' => true,
+                        'roles' => ['admin'],
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
