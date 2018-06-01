@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($propuesta) {
                     return Html::a(
                         trim($propuesta->denominacion) ?: '<em>' . Yii::t('jonathan', '(no definido)') . '</em>',
-                        ['ver', 'id' => $propuesta->id]
+                        ['//propuesta/ver', 'id' => $propuesta->id]
                     );
                 }
             ], [
