@@ -87,6 +87,12 @@ $enlaces = array_map(function ($e) {
                 'visible' => !Yii::$app->user->isGuest,
             ], [
                 'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-cog navbar-icono"></i> &nbsp;' .
+                            Yii::t('app', 'Gestión'),
+                'url' => ['//gestion/index'],
+                'visible' => Yii::$app->user->can('gestionarMasters'),
+            ], [
+                'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Ayuda'),
                 'url' => ['//site/ayuda'],
