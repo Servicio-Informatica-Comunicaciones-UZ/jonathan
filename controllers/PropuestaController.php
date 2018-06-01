@@ -40,7 +40,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         'allow' => true,
                         'roles' => ['@'],
                     ], [
-                        'actions' => ['editar', 'ver', 'presentar'],
+                        'actions' => ['editar', 'presentar'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) use ($id) {
                             $usuario = Yii::$app->user;
@@ -48,6 +48,19 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                             return $usuario->id === $propuesta->user_id;
                         },
                         'roles' => ['@'],
+                    ], [
+                        'actions' => ['ver'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) use ($id) {
+                            // Para que la app pueda generar los PDF.
+                            $server_adresses = gethostbynamel($_SERVER['SERVER_NAME']);
+                            array_push($server_adresses, '127.0.0.1', '::1');
+                            if (in_array(Yii::$app->request->remoteIP, $server_adresses)) {
+                                return true;
+                            }
+                            $propuesta = $this->findModel($id);
+                            return Yii::$app->user->id === $propuesta->user_id;
+                        },
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
