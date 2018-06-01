@@ -69,6 +69,22 @@ class Propuesta extends BasePropuesta
     }
 
     /**
+     * Devuelve un DataProvider con las propuestas de un año que estén en un estado determinado.
+     */
+    public static function getDpPropuestasEnEstado($anyo, $estado_id)
+    {
+        $query = self::find()
+            ->where(['anyo' => $anyo, 'estado_id' => $estado_id])
+            ->orderBy(['denominacion' => SORT_ASC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
+    }
+
+    /**
      * Finds the Propuesta model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
