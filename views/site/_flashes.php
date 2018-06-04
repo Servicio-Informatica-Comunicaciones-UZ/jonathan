@@ -43,3 +43,13 @@ if (Yii::$app->session->hasFlash('success')) {
         ]) . "\n\n";
     }
 }
+
+// Si tenemos la seguridad de que el mensaje es seguro, podemos no codificarlo.
+if (Yii::$app->session->hasFlash('safe-success')) {
+    foreach (Yii::$app->session->getFlash('safe-success') as $msg) {
+        echo Alert::widget([
+            'body' => "<span class='glyphicon glyphicon-ok-sign'></span>" . nl2br($msg),
+            'options' => ['class' => 'alert-success'],
+        ]) . "\n\n";
+    }
+}

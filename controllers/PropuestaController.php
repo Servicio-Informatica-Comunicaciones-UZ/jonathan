@@ -183,7 +183,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         }
                     }
                 }
-                
+
                 $transaction->commit();
 
                 $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Creación de la propuesta') . "\n";

@@ -7,9 +7,27 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->title = $model->denominacion;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Gestión'), 'url' => ['//gestion/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
+$label = '';
+switch ($model->estado_id) {
+    case Estado::BORRADOR:
+        $label = Yii::t('jonathan', 'Propuestas en borrador');
+        break;
+    case Estado::PRESENTADA:
+        $label = Yii::t('jonathan', 'Propuestas presentadas');
+        break;
+    case Estado::APROB_INTERNA:
+        $label = Yii::t('jonathan', 'Propuestas aprobadas internamente');
+        break;
+    case Estado::APROB_EXTERNA:
+        $label = Yii::t('jonathan', 'Propuestas aprobadas externamente');
+        break;
+    case Estado::RECHAZ_EXTERNA:
+        $label = Yii::t('jonathan', 'Propuestas rechazadas externamente');
+        break;
+}
 $this->params['breadcrumbs'][] = [
-    'label' => $model->estado_id == 1 ? Yii::t('models', 'Propuestas en borrador') : Yii::t('models', 'Propuestas presentadas'),
+    'label' => $label,
     'url' => ['listado-propuestas', 'anyo' => $model->anyo, 'estado_id' => $model->estado_id],
 ];
 $this->params['breadcrumbs'][] = $this->title;
@@ -154,4 +172,33 @@ foreach ($preguntas as $pregunta) {
         $respuesta->save();
     }
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
+}
+
+echo "<hr><br>\n";
+if (Estado::PRESENTADA == $model->estado_id) {
+    echo Html::a(
+        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al proponente'),
+        ['devolver', 'id' => $model->id],
+        [
+            'id' => 'devolver',
+            'class' => 'btn btn-danger',
+            'title' => Yii::t(
+                'jonathan',
+                "La propuesta no cumple los requisitos.\nVolverla a poner en estado borrador para su corrección."
+            ),
+        ]
+    ) . "&nbsp;\n&nbsp;";
+
+    echo Html::a(
+        '<span class="glyphicon glyphicon-ok"></span> &nbsp;' . Yii::t('jonathan', 'Aprobar internamente'),
+        ['aprobacion-interna', 'id' => $model->id],
+        [
+            'id' => 'aprobar',
+            'class' => 'btn btn-success',
+            'title' => Yii::t(
+                'jonathan',
+                "La propuesta cumple los criterios.\nAprobarla para su evaluación externa."
+            ),
+        ]
+    ) . "\n";
 }

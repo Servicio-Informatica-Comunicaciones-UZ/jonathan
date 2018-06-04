@@ -3,8 +3,10 @@
 namespace app\controllers\gestion;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
+use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
 
@@ -36,6 +38,92 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         ];
     }
 
+    /**
+     * Aprobación interna de una propuesta por parte de Organización Académica.
+     * La propuesta cumple los criterios, por lo que puede pasar a los evaluadores externos.
+     *
+     * @param int $id El id de la propuesta
+     *
+     * @return mixed
+     */
+    public function actionAprobacionInterna($id)
+    {
+        $model = $this->findModel($id);
+        if (Estado::PRESENTADA !== $model->estado_id) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Presentada». 😨'));
+        }
+        $model->estado_id = Estado::APROB_INTERNA;
+        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Aprobación interna de la propuesta') . "\n";
+        $model->save();
+        Yii::info(
+            sprintf(
+                '%s (%s) ha aprobado internamente la propuesta %d (%s)',
+                Yii::$app->user->identity->username,
+                Yii::$app->user->identity->profile->name,
+                $id,
+                $model->denominacion
+            ),
+            'gestion'
+        );
+
+        Yii::$app->session->addFlash(
+            'safe-success',
+            Yii::t(
+                'jonathan',
+                "La propuesta ha sido aprobada internamente.\n" .
+                    'Si lo desea, puede enviar un mensaje de correo electrónico al autor de la propuesta: '
+            ) . Html::mailto(
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada internamente')
+            )
+        );
+
+        return $this->redirect(['ver', 'id' => $id]);
+    }
+
+    /**
+     * Rechazo interno de una propuesta por parte de Organización Académica.
+     * La propuesta no cumple los criterios, por lo que se devuelve al estado «Borrador»
+     * para que el proponente la corrija.
+     *
+     * @param int $id El id de la propuesta
+     *
+     * @return mixed
+     */
+    public function actionDevolver($id)
+    {
+        $model = $this->findModel($id);
+        if (Estado::PRESENTADA !== $model->estado_id) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Presentada». 😨'));
+        }
+        $model->estado_id = Estado::BORRADOR;
+        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Rechazo interno de la propuesta') . "\n";
+        $model->save();
+        Yii::info(
+            sprintf(
+                '%s (%s) ha rechazado internamente la propuesta %d (%s)',
+                Yii::$app->user->identity->username,
+                Yii::$app->user->identity->profile->name,
+                $id,
+                $model->denominacion
+            ),
+            'gestion'
+        );
+
+        Yii::$app->session->addFlash(
+            'safe-success',
+            Yii::t(
+                'jonathan',
+                "La propuesta ha sido rechazada internamente.\n" .
+                    'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
+            ) . Html::mailto(
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada internamente')
+            )
+        );
+
+        return $this->redirect(['ver', 'id' => $id]);
+    }
 
     /**
      * Muestra un listado de las propuestas de un año que estén en un estado determinado.

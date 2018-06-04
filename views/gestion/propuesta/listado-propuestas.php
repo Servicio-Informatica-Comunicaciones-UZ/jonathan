@@ -2,9 +2,26 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use app\models\Estado;
 
-$this->title = $estado_id == 1 ? Yii::t('models', 'Propuestas en borrador') : Yii::t('models', 'Propuestas presentadas');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Gestión'), 'url' => ['//gestion/index']];
+switch ($estado_id) {
+    case Estado::BORRADOR:
+        $this->title = Yii::t('jonathan', 'Propuestas en borrador');
+        break;
+    case Estado::PRESENTADA:
+        $this->title = Yii::t('jonathan', 'Propuestas presentadas');
+        break;
+    case Estado::APROB_INTERNA:
+        $this->title = Yii::t('jonathan', 'Propuestas aprobadas internamente');
+        break;
+    case Estado::APROB_EXTERNA:
+        $this->title = Yii::t('jonathan', 'Propuestas aprobadas externamente');
+        break;
+    case Estado::RECHAZ_EXTERNA:
+        $this->title = Yii::t('jonathan', 'Propuestas rechazadas externamente');
+        break;
+}
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
