@@ -4,7 +4,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = $estado_id == 1 ? Yii::t('models', 'Propuestas en borrador') : Yii::t('models', 'Propuestas presentadas');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Gestión'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($propuesta) {
                     return Html::a(
                         trim($propuesta->denominacion) ?: '<em>' . Yii::t('jonathan', '(no definido)') . '</em>',
-                        ['//propuesta/ver', 'id' => $propuesta->id]
+                        ['//gestion/propuesta/ver', 'id' => $propuesta->id]
                     );
                 }
             ], [

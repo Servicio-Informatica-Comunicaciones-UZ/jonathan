@@ -14,12 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Propuestas presentadas'),
-    ['listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 2]
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 2]
 ); ?></li>
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Propuestas en borrador'),
-    ['listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 1]
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 1]
 ); ?></li>
 
 </ul>

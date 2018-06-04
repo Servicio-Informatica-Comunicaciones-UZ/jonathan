@@ -41,14 +41,4 @@ class GestionController extends \app\controllers\base\AppController
     {
         return $this->render('index');
     }
-
-    /**
-     * Muestra un listado de las propuestas de un año que estén en un estado determinado.
-     */
-    public function actionListadoPropuestas($anyo, $estado_id)
-    {
-        $dpPropuestas = Propuesta::getDpPropuestasEnEstado($anyo, $estado_id);
-
-        return $this->render('listado-propuestas', ['dpPropuestas' => $dpPropuestas, 'estado_id' => $estado_id]);
-    }
 }
