@@ -74,7 +74,8 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                     'Si lo desea, puede enviar un mensaje de correo electrónico al autor de la propuesta: '
             ) . Html::mailto(
                 '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
-                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada internamente')
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada internamente'),
+                ['class' => 'alert-link']
             )
         );
 
@@ -118,7 +119,8 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                     'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
             ) . Html::mailto(
                 '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
-                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada internamente')
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada internamente'),
+                ['class' => 'alert-link']
             )
         );
 
