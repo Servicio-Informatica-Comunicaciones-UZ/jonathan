@@ -18,9 +18,13 @@
  */
 return [
     'Could not bind to the LDAP server.' => '',
-    'FIXME' => '',
+    'Enlaces' => '',
+    'Gestión' => '',
+    'No tiene permisos para acceder a esta página. 😨' => '',
     'Off' => '',
     'On' => '',
+    'Propuestas' => '',
+    'Propuestas de nuevas titulaciones' => '',
     'The provided LDAP parameters are syntactically wrong.' => '',
     'Unable to search LDAP server' => '',
     'You are not allowed to {0} record #{1}' => '',
