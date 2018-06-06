@@ -50,6 +50,11 @@ $config = [
                 ], [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['info'],
+                    'categories' => ['gestion'],
+                    'logFile' => '@runtime/logs/gestion.log',
+                ], [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
                     'categories' => ['usuarios'],
                     'logFile' => '@runtime/logs/usuarios.log',
                 ]

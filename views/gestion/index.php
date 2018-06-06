@@ -22,4 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 1]
 ); ?></li>
 
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Valoradores'),
+    ['//gestion/user/listado']  // , 'rol' => 'valorador']
+); ?></li>
+
 </ul>
