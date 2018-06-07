@@ -14,10 +14,20 @@ class m180606_082337_update_rbac extends Migration
     {
         $auth = Yii::$app->authManager;
 
-        // Add "valorador" role
+        // Add "valorar" permission
+        $valorar = $auth->createPermission('valorar');
+        $valorar->description = 'Valorar propuestas';
+        $auth->add($valorar);
+
+        // Add "valorador" role and give this role the "valorar" permission
         $valorador = $auth->createRole('valorador');
         $valorador->description = 'Usuarios valoradores';
         $auth->add($valorador);
+        $auth->addChild($valorador, $valorar);
+
+        // Give the "admin" role the permissions of the "valorador" role
+        $admin = $auth->getRole('admin');
+        $auth->addChild($admin, $valorador);
     }
 
     /**
