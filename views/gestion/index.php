@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ); ?></li>
 
 <li><?php echo Html::a(
-    Yii::t('jonathan', 'Valoradores'),
-    ['//gestion/user/listado']  // , 'rol' => 'valorador']
+    Yii::t('jonathan', 'Evaluadores'),
+    ['//gestion/user/listado']  // , 'rol' => 'evaluador']
 ); ?></li>
 
 </ul>

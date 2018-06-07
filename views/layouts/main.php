@@ -93,6 +93,12 @@ $enlaces = array_map(function ($e) {
                 'visible' => Yii::$app->user->can('gestionarMasters'),
             ], [
                 'encode' => false,
+                'label' => '<i class="glyphicon glyphicon-scale navbar-icono"></i> &nbsp;' .
+                            Yii::t('jonathan', 'Valoración'),
+                'url' => ['//evaluador/index'],
+                'visible' => Yii::$app->user->can('valorar'),
+            ], [
+                'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-question-sign navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Ayuda'),
                 'url' => ['//site/ayuda'],

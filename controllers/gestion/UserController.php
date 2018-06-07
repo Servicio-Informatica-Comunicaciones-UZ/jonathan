@@ -38,7 +38,7 @@ class UserController extends \app\controllers\base\AppController
     /**
      * Crea un usuario y le asigna el rol indicado.
      */
-    public function actionCrear($rol = 'valorador')
+    public function actionCrear($rol = 'evaluador')
     {
         if ('admin' == $rol or 'superadmin' == $rol) {
             Yii::$app->session->addFlash('danger', Yii::t('jonathan', '¡No puede asignar el rol de administrador!'));
@@ -94,7 +94,7 @@ class UserController extends \app\controllers\base\AppController
     /**
      * Muestra un listado de los usuarios que tienen un rol determinado.
      */
-    public function actionListado($rol = 'valorador')
+    public function actionListado($rol = 'evaluador')
     {
         $usuarios = User::find()->orderBy('username')->all();
         $usuarios_del_rol = array_filter($usuarios, function ($usuario) use ($rol) {

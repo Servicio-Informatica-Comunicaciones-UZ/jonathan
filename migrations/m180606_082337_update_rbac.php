@@ -19,15 +19,15 @@ class m180606_082337_update_rbac extends Migration
         $valorar->description = 'Valorar propuestas';
         $auth->add($valorar);
 
-        // Add "valorador" role and give this role the "valorar" permission
-        $valorador = $auth->createRole('valorador');
-        $valorador->description = 'Usuarios valoradores';
-        $auth->add($valorador);
-        $auth->addChild($valorador, $valorar);
+        // Add "evaluador" role and give this role the "valorar" permission
+        $evaluador = $auth->createRole('evaluador');
+        $evaluador->description = 'Usuarios evaluadores';
+        $auth->add($evaluador);
+        $auth->addChild($evaluador, $valorar);
 
-        // Give the "admin" role the permissions of the "valorador" role
+        // Give the "admin" role the permissions of the "evaluador" role
         $admin = $auth->getRole('admin');
-        $auth->addChild($admin, $valorador);
+        $auth->addChild($admin, $evaluador);
     }
 
     /**
