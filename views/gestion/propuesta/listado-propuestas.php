@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo GridView::widget([
         'dataProvider' => $dpPropuestas,
         'columns' => [
-            'anyo',
             [
                 'attribute' => 'denominacion',
                 'format' => 'html',
