@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => new ArrayDataProvider(['allModels' => $usuarios]),
         'columns' => [
             'username',
+            'profile.name',
             'email',
-            'profile.name'
         ],
         // 'caption' => '',
         'options' => ['class' => 'cabecera-azul'],

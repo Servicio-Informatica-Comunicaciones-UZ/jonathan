@@ -3,6 +3,7 @@
 namespace app\controllers\gestion;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use app\models\User;
@@ -47,6 +48,7 @@ class UserController extends \app\controllers\base\AppController
         }
 
         $model = new User();
+        $model->setScenario('create');
         $transaction = Yii::$app->db->beginTransaction();
         try {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
