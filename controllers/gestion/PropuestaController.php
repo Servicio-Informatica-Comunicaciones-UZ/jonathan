@@ -67,13 +67,13 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         );
 
         Yii::$app->session->addFlash(
-            'safe-success',
+            'success',
             Yii::t(
                 'jonathan',
                 "La propuesta ha sido aprobada internamente.\n" .
                     'Si lo desea, puede enviar un mensaje de correo electrónico al autor de la propuesta: '
             ) . Html::mailto(
-                '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
                 $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada internamente'),
                 ['class' => 'alert-link']
             )
@@ -112,13 +112,13 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         );
 
         Yii::$app->session->addFlash(
-            'safe-success',
+            'success',
             Yii::t(
                 'jonathan',
                 "La propuesta ha sido rechazada internamente.\n" .
                     'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
             ) . Html::mailto(
-                '"' . Html::encode($model->user->profile->name) . '" &lt;' . $model->user->email . '&gt;',
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
                 $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada internamente'),
                 ['class' => 'alert-link']
             )

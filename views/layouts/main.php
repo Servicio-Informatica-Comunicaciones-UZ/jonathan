@@ -126,7 +126,7 @@ $enlaces = array_map(function ($e) {
         echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]);
-        echo $this->render('//site/_flashes');  // Looked for under the view path of the application
+        echo Alert::widget();
         echo $content;
         echo '<hr class="hideinmainpage">';
         echo Breadcrumbs::widget([

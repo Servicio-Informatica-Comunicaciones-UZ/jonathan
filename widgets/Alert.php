@@ -21,6 +21,7 @@ use Yii;
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @author Alexander Makarov <sam@rmcreative.ru>
+ * @author Enrique Matías Sánchez <quique@unizar.es>
  */
 class Alert extends \yii\bootstrap\Widget
 {
@@ -37,6 +38,15 @@ class Alert extends \yii\bootstrap\Widget
         'info'    => 'alert-info',
         'warning' => 'alert-warning'
     ];
+
+    public $alertIcons = [
+        'error'   => "<span class='glyphicon glyphicon-remove-sign'></span>",
+        'danger'  => "<span class='glyphicon glyphicon-remove-sign'></span>",
+        'success' => "<span class='glyphicon glyphicon-ok-sign'></span>",
+        'info'    => "<span class='glyphicon glyphicon-info-sign'></span>",
+        'warning' => "<span class='glyphicon glyphicon-exclamation-sign'></span>",
+    ];
+
     /**
      * @var array the options for rendering the close button tag.
      * Array will be passed to [[\yii\bootstrap\Alert::closeButton]].
@@ -60,7 +70,7 @@ class Alert extends \yii\bootstrap\Widget
 
             foreach ((array) $flash as $i => $message) {
                 echo \yii\bootstrap\Alert::widget([
-                    'body' => $message,
+                    'body' => $this->alertIcons[$type] . nl2br($message),
                     'closeButton' => $this->closeButton,
                     'options' => array_merge($this->options, [
                         'id' => $this->getId() . '-' . $type . '-' . $i,

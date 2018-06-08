@@ -65,7 +65,7 @@ class UserController extends \app\controllers\base\AppController
                     'jonathan',
                     "Se ha creado el usuario «%s».  Por favor, infórmele de su nombre de usuario y contraseña.\n"
                         . "Al tratarse de un usuario externo, para iniciar sesión deberá usar la dirección\n%s"
-                ), $model->username, Url::toRoute('//user/login', true)));
+                ), Html::encode($model->username), Url::toRoute('//user/login', true)));
                 Yii::info(
                     sprintf(
                         '%s (%s) ha creado el usuario «%s» (%s) con rol «%s»',
