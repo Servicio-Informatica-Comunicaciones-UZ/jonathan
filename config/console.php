@@ -86,7 +86,7 @@ $config = [
             ],
             'migrationNamespaces' => [
                 'Da\User\Migration',
-                'yii\queue\db\migrations'
+                'yii\queue\db\migrations',
             ],
         ],
     ],

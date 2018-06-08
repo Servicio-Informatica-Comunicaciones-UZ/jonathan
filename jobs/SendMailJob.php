@@ -10,7 +10,6 @@ namespace app\jobs;
 
 use Yii;
 use yii\base\BaseObject;
-use dawood\phpChrome\Chrome;
 
 /**
  * This is a background job to be executed by Yii2-queue.
