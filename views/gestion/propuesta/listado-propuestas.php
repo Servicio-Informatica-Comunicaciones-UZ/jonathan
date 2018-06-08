@@ -43,6 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     );
                 }
             ], [
+                'attribute' => 'user.profile.name',
+                'label' => Yii::t('jonathan', 'Responsable'),
+            ], [
                 'label' => Yii::t('jonathan', 'Centro gestor'),
                 'value' => function ($propuesta) {
                     // Se considera centro gestor al primero de la lista.
