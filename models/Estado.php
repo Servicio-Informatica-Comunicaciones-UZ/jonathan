@@ -2,8 +2,7 @@
 
 namespace app\models;
 
-use Yii;
-use \app\models\base\Estado as BaseEstado;
+use app\models\base\Estado as BaseEstado;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -17,13 +16,14 @@ class Estado extends BaseEstado
     const APROB_INTERNA = 3;
     const APROB_EXTERNA = 4;
     const RECHAZ_EXTERNA = 5;
+    const EVALUABLES = [3, 4, 5];
 
     public function behaviors()
     {
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                # custom behaviors
+                // custom behaviors
             ]
         );
     }
@@ -33,7 +33,7 @@ class Estado extends BaseEstado
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
+                // custom validation rules
             ]
         );
     }

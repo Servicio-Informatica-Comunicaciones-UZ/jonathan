@@ -27,4 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ['//gestion/user/listado']  // , 'rol' => 'evaluador']
 ); ?></li>
 
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Asignaciones Propuesta⟷Evaluador'),
+    ['//gestion/propuesta-evaluador/listado', 'anyo' => date('Y')]
+); ?></li>
+
 </ul>

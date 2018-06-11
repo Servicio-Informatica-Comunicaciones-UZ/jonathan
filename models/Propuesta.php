@@ -6,7 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use \app\models\base\Propuesta as BasePropuesta;
+use app\models\base\Propuesta as BasePropuesta;
 
 /**
  * This is the model class for table "propuesta".
@@ -18,7 +18,7 @@ class Propuesta extends BasePropuesta
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                # custom behaviors
+                // custom behaviors
             ]
         );
     }
@@ -28,10 +28,11 @@ class Propuesta extends BasePropuesta
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
+                // custom validation rules
             ]
         );
     }
+
     public function attributeLabels()
     {
         return ArrayHelper::merge(
@@ -101,5 +102,37 @@ class Propuesta extends BasePropuesta
         }
 
         throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa propuesta.  ☹'));
+    }
+
+    /**
+     * Devuelve un DataProvider con las propuestas evaluables.
+     */
+    public static function getDpEvaluables($anyo)
+    {
+        $query = self::find()
+            ->where([
+                'anyo' => $anyo,
+                'estado_id' => Estado::EVALUABLES,
+            ])
+            ->orderBy(['denominacion' => SORT_ASC])
+        ;
+        // die($query->createCommand()->getRawSql());  // DEBUG
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
+    }
+
+    /** Devuelve los usuarios evaluadores de una propuesta */
+    public function getEvaluadores()
+    {
+        $asignaciones = $this->getPropuestaEvaluadors()->all();
+        $evaluadores = array_map(function ($asignacion) {
+            return $asignacion->user;
+        }, $asignaciones);
+
+        return $evaluadores;
     }
 }

@@ -30,10 +30,12 @@ use Yii;
  * @property \app\models\User $user
  * @property \app\models\PropuestaCentro[] $propuestaCentros
  * @property \app\models\PropuestaDoctorado[] $propuestaDoctorados
+ * @property \app\models\PropuestaEvaluador[] $propuestaEvaluadors
  * @property \app\models\PropuestaGrupoInves[] $propuestaGrupoInves
  * @property \app\models\PropuestaMacroarea[] $propuestaMacroareas
  * @property \app\models\PropuestaTitulacion[] $propuestaTitulacions
  * @property \app\models\Respuesta[] $respuestas
+ * @property \app\models\Valoracion[] $valoracions
  * @property string $aliasModel
  */
 abstract class Propuesta extends \yii\db\ActiveRecord
@@ -148,6 +150,14 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPropuestaEvaluadors()
+    {
+        return $this->hasMany(\app\models\PropuestaEvaluador::className(), ['propuesta_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPropuestaGrupoInves()
     {
         return $this->hasMany(\app\models\PropuestaGrupoInves::className(), ['propuesta_id' => 'id']);
@@ -175,6 +185,14 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     public function getRespuestas()
     {
         return $this->hasMany(\app\models\Respuesta::className(), ['propuesta_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getValoracions()
+    {
+        return $this->hasMany(\app\models\Valoracion::className(), ['propuesta_id' => 'id']);
     }
 
 
