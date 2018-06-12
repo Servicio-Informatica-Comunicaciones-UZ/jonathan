@@ -57,7 +57,16 @@ $form = ActiveForm::begin([
 echo $form->field($model, 'propuesta_id')->hiddenInput(['value' => $propuesta->id])->label(false);
 
 // attribute user_id
+// Obtenemos los IDs de los usuarios con rol Evaluador
 $evaluadoresIds = Yii::$app->authManager->getUserIdsByRole('evaluador');
+// Quitamos los IDs de los usuarios que ya son evaluadores de esta propuesta
+foreach ($propuesta->evaluadores as $evaluador_actual) {
+    $key = array_search($evaluador_actual->id, $evaluadoresIds);
+    if ($key !== false) {
+        unset($evaluadoresIds[$key]);
+    }
+}
+// Obtenemos los objetos de los usuarios con esos IDs, y los ordenamos por el nombre del perfil
 $evaluadores = User::find()->where(['id' => $evaluadoresIds])->all();
 usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
 echo $form->field($model, 'user_id')->dropDownList(
