@@ -64,11 +64,7 @@ echo DetailView::widget([
         ], [
             'label' => Yii::t('jonathan', 'Macroárea(s)'),
             'value' => function ($model) {
-                $macroareas = $model->propuestaMacroareas;
-                $nombres = array_map(function ($m) {
-                    return $m->macroarea->nombre;
-                }, $macroareas);
-                // $nombres = array_column(array_column($macroareas, 'macroarea'), 'nombre');
+                $nombres = \yii\helpers\ArrayHelper::getColumn($model->propuestaMacroareas, 'macroarea.nombre');
 
                 return $nombres ? '<ul class="listado"><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
