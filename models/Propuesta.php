@@ -132,7 +132,7 @@ class Propuesta extends BasePropuesta
         $evaluadores = array_map(function ($asignacion) {
             return $asignacion->user;
         }, $asignaciones);
-
+        usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
         return $evaluadores;
     }
 }

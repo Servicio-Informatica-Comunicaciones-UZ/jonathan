@@ -1,6 +1,7 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -21,14 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($propuesta) {
                     return Html::a(
-                        trim($propuesta->denominacion) ?: '<em>'.Yii::t('jonathan', '(no definido)').'</em>',
+                        Html::encode(trim($propuesta->denominacion)) ?:
+                            '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
                         ['//gestion/propuesta/ver', 'id' => $propuesta->id]
                     );
                 },
             ], [
+                'format' => 'html',
                 'label' => Yii::t('jonathan', 'Evaluadores'),
                 'value' => function ($propuesta) {
-                    return implode(', ', array_column($propuesta->evaluadores, 'username'));  // profile.name
+                    $nombres = ArrayHelper::map($propuesta->evaluadores, 'id', 'profile.name');
+                    $nombres = array_map('\yii\helpers\Html::encode', $nombres);
+                    return $nombres ? '<ul class="listado"><li>' . implode("</li>\n<li>", $nombres) . '</li></ul>' : null;
                 },
             ], [
                 'class' => 'yii\grid\ActionColumn',

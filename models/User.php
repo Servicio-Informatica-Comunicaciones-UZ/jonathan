@@ -14,6 +14,15 @@ use \Da\User\Model\User as BaseUser;
 
 class User extends BaseUser
 {
+    /**
+     * Permite ordenar un array de usuarios por su nombre del perfil, sin distinguir mayúsculas y minúsculas.
+     */
+    public function cmpProfileName($a, $b)
+    {
+        return strcasecmp($a->profile->name, $b->profile->name);
+    }
+
+
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username]);
