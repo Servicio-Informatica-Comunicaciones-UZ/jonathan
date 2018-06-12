@@ -7,7 +7,7 @@ use app\models\User;
 
 $this->title = sprintf(
     Yii::t('jonathan', 'Evaluadores de «%s»'),
-    Html::encode($propuesta->denominacion)
+    $propuesta->denominacion
 );
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = [
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1><?php echo $this->title; ?></h1>
+<h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <ul class='listado'>

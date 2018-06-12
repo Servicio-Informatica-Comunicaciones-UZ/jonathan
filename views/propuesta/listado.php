@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($propuesta) {
                     return Html::a(
-                        trim($propuesta->denominacion) ?: '<em>' . Yii::t('jonathan', '(no definido)') . '</em>',
+                        Html::encode(trim($propuesta->denominacion)) ?:
+                            '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
                         ['ver', 'id' => $propuesta->id]
                     );
                 }

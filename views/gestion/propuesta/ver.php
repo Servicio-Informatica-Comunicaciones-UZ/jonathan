@@ -65,6 +65,7 @@ echo DetailView::widget([
             'label' => Yii::t('jonathan', 'Macroárea(s)'),
             'value' => function ($model) {
                 $nombres = \yii\helpers\ArrayHelper::getColumn($model->propuestaMacroareas, 'macroarea.nombre');
+                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
                 return $nombres ? '<ul class="listado"><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
@@ -78,11 +79,11 @@ echo DetailView::widget([
                 if ($centros) {
                     $salida = "<ul class='listado'>\n";
                     foreach ($centros as $centro) {
-                        $salida .= "<li>{$centro->nombre_centro}";
+                        $salida .= '<li>' . Html::encode($centro->nombre_centro);
                         if ($centro->documento_firma) {
                             $salida .= ' ['
                             . Html::a(
-                                $centro->documento_firma,
+                                Html::encode($centro->documento_firma),
                                 Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
                             ) . ']';
                         }
@@ -110,6 +111,7 @@ echo DetailView::widget([
             'label' => Yii::t('jonathan', 'Titulaciones a las que va dirigido'),
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaTitulacions, 'nombre_titulacion');
+                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
                 return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
@@ -118,6 +120,7 @@ echo DetailView::widget([
             'label' => Yii::t('jonathan', 'Programa de doctorado a los que podría dar acceso'),
             'value' => function ($model) {
                 $nombres = array_column($model->propuestaDoctorados, 'nombre_doctorado');
+                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
                 return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
             },
@@ -131,11 +134,11 @@ echo DetailView::widget([
                 if ($grupos) {
                     $salida = "<ul class='listado'>\n";
                     foreach ($grupos as $grupo) {
-                        $salida .= "<li>{$grupo->nombre_grupo_inves}";
+                        $salida .= '<li>' . Html::encode($grupo->nombre_grupo_inves);
                         if ($grupo->documento_firma) {
                             $salida .= ' ['
                             . Html::a(
-                                $grupo->documento_firma,
+                                Html::encode($grupo->documento_firma),
                                 Url::home() . "pdf/firmas_grupos_inves/{$grupo->id}.pdf"
                             ) . ']';
                         }
