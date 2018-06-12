@@ -3,6 +3,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\User;
 
 $this->title = sprintf(
     Yii::t('jonathan', 'Evaluadores de «%s»'),
@@ -56,8 +57,11 @@ $form = ActiveForm::begin([
 echo $form->field($model, 'propuesta_id')->hiddenInput(['value' => $propuesta->id])->label(false);
 
 // attribute user_id
+$evaluadoresIds = Yii::$app->authManager->getUserIdsByRole('evaluador');
+$evaluadores = User::find()->where(['id' => $evaluadoresIds])->all();
+usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
 echo $form->field($model, 'user_id')->dropDownList(
-    \yii\helpers\ArrayHelper::map(app\models\User::find()->all(), 'id', 'profile.name'),
+    \yii\helpers\ArrayHelper::map($evaluadores, 'id', 'profile.name'),
     [
         'prompt' => Yii::t('jonathan', 'Seleccione el evaluador'),
         'disabled' => (isset($relAttributes) && isset($relAttributes['user_id'])),

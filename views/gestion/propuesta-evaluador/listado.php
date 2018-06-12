@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => Yii::t('jonathan', 'Evaluadores'),
                 'value' => function ($propuesta) {
-                    $nombres = ArrayHelper::map($propuesta->evaluadores, 'id', 'profile.name');
+                    $nombres = ArrayHelper::getColumn($propuesta->evaluadores, 'profile.name');
                     $nombres = array_map('\yii\helpers\Html::encode', $nombres);
                     return $nombres ? '<ul class="listado"><li>' . implode("</li>\n<li>", $nombres) . '</li></ul>' : null;
                 },
