@@ -24,7 +24,8 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'db' => $db,
+        'db' => $db['jonathan'],
+        'dbident' => $db['identidades'],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
