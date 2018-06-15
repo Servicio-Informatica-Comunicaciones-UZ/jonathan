@@ -117,9 +117,20 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                             $ficheroPdf = new FicheroPdf();
                             $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[centro-{$num}]fichero");
-                            if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
-                                $pc->documento_firma = $ficheroPdf->fichero->name;
-                                $pc->save();
+                            if (isset($ficheroPdf->fichero)) {
+                                if ($ficheroPdf->upload('firmas_centros', $pc->id)) {
+                                    $pc->documento_firma = $ficheroPdf->fichero->name;
+                                    $pc->save();
+                                } else {
+                                    Yii::$app->session->addFlash(
+                                        'danger',
+                                        sprintf(
+                                            Yii::t('jonathan', 'Error %s al guardar el fichero «%s».'),
+                                            $ficheroPdf->error,
+                                            $ficheroPdf->fichero->name
+                                        )
+                                    );
+                                }
                             }
                         }
                     }
@@ -253,9 +264,21 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $ficheroPdf = new FicheroPdf();
                 $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[centro-{$num}]fichero");
-                if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_centros', $pc->id)) {
-                    $pc->documento_firma = $ficheroPdf->fichero->name;
-                    $pc->save();
+                if (isset($ficheroPdf->fichero)) {
+                    if ($ficheroPdf->upload('firmas_centros', $pc->id)) {
+                        $pc->documento_firma = $ficheroPdf->fichero->name;
+                        $pc->save();
+                    } else {
+                        Yii::$app->session->addFlash(
+                            'danger',
+                            sprintf(
+                                Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                                $ficheroPdf->fichero->error,
+                                $ficheroPdf->fichero->name,
+                                $ficheroPdf->errorMessage
+                            )
+                        );
+                    }
                 }
             }
             // Eliminamos los centros que se hayan quitado.
@@ -313,9 +336,21 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $ficheroPdf = new FicheroPdf();
                 $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[grupo-{$num}]fichero");
-                if (isset($ficheroPdf->fichero) && $ficheroPdf->upload('firmas_grupos_inves', $pg->id)) {
-                    $pg->documento_firma = $ficheroPdf->fichero->name;
-                    $pg->save();
+                if (isset($ficheroPdf->fichero)) {
+                    if ($ficheroPdf->upload('firmas_grupos_inves', $pg->id)) {
+                        $pg->documento_firma = $ficheroPdf->fichero->name;
+                        $pg->save();
+                    } else {
+                        Yii::$app->session->addFlash(
+                            'danger',
+                            sprintf(
+                                Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                                $ficheroPdf->fichero->error,
+                                $ficheroPdf->fichero->name,
+                                $ficheroPdf->errorMessage
+                            )
+                        );
+                    }
                 }
             }
             // Eliminamos los grupos de investigación que se hayan quitado.

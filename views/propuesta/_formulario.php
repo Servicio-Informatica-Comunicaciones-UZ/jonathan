@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$max_filesize = ini_get('upload_max_filesize');
 ?>
 
 <div class="propuesta-form">
@@ -96,7 +97,7 @@ use yii\helpers\Url;
                 'data-placeholder' => $centro->documento_firma,
                 // 'data-size' => 'sm',
                 'accept' => '.pdf',
-            ]) . "</td>\n";
+            ])->hint(Yii::t('jonathan', 'Tamaño máximo: ') . $max_filesize) . "</td>\n";
             echo '<td>' . Button::widget([
                 'label' => "<span class='glyphicon glyphicon-trash'></span> " . Yii::t('jonathan', 'Borrar'),
                 'encodeLabel' => false,
@@ -134,6 +135,7 @@ use yii\helpers\Url;
               + \"    <input accept='.pdf' id='ficheropdf-centro-\"+num+\"-fichero' class='btn filestyle'\"
               + \"      name='FicheroPdf[centro-\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
               + \"      data-buttonText='Seleccionar documento'>\"
+              + \"    <p class='help-block'>Tamaño máximo: $max_filesize</p>\"
               + \"    <p class='help-block help-block-error'></p>\"
               + \"  </div></div></td>\"
               + \"<td><div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div></td>\"
@@ -304,7 +306,7 @@ use yii\helpers\Url;
                 'data-placeholder' => $grupo_inves->documento_firma,
                 // 'data-size' => 'sm',
                 'accept' => '.pdf',
-            ]) . "</td>\n";
+            ])->hint(Yii::t('jonathan', 'Tamaño máximo: ') . $max_filesize) . "</td>\n";
             echo '<td>' . Button::widget([
                 'label' => "<span class='glyphicon glyphicon-trash'></span> " . Yii::t('jonathan', 'Borrar'),
                 'encodeLabel' => false,
@@ -342,6 +344,7 @@ use yii\helpers\Url;
               + \"    <input accept='.pdf' id='ficheropdf-grupo-\"+num+\"-fichero' class='btn filestyle'\"
               + \"      name='FicheroPdf[grupo-\"+num+\"][fichero]' type='file' data-buttonbefore='true' data-icon='false'\"
               + \"      data-buttonText='Seleccionar documento'>\"
+              + \"    <p class='help-block'>Tamaño máximo: $max_filesize</p>\"
               + \"    <p class='help-block help-block-error'></p>\"
               + \"  </div></div></td>\"
               + \"<td><div class='delete btn btn-danger'> <span class='glyphicon glyphicon-trash'></span> Borrar</div></td>\"
