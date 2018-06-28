@@ -131,7 +131,7 @@ return [
     'Joined on {0, date}' => 'Registrado el {0, date}',
     'Last login' => 'Último acceso',
     'Location' => 'Ubicación',
-    'Login' => 'Iniciar sesión',
+    'Login' => 'Usuario',
     'Logout' => 'Cerrar sesión',
     'Manage users' => 'Gestionar usuarios',
     'Name' => 'Nombre',
