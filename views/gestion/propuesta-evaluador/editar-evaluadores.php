@@ -15,6 +15,9 @@ $this->params['breadcrumbs'][] = [
     'url' => ['listado', 'anyo' => $propuesta->anyo],
 ];
 $this->params['breadcrumbs'][] = $this->title;
+
+// Change background color
+$this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
 <h1><?php echo Html::encode($this->title); ?></h1>

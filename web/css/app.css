@@ -282,13 +282,17 @@ h1 a:hover {
     color: white;
 }
 
+.cabecera-azul .filters {
+    background: #B2CADF;
+}
+
 .cabecera-azul tbody tr td {
     border: 0px;
 }
 
 
- /* Tooltip container */
- .tooltip {
+/* Tooltip container */
+.tooltip {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
@@ -346,3 +350,4 @@ h1 a:hover {
 .alert div, .alert span, .alert p {
     overflow: hidden;
 }
+

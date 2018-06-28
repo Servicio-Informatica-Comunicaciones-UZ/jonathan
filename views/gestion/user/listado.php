@@ -7,6 +7,9 @@ use yii\helpers\Html;
 $this->title = sprintf(Yii::t('jonathan', 'Usuarios del rol «%s»'), $rol);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+// Change background color
+$this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
 <h1><?php echo $this->title; ?></h1>

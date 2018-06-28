@@ -24,7 +24,7 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'db' => $db,
+        'db' => $db['jonathan'],
         'log' => [
             'targets' => [
                 [

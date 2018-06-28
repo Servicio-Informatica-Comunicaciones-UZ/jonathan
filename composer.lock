@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6771bba65a36725f75ee78f7a970ab38",
+    "content-hash": "4495108dd4ff8655423eedbb506da4f4",
     "packages": [
         {
             "name": "2amigos/2fa-library",
@@ -467,7 +467,7 @@
             "version": "v0.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/brianreavis/microplugin.js.git",
+                "url": "git@github.com:brianreavis/microplugin.js.git",
                 "reference": "d8671e6cc769938648f8735610534427cdeeaf67"
             },
             "dist": {
@@ -486,7 +486,7 @@
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bestiejs/punycode.js.git",
+                "url": "git@github.com:bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {
@@ -1694,16 +1694,16 @@
         },
         {
             "name": "schmunk42/yii2-giiant",
-            "version": "0.10.1",
+            "version": "0.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmunk42/yii2-giiant.git",
-                "reference": "ba9db7865945b2c5543bca9f6fe4414a09f6500f"
+                "reference": "af8574f4be72dda7404c6c3f588ae2f5b21db124"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmunk42/yii2-giiant/zipball/ba9db7865945b2c5543bca9f6fe4414a09f6500f",
-                "reference": "ba9db7865945b2c5543bca9f6fe4414a09f6500f",
+                "url": "https://api.github.com/repos/schmunk42/yii2-giiant/zipball/af8574f4be72dda7404c6c3f588ae2f5b21db124",
+                "reference": "af8574f4be72dda7404c6c3f588ae2f5b21db124",
                 "shasum": ""
             },
             "require": {
@@ -1754,7 +1754,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2018-04-20T13:17:12+00:00"
+            "time": "2018-06-06T07:47:41+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

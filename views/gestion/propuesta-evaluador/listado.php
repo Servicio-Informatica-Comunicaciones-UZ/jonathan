@@ -8,6 +8,9 @@ use yii\helpers\Url;
 $this->title = Yii::t('jonathan', 'Asignaciones Propuesta⟷Evaluador');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+// Change background color
+$this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
 <h1><?php echo $this->title; ?></h1>

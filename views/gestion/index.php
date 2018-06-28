@@ -4,6 +4,9 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Gestión');
 $this->params['breadcrumbs'][] = $this->title;
+
+// Change background color
+$this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
 

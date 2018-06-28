@@ -1,6 +1,6 @@
 <?php
 /**
- * Job to send an e-mail (using the console configuration)
+ * Job to send an e-mail (using the console configuration).
  *
  * @author  Enrique Matías Sánchez <quique@unizar.es>
  * @license GPL-3.0+

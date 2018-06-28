@@ -4,19 +4,21 @@
  *
  * @author  Enrique Matías Sánchez <quique@unizar.es>
  * @license GPL-3.0+
+ *
+ * @see     https://gitlab.unizar.es
  */
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\assets\AppAsset;
-use app\models\Enlace;
-use app\widgets\Alert;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use app\assets\AppAsset;
+use app\models\Enlace;
+use app\widgets\Alert;
 
 AppAsset::register($this);
 $this->registerMetaTag([
@@ -31,20 +33,20 @@ $enlaces = array_map(function ($e) {
     return ['label' => $e->nombre, 'url' => $e->uri];
 }, Enlace::find()->all());
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage(); ?>
 <!DOCTYPE html>
-<html lang="<?php echo Html::encode(Yii::$app->language) ?>">
+<html lang="<?php echo Html::encode(Yii::$app->language); ?>">
 <head>
-    <meta charset="<?php echo Yii::$app->charset ?>">
+    <meta charset="<?php echo Yii::$app->charset; ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php echo Html::csrfMetaTags() ?>
-    <title><?php echo Html::encode($this->title) ?></title>
+    <?php echo Html::csrfMetaTags(); ?>
+    <title><?php echo Html::encode($this->title); ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo Url::home(); ?>favicon.ico">
-    <?php $this->head() ?>
+    <?php $this->head(); ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
+<?php $this->beginBody(); ?>
 
 <div class="wrap">
     <?php
@@ -139,13 +141,15 @@ $enlaces = array_map(function ($e) {
 <footer class="footer container">
     <div class="row">
         <div class="col-lg-8">
-            &copy; <?php echo date('Y') . ' ' . Yii::t('app', 'Universidad de Zaragoza'); ?><br>
-            &copy; <?php printf(
-                '%d %s (%s)',
+            <?php
+            printf("&copy; %s %s<br>\n", date('Y'), Yii::t('app', 'Universidad de Zaragoza'));
+            printf(
+                "&copy; %d %s (%s)\n",
                 date('Y'),
                 Yii::t('app', 'Servicio de Informática y Comunicaciones de la Universidad de Zaragoza'),
                 Html::a('SICUZ', 'http://sicuz.unizar.es')
-            ); ?>
+            );
+            ?>
         </div>
 
         <div class="col-lg-2" style="text-align: right;">
@@ -186,7 +190,7 @@ $enlaces = array_map(function ($e) {
     </p>
 </footer>
 
-<?php $this->endBody() ?>
+<?php $this->endBody(); ?>
 </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage(); ?>

@@ -8,6 +8,9 @@ $this->params['breadcrumbs'][] = [
     'url' => ['listado', 'rol' => $rol],
 ];
 $this->params['breadcrumbs'][] = $this->title;
+
+// Change background color
+$this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
 
