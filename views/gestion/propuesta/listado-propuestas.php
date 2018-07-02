@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
-<h1><?php echo $this->title; ?></h1>
+<h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <div class="table-responsive">
@@ -44,7 +44,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                             '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
                         ['//gestion/propuesta/ver', 'id' => $propuesta->id]
                     );
-                }
+                },
             ], [
                 'attribute' => 'user.profile.name',
                 'label' => Yii::t('jonathan', 'Responsable'),
@@ -53,6 +53,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                 'value' => function ($propuesta) {
                     // Se considera centro gestor al primero de la lista.
                     $centro_gestor = $propuesta->getPropuestaCentros()->orderBy(['id' => SORT_ASC])->limit(1)->one();
+
                     return $centro_gestor ? $centro_gestor->nombre_centro : null;
                 },
             ], [

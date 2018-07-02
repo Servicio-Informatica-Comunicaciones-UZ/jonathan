@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
-<h1><?php echo $this->title; ?></h1>
+<h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <div class="table-responsive">

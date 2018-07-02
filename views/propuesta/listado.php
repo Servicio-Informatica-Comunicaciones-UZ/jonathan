@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <h1>
-    <?php echo $this->title; ?>
+    <?php echo Html::encode($this->title); ?>
     <small>
         <?php echo Html::encode(Yii::$app->user->identity->profile->name); ?>
     </small>
@@ -30,12 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
                         ['ver', 'id' => $propuesta->id]
                     );
-                }
+                },
             ], [
                 'label' => Yii::t('jonathan', 'Centro gestor'),
                 'value' => function ($propuesta) {
                     // Se considera centro gestor al primero de la lista.
                     $centro_gestor = $propuesta->getPropuestaCentros()->orderBy(['id' => SORT_ASC])->limit(1)->one();
+
                     return $centro_gestor ? $centro_gestor->nombre_centro : null;
                 },
             ], [

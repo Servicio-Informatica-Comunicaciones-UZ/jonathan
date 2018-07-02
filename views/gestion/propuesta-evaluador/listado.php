@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 
-<h1><?php echo $this->title; ?></h1>
+<h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <div class="table-responsive">
@@ -36,6 +36,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                 'value' => function ($propuesta) {
                     $nombres = ArrayHelper::getColumn($propuesta->evaluadores, 'profile.name');
                     $nombres = array_map('\yii\helpers\Html::encode', $nombres);
+
                     return $nombres ? '<ul class="listado"><li>' . implode("</li>\n<li>", $nombres) . '</li></ul>' : null;
                 },
             ], [

@@ -7,13 +7,13 @@ $this->title = Yii::t('jonathan', 'Editar respuesta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas'), 'url' => ['propuesta/listado']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->propuesta->denominacion,
-    'url' => ['propuesta/ver', 'id' => $model->propuesta_id]
+    'url' => ['propuesta/ver', 'id' => $model->propuesta_id],
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1>
-    <?php echo $this->title; ?>
+    <?php echo Html::encode($this->title); ?>
     <small>
         <?php echo Html::encode($model->propuesta->denominacion); ?>
     </small>
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             sprintf(
                 Yii::t('jonathan', 'Máximo: %d caracteres, aprox. %d palabras'),
                 $model->pregunta->max_longitud,
-                floor($model->pregunta->max_longitud/5)
+                floor($model->pregunta->max_longitud / 5)
             )
         )
         ->textarea(['maxlength' => $model->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
