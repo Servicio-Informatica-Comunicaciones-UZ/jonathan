@@ -25,7 +25,9 @@
         "yiisoft/yii2-queue": "^2.1",
         "dawood/phpchromepdf": "^1.3",
         "cocur/background-process": "^0.7.0",
-        "apaoww/yii2-oci8": "dev-master"
+        "apaoww/yii2-oci8": "dev-master",
+        "npm-asset/puppeteer": "^1.5",
+        "spatie/browsershot": "^3.22"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -39,7 +41,10 @@
     "config": {
         "process-timeout": 1800,
         "fxp-asset": {
-            "enabled": false
+            "enabled": false,
+            "resolutions": {
+                "npm-asset/debug": "^3.1"
+            }
         }
     },
     "scripts": {
