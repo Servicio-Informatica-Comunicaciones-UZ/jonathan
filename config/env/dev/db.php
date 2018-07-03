@@ -18,5 +18,6 @@ return [
         'dsn' => 'oci8:dbname=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oraculo.unizar.es)(PORT=1521))(CONNECT_DATA=(SID=FOOBAR)));charset=WE8ISO8859P1;',
         'username' => 'ident',
         'password' => 'ident',
+        'attributes' => [],
     ],
 ];
