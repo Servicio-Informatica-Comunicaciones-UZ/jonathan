@@ -1,6 +1,6 @@
 <?php
 /**
- * Job to save a page as a PDF file using headless chrome/chromium.
+ * Job to save a page as a PDF file using headless chrome/chromium via Puppeteer.
  *
  * @author  Enrique Matías Sánchez <quique@unizar.es>
  * @license GPL-3.0+
@@ -8,8 +8,9 @@
 
 namespace app\jobs;
 
+use Yii;
 use yii\base\BaseObject;
-use dawood\phpChrome\Chrome;
+use Spatie\Browsershot\Browsershot;
 
 /**
  * This is a background job to be executed by Yii2-queue.
@@ -23,10 +24,10 @@ class PrintPdfJob extends BaseObject implements \yii\queue\JobInterface
 
     public function execute($queue)
     {
-        $chrome = new Chrome($this->url, $this->chromePath);
-        $chrome->setOutputDirectory($this->outputDirectory);
-        // Not necessary to set window size
-        // $chrome->setWindowSize($width = 1280, $height = 768);
-        $chrome->getPdf("{$this->outputDirectory}/{$this->filename}");
+        Browsershot::url($this->url)
+            ->setNodeModulePath(Yii::getAlias('@vendor/npm-asset'))
+            ->setChromePath($this->chromePath)
+            ->paperSize(297, 210)
+            ->save("{$this->outputDirectory}/{$this->filename}");
     }
 }
