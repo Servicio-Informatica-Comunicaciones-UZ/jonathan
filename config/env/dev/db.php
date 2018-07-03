@@ -14,8 +14,8 @@ return [
         //'schemaCache' => 'cache',
     ],
     'identidades' => [
-        'class' => 'yii\db\Connection',
-        'dsn' => 'oci:dbname=//172.16.17.18:1521/FOOBAR;charset=UTF8',
+        'class' => 'apaoww\oci8\Oci8DbConnection',  // Requires apaoww/yii2-oci8
+        'dsn' => 'oci8:dbname=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oraculo.unizar.es)(PORT=1521))(CONNECT_DATA=(SID=FOOBAR)));charset=WE8ISO8859P1;',
         'username' => 'ident',
         'password' => 'ident',
     ],

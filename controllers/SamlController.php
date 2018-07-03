@@ -53,13 +53,15 @@ class SamlController extends Controller
         // If it is the first time the user logs in, let's add it to the database.
         if (!$user) {
             $user = new User;
+            $identidad = User::findIdentidadByNip($nip);  // Defined as UNIQUE in the database.
+
             $user->username = $nip;
-            $user->email = User::findEmailByNip($nip);  // Defined as UNIQUE in the database.
+            $user->email = $identidad['CORREO_PRINCIPAL'];
             $user->password_hash = $attributes['businessCategory'][0];  // Just because it is defined as NOT NULL in DB.
             $user->save();
 
             $profile = Profile::findOne(['user_id' => $user->id]);
-            $profile->name = $attributes['cn'][0];
+            $profile->name = "{$identidad['NOMBRE']} {$identidad['APELLIDO_1']} {$identidad['APELLIDO_2']}";  // $attributes['cn'][0];
             $profile->gravatar_email = $user->email;
             // TODO: Extender el profile para guardar el colectivo, nombres y apellidos por separado, etc.
             $profile->save();

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4495108dd4ff8655423eedbb506da4f4",
+    "content-hash": "a00c370ae48591edb7eacc411eeb7df7",
     "packages": [
         {
             "name": "2amigos/2fa-library",
@@ -283,6 +283,51 @@
                 "yii2-user"
             ],
             "time": "2018-02-19T19:37:10+00:00"
+        },
+        {
+            "name": "apaoww/yii2-oci8",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apaoww/yii2-oci8.git",
+                "reference": "ea23f63bc5d537500c615d1ca12600df5041aefa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apaoww/yii2-oci8/zipball/ea23f63bc5d537500c615d1ca12600df5041aefa",
+                "reference": "ea23f63bc5d537500c615d1ca12600df5041aefa",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "apaoww\\oci8\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Apa Oww",
+                    "email": "apa.oww@gmail.com"
+                }
+            ],
+            "description": "Oci8 Driver for Yii2 ",
+            "keywords": [
+                "oci8",
+                "yii"
+            ],
+            "time": "2018-05-31T07:28:58+00:00"
         },
         {
             "name": "asasmoyo/yii2-saml",
@@ -2268,16 +2313,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.0.9",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "d7dc1ee5dfe9f732cb1bba7310f5b99f2b7a6d25"
+                "reference": "1d1677391ecf00d1c5b9482d6050c0c27aa3ac3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/d7dc1ee5dfe9f732cb1bba7310f5b99f2b7a6d25",
-                "reference": "d7dc1ee5dfe9f732cb1bba7310f5b99f2b7a6d25",
+                "url": "https://api.github.com/repos/symfony/process/zipball/1d1677391ecf00d1c5b9482d6050c0c27aa3ac3a",
+                "reference": "1d1677391ecf00d1c5b9482d6050c0c27aa3ac3a",
                 "shasum": ""
             },
             "require": {
@@ -2286,7 +2331,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -2313,7 +2358,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2018-04-03T05:24:00+00:00"
+            "time": "2018-05-31T10:17:53+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -5153,7 +5198,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "schmunk42/yii2-giiant": 0
+        "schmunk42/yii2-giiant": 0,
+        "apaoww/yii2-oci8": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

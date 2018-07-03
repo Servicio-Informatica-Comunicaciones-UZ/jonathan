@@ -9,6 +9,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use \Da\User\Model\User as BaseUser;
 
@@ -29,9 +30,27 @@ class User extends BaseUser
     }
 
     /**
+     * Busca en Gestión de Identidades la identidad correspondiente a un NIP.
+     */
+    public static function findIdentidadByNip($nip)
+    {
+        $query = (new Query())
+            ->select('*')
+            ->from(['i' => 'GESTIDEN.GI_V_IDENTIDAD'])
+            ->where(['i.NIP' => $nip]);
+
+        $command = $query->createCommand(Yii::$app->dbident);
+        // die(var_dump($command->rawSql));  // Returns the raw SQL by inserting parameter values into the corresponding placeholders
+        $identidad = $command->queryOne();
+        $identidad = array_map('utf8_encode', $identidad);
+
+        return $identidad;
+    }
+
+    /**
      * Busca en la rama correo del LDAP la dirección correspondiente a un NIP.
      */
-    public static function findEmailByNip($nip)
+    public static function findEmailInLdapByNip($nip)
     {
         $ldap_host = Yii::$app->params['ldap']['host'];
         $ldap_port = Yii::$app->params['ldap']['port'];
