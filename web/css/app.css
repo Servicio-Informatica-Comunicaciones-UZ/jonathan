@@ -101,12 +101,14 @@ body {
 }
 
 h3 {
+    color: #000080;
     font-family: 'LatoLatinWebLight', sans-serif;
     font-weight: 100;
     margin: 3rem 0 2rem;
 }
 
 h2 {
+    color: #000080;
     margin: 3rem 0 2rem;
 }
 
@@ -137,10 +139,13 @@ h1 a:hover {
     body {
         font-size: 12pt;
         /* URW Bookman taken from Debian package libgs9-common */
-        font-family: 'URW Bookman L', Garamond, Palatino, 'Times New Roman', Times, serif;
+        font-family: 'URW Bookman L', 'Bookman', 'EB Garamond 12', Garamond, 'Gentium', Palatino, 'Liberation Serif', 'Times New Roman', Times, serif;
         line-height: normal;
-        margin-right: 1cm;
-        margin-left: 1.5cm;
+        margin: 0cm;
+    }
+
+    .pregunta {
+        font-family: 'URW Bookman L', 'Bookman', 'Gentium', Palatino, 'Liberation Serif', 'Times New Roman', Times, serif;
     }
 
     .listado { margin-left: -3rem; }
@@ -152,8 +157,8 @@ h1 a:hover {
         font-size: 80%;
     }
     h1 { font-size: 20pt; }
-    h2 { font-size: 18pt; }
-    h3 { font-size: 16pt; }
+    h2 { font-size: 18pt; color: #000080; }
+    h3 { font-size: 16pt; color: #000080; }
     h4 { font-size: 14pt; }
 
     .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {

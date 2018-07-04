@@ -11,7 +11,7 @@
  */
 
 @font-face {
-    font-family: 'URWBookman';
+    font-family: 'URW Bookman L';
     src: url('fonts/bookman/URWBookman-Light.eot'); /* IE9 Compat Modes */
     src: url('fonts/bookman/URWBookman-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('fonts/bookman/URWBookman-Light.woff2') format('woff2'), /* Modern Browsers */
@@ -23,7 +23,7 @@
 }
 
 @font-face {
-    font-family: 'URWBookman';
+    font-family: 'URW Bookman L';
     src: url('fonts/bookman/URWBookman-Demi.eot'); /* IE9 Compat Modes */
     src: url('fonts/bookman/URWBookman-Demi.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('fonts/bookman/URWBookman-Demi.woff2') format('woff2'), /* Modern Browsers */
@@ -35,7 +35,7 @@
 }
 
 @font-face {
-    font-family: 'URWBookman';
+    font-family: 'URW Bookman L';
     src: url('fonts/bookman/URWBookman-LightItalic.eot'); /* IE9 Compat Modes */
     src: url('fonts/bookman/URWBookman-LightItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('fonts/bookman/URWBookman-LightItalic.woff2') format('woff2'), /* Modern Browsers */
@@ -47,7 +47,7 @@
 }
 
 @font-face {
-    font-family: 'URWBookman';
+    font-family: 'URW Bookman L';
     src: url('fonts/bookman/URWBookman-DemiItalic.eot'); /* IE9 Compat Modes */
     src: url('fonts/bookman/URWBookman-DemiItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('fonts/bookman/URWBookman-DemiItalic.woff2') format('woff2'), /* Modern Browsers */
@@ -57,4 +57,3 @@
     font-weight: bold;
     text-rendering: optimizeLegibility;
 }
-

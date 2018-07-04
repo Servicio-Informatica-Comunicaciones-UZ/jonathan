@@ -146,7 +146,7 @@ if (Estado::BORRADOR == $model->estado_id) {
 /* Preguntas y respuestas de la propuesta */
 foreach ($preguntas as $pregunta) {
     echo "<br>\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
-    echo '<p><strong>' . Html::encode($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    echo "<p class='pregunta'><strong>" . Html::encode($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
     $respuestas = array_filter($model->respuestas, function ($r) use ($pregunta) {
         return $r->pregunta_id == $pregunta->id;
     });

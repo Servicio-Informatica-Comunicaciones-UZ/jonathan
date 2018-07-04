@@ -442,6 +442,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'url' => Url::to(['propuesta/ver', 'id' => $id], true),
             'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
             'filename' => "{$id}.pdf",
+            'margins' => [20, 25, 20, 30],  // top, right, bottom, left
         ]));
 
         // Encolamos otra tarea a continuación de la anterior, para enviar correo.

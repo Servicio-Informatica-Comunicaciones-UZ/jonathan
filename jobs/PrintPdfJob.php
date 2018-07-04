@@ -19,15 +19,18 @@ class PrintPdfJob extends BaseObject implements \yii\queue\JobInterface
 {
     public $chromePath;
     public $filename;
+    public $margins;
     public $outputDirectory;
     public $url;
 
     public function execute($queue)
     {
+        $margins = $this->margins;
         Browsershot::url($this->url)
             ->setNodeModulePath(Yii::getAlias('@vendor/npm-asset'))
             ->setChromePath($this->chromePath)
             ->paperSize(297, 210)
+            ->margins($margins[0], $margins[1], $margins[2], $margins[3])  // top, right, bottom, left
             ->save("{$this->outputDirectory}/{$this->filename}");
     }
 }
