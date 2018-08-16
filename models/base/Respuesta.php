@@ -16,6 +16,7 @@ use Yii;
  *
  * @property \app\models\Pregunta $pregunta
  * @property \app\models\Propuesta $propuesta
+ * @property \app\models\Valoracion[] $valoracions
  * @property string $aliasModel
  */
 abstract class Respuesta extends \yii\db\ActiveRecord
@@ -71,6 +72,14 @@ abstract class Respuesta extends \yii\db\ActiveRecord
     public function getPropuesta()
     {
         return $this->hasOne(\app\models\Propuesta::className(), ['id' => 'propuesta_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getValoracions()
+    {
+        return $this->hasMany(\app\models\Valoracion::className(), ['respuesta_id' => 'id']);
     }
 
 

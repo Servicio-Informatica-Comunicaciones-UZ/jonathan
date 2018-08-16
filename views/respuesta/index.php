@@ -42,7 +42,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
         <div class="pull-right">
 
-                                                                                
+                                                                                                            
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -62,6 +62,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 [
                 'url' => ['propuesta/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-left"></i> ' . Yii::t('models', 'Propuesta'),
+            ],
+                                [
+                'url' => ['valoracion/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Valoracion'),
             ],
                     
 ]

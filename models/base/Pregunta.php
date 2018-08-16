@@ -17,6 +17,7 @@ use Yii;
  * @property integer $orden
  * @property integer $tipo_estudio_id
  *
+ * @property \app\models\Bloque[] $bloques
  * @property \app\models\TipoEstudio $tipoEstudio
  * @property \app\models\Respuesta[] $respuestas
  * @property string $aliasModel
@@ -61,6 +62,14 @@ abstract class Pregunta extends \yii\db\ActiveRecord
             'orden' => Yii::t('models', 'Orden'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBloques()
+    {
+        return $this->hasMany(\app\models\Bloque::className(), ['pregunta_id' => 'id']);
     }
 
     /**

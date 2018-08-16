@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = 'View';
     <h1>
         <?= Yii::t('models', 'Pregunta') ?>
         <small>
-            <?= $model->id ?>
+            <?= Html::encode($model->id) ?>
         </small>
     </h1>
 
@@ -104,6 +104,68 @@ $this->params['breadcrumbs'][] = 'View';
 
 
     
+<?php $this->beginBlock('Bloques'); ?>
+<div style='position: relative'>
+<div style='position:absolute; right: 0px; top: 0px;'>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-list"></span> ' . 'List All' . ' Bloques',
+            ['bloque/index'],
+            ['class'=>'btn text-muted btn-xs']
+        ) ?>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . 'New' . ' Bloque',
+            ['bloque/create', 'Bloque' => ['pregunta_id' => $model->id]],
+            ['class'=>'btn btn-success btn-xs']
+        ); ?>
+</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-Bloques', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Bloques ul.pagination a, th a']) ?>
+<?=
+ '<div class="table-responsive">'
+ . \yii\grid\GridView::widget([
+    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getBloques(),
+        'pagination' => [
+            'pageSize' => 20,
+            'pageParam'=>'page-bloques',
+        ]
+    ]),
+    'pager'        => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => 'First',
+        'lastPageLabel'  => 'Last'
+    ],
+    'columns' => [
+ [
+    'class'      => 'yii\grid\ActionColumn',
+    'template'   => '{view} {update}',
+    'contentOptions' => ['nowrap'=>'nowrap'],
+    'urlCreator' => function ($action, $model, $key, $index) {
+        // using the column name as key, not mapping to 'id' like the standard generator
+        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        $params[0] = 'bloque' . '/' . $action;
+        $params['Bloque'] = ['pregunta_id' => $model->primaryKey()[0]];
+        return $params;
+    },
+    'buttons'    => [
+        
+    ],
+    'controller' => 'bloque'
+],
+        'id',
+        'titulo',
+        'descripcion:ntext',
+        'porcentaje',
+        'es_nota_interna',
+]
+])
+ . '</div>' 
+?>
+<?php Pjax::end() ?>
+<?php $this->endBlock() ?>
+
+
 <?php $this->beginBlock('Respuestas'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
@@ -182,9 +244,14 @@ $this->params['breadcrumbs'][] = 'View';
                      'encodeLabels' => false,
                      'items' => [
  [
-    'label'   => '<b class=""># '.$model->id.'</b>',
+    'label'   => '<b class=""># '.Html::encode($model->id).'</b>',
     'content' => $this->blocks['app\models\Pregunta'],
     'active'  => true,
+],
+[
+    'content' => $this->blocks['Bloques'],
+    'label'   => '<small>Bloques <span class="badge badge-default">'. $model->getBloques()->count() . '</span></small>',
+    'active'  => false,
 ],
 [
     'content' => $this->blocks['Respuestas'],
