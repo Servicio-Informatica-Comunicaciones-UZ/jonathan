@@ -139,18 +139,18 @@ echo DetailView::widget([
 /*̣ ⸻⸻⸻⸻⸻⸻⸻⸻ Preguntas y respuestas de la propuesta ⸻⸻⸻⸻⸻⸻⸻⸻ */
 
 foreach ($preguntas as $pregunta) {
-    echo "<br>\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
-    echo "<p class='pregunta'><strong>" . Html::encode($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    echo "<br>\n\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
+    echo "<p class='pregunta'><strong>" .  nl2br(Html::encode($pregunta->descripcion)) . '</strong></p>' . PHP_EOL;
 
     $respuesta = $respuestas[$pregunta->id];
-    echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
+    echo '<p>' . nl2br(Html::encode($respuesta->valor)) . "</p>\n\n";
 
     $bloques = $pregunta->bloques;
-    echo "<div style='background-color: #e9e9ee; border-radius: 3rem; padding: 0.1rem 2rem 2rem 3rem;'>";
     foreach ($bloques as $bloque) {
+        echo "<div class='cuadro-gris'>\n";
         $valoracion = $bloque->getValoracions()->one();  // FIXME Sólo las de este valorador
         echo "<h3>{$bloque->titulo}</h3>\n";
-        echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . '</p>' . PHP_EOL;
+        echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
 
         printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Comentarios'));
         if ($valoracion) {
@@ -158,21 +158,23 @@ foreach ($preguntas as $pregunta) {
         }
         printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación'));
         if ($valoracion) {
-            echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . '</p>' . PHP_EOL;
+            echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</p>\n\n";
         }
+
+        if (Estado::APROB_INTERNA == $model->estado_id) {
+            echo Html::a(
+                '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
+                $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
+                            : ['evaluador/valoracion/crear', 'bloque_id' => $bloque->id, 'respuesta_id' => $respuesta->id],
+                ['id' => "editar-valoracion-{$bloque->id}", 'class' => 'btn btn-info']
+            ) . "<br>\n";
+        }
+        echo "</div>\n";
     }
-    if (Estado::APROB_INTERNA == $model->estado_id) {
-        echo Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
-            $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
-                        : ['evaluador/valoracion/crear', 'bloque_id' => $bloque->id, 'respuesta_id' => $respuesta->id],
-            ['id' => "editar-valoracion-{$bloque->id}", 'class' => 'btn btn-info']
-        ) . "<br>\n\n";
-    }
-    echo "</div>\n";
 }
 
 echo "<hr><br>\n";
+// FIXME usar estado de la asignación
 if (Estado::BORRADOR == $model->estado_id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
