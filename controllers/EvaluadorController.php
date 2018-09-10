@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\ForbiddenHttpException;
+use app\models\Propuesta;
+use app\models\PropuestaEvaluador;
 
 /**
  * This is the class for controller "EvaluadorController".
@@ -23,7 +25,7 @@ class EvaluadorController extends \app\controllers\base\AppController
                 ],
                 'denyCallback' => function ($rule, $action) {
                     if (Yii::$app->user->isGuest) {
-                        return Yii::$app->getResponse()->redirect(['//saml/login']);
+                        return Yii::$app->getResponse()->redirect(['//user/login']);
                     }
                     throw new ForbiddenHttpException(
                         Yii::t('app', 'No tiene permisos para acceder a esta página. 😨')
@@ -38,6 +40,20 @@ class EvaluadorController extends \app\controllers\base\AppController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $asignadasQuery = Propuesta::find()->delEvaluador(Yii::$app->user->id);
+
+        $asignadasDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $asignadasQuery,
+            'pagination' => false,
+            'sort' => [
+                'attributes' => ['anyo', 'denominacion'],
+                'defaultOrder' => [
+                    'anyo' => SORT_DESC,
+                    'denominacion' => SORT_ASC,
+                ],
+            ],
+        ]);
+
+        return $this->render('index', ['asignadasDataProvider' => $asignadasDataProvider]);
     }
 }

@@ -11,7 +11,6 @@ use yii\helpers\ArrayHelper;
  */
 class Valoracion extends BaseValoracion
 {
-
     public function behaviors()
     {
         return ArrayHelper::merge(
@@ -28,6 +27,23 @@ class Valoracion extends BaseValoracion
             parent::rules(),
             [
                 # custom validation rules
+                [['puntuacion'], 'number', 'min' => 0.0, 'max' => 5.0],
+            ]
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(
+            parent::attributeLabels(),
+            [
+                'id' => Yii::t('models', 'ID'),
+                'propuesta_id' => Yii::t('models', 'ID de la propuesta'),
+                'bloque_id' => Yii::t('models', 'ID del bloque'),
+                'respuesta_id' => Yii::t('models', 'ID de la respuesta'),
+                'user_id' => Yii::t('models', 'ID del usuario'),
+                'comentarios' => Yii::t('models', 'Comentarios'),
+                'puntuacion' => Yii::t('models', 'Puntuación'),
             ]
         );
     }

@@ -71,6 +71,15 @@ abstract class PropuestaEvaluador extends \yii\db\ActiveRecord
     }
 
 
+    
+    /**
+     * @inheritdoc
+     * @return \app\models\PropuestaEvaluadorQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\PropuestaEvaluadorQuery(get_called_class());
+    }
 
 
 }

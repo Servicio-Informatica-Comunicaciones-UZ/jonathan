@@ -15,7 +15,7 @@ use Yii;
  * @property integer $respuesta_id
  * @property integer $user_id
  * @property string $comentarios
- * @property string $nota
+ * @property string $puntuacion
  *
  * @property \app\models\Bloque $bloque
  * @property \app\models\Propuesta $propuesta
@@ -44,7 +44,7 @@ abstract class Valoracion extends \yii\db\ActiveRecord
         return [
             [['propuesta_id', 'bloque_id', 'respuesta_id', 'user_id'], 'integer'],
             [['comentarios'], 'string'],
-            [['nota'], 'number'],
+            [['puntuacion'], 'number'],
             [['bloque_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Bloque::className(), 'targetAttribute' => ['bloque_id' => 'id']],
             [['propuesta_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Propuesta::className(), 'targetAttribute' => ['propuesta_id' => 'id']],
             [['respuesta_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Respuesta::className(), 'targetAttribute' => ['respuesta_id' => 'id']],
@@ -64,7 +64,7 @@ abstract class Valoracion extends \yii\db\ActiveRecord
             'respuesta_id' => Yii::t('models', 'Respuesta ID'),
             'user_id' => Yii::t('models', 'User ID'),
             'comentarios' => Yii::t('models', 'Comentarios'),
-            'nota' => Yii::t('models', 'Nota'),
+            'puntuacion' => Yii::t('models', 'Puntuacion'),
         ];
     }
 
@@ -101,6 +101,15 @@ abstract class Valoracion extends \yii\db\ActiveRecord
     }
 
 
+    
+    /**
+     * @inheritdoc
+     * @return \app\models\ValoracionQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\ValoracionQuery(get_called_class());
+    }
 
 
 }

@@ -128,11 +128,10 @@ class Propuesta extends BasePropuesta
     /** Devuelve los usuarios evaluadores de una propuesta */
     public function getEvaluadores()
     {
-        $asignaciones = $this->getPropuestaEvaluadors()->all();
-        $evaluadores = array_map(function ($asignacion) {
-            return $asignacion->user;
-        }, $asignaciones);
+        $asignaciones = $this->propuestaEvaluadors;
+        $evaluadores = ArrayHelper::getColumn($asignaciones, 'user');
         usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
+
         return $evaluadores;
     }
 }

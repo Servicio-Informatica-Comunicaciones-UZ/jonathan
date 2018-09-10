@@ -196,6 +196,15 @@ abstract class Propuesta extends \yii\db\ActiveRecord
     }
 
 
+    
+    /**
+     * @inheritdoc
+     * @return \app\models\PropuestaQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\PropuestaQuery(get_called_class());
+    }
 
 
 }

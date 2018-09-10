@@ -89,6 +89,15 @@ abstract class Pregunta extends \yii\db\ActiveRecord
     }
 
 
+    
+    /**
+     * @inheritdoc
+     * @return \app\models\PreguntaQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\PreguntaQuery(get_called_class());
+    }
 
 
 }
