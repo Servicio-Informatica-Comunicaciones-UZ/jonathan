@@ -14,7 +14,7 @@ use Yii;
  * @property string $titulo
  * @property string $descripcion
  * @property string $porcentaje
- * @property integer $es_nota_interna
+ * @property integer $tiene_puntuacion_interna
  *
  * @property \app\models\Pregunta $pregunta
  * @property \app\models\Valoracion[] $valoracions
@@ -39,7 +39,7 @@ abstract class Bloque extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pregunta_id', 'es_nota_interna'], 'integer'],
+            [['pregunta_id', 'tiene_puntuacion_interna'], 'integer'],
             [['descripcion'], 'string'],
             [['porcentaje'], 'number'],
             [['titulo'], 'string', 'max' => 100],
@@ -58,7 +58,7 @@ abstract class Bloque extends \yii\db\ActiveRecord
             'titulo' => Yii::t('models', 'Titulo'),
             'descripcion' => Yii::t('models', 'Descripcion'),
             'porcentaje' => Yii::t('models', 'Porcentaje'),
-            'es_nota_interna' => Yii::t('models', 'Es Nota Interna'),
+            'tiene_puntuacion_interna' => Yii::t('models', 'Tiene Puntuacion Interna'),
         ];
     }
 

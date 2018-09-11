@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('evaluador', 'Editar evaluación');
+$this->title = Yii::t('evaluador', 'Nueva evaluación');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas asignadas'), 'url' => ['evaluador/index']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->propuesta->denominacion,
@@ -17,14 +17,6 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
-
-<?php if ($model->respuesta) {
-    ?>
-    <h2><?php echo Html::encode($model->respuesta->pregunta->titulo); ?></h2>
-    <p class='pregunta'><strong><?php echo Html::encode($model->respuesta->pregunta->descripcion); ?></strong></p>
-    <p><?php echo nl2br(Html::encode($model->respuesta->valor)); ?></p>
-    <?php
-} ?>
 
 <div class='cuadro-gris'>
     <h3><?php echo $model->bloque->titulo; ?></h3>

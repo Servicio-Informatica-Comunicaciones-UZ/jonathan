@@ -45,13 +45,13 @@ use yii\helpers\StringHelper;
 $form->field($model, 'pregunta_id')->dropDownList(
     \yii\helpers\ArrayHelper::map(app\models\Pregunta::find()->all(), 'id', 'id'),
     [
-        'prompt' => 'Select',
+        'prompt' => Yii::t('cruds', 'Select'),
         'disabled' => (isset($relAttributes) && isset($relAttributes['pregunta_id'])),
     ]
 ); ?>
 
-<!-- attribute es_nota_interna -->
-			<?= $form->field($model, 'es_nota_interna')->textInput() ?>
+<!-- attribute tiene_puntuacion_interna -->
+			<?= $form->field($model, 'tiene_puntuacion_interna')->textInput() ?>
 
 <!-- attribute descripcion -->
 			<?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
@@ -84,7 +84,7 @@ $form->field($model, 'pregunta_id')->dropDownList(
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? 'Create' : 'Save'),
+        ($model->isNewRecord ? Yii::t('cruds', 'Create') : Yii::t('cruds', 'Save')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'

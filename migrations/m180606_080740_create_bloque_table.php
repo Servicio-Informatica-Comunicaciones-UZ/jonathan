@@ -18,7 +18,7 @@ class m180606_080740_create_bloque_table extends Migration
             'titulo' => $this->string(100),
             'descripcion' => $this->text(),
             'porcentaje' => $this->decimal(5, 2),
-            'es_nota_interna' => $this->boolean(),
+            'tiene_puntuacion_interna' => $this->boolean(),
         ]);
         $this->addForeignKey(
             'fk-bloque-pregunta_id',

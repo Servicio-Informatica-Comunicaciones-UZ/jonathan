@@ -41,10 +41,12 @@ use app\models\Valoracion;
         ->textArea(['maxlength' => true, 'rows' => 6]) . "\n\n";
 
     // attribute puntuacion
-    echo $form->field($model, 'puntuacion')
-        ->input('number', ['min' => 0.0, 'max' => 5.0, 'step' => 0.1])
-        // ->input('range', ['min' => 0.0, 'max' => 5.0, 'step' => 0.1])
-        ->hint(Yii::t('jonathan', 'De 0,0 a 5,0')) . "\n\n";
+    if (!$model->bloque->tiene_puntuacion_interna) {
+        echo $form->field($model, 'puntuacion')
+            ->input('number', ['min' => 0.0, 'max' => 5.0, 'step' => 0.1])
+            // ->input('range', ['min' => 0.0, 'max' => 5.0, 'step' => 0.1])
+            ->hint(Yii::t('jonathan', 'De 0,0 a 5,0')) . "\n\n";
+    }
 
     echo $form->errorSummary($model) . "\n";
     ?>

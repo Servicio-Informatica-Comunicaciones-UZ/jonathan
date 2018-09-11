@@ -16,7 +16,7 @@ $copyParams = $model->attributes;
 $this->title = Yii::t('models', 'Bloque');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Bloques'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'View';
+$this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
 ?>
 <div class="giiant-crud bloque-view">
 
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = 'View';
     <h1>
         <?= Yii::t('models', 'Bloque') ?>
         <small>
-            <?= $model->id ?>
+            <?= Html::encode($model->id) ?>
         </small>
     </h1>
 
@@ -42,24 +42,24 @@ $this->params['breadcrumbs'][] = 'View';
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . 'Edit',
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('cruds', 'Edit'),
             [ 'update', 'id' => $model->id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . 'Copy',
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('cruds', 'Copy'),
             ['create', 'id' => $model->id, 'Bloque'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . 'New',
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . 'Full list', ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('cruds', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = 'View';
         : 
         '<span class="label label-warning">?</span>'),
 ],
-        'es_nota_interna',
+        'tiene_puntuacion_interna',
         'descripcion:ntext',
         'porcentaje',
         'titulo',
@@ -93,10 +93,10 @@ $this->params['breadcrumbs'][] = 'View';
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . 'Delete', ['delete', 'id' => $model->id],
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('cruds', 'Delete'), ['delete', 'id' => $model->id],
     [
     'class' => 'btn btn-danger',
-    'data-confirm' => '' . 'Are you sure to delete this item?' . '',
+    'data-confirm' => '' . Yii::t('cruds', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
     ]); ?>
     <?php $this->endBlock(); ?>
@@ -107,12 +107,12 @@ $this->params['breadcrumbs'][] = 'View';
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-list"></span> ' . 'List All' . ' Valoracions',
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Valoracions',
             ['valoracion/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . 'New' . ' Valoracion',
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Valoracion',
             ['valoracion/create', 'Valoracion' => ['bloque_id' => $model->id]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
@@ -132,8 +132,8 @@ $this->params['breadcrumbs'][] = 'View';
     ]),
     'pager'        => [
         'class'          => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => 'First',
-        'lastPageLabel'  => 'Last'
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
     ],
     'columns' => [
  [
@@ -193,7 +193,7 @@ $this->params['breadcrumbs'][] = 'View';
     'format' => 'raw',
 ],
         'comentarios:ntext',
-        'nota',
+        'puntuacion',
 ]
 ])
  . '</div>' 
@@ -208,7 +208,7 @@ $this->params['breadcrumbs'][] = 'View';
                      'encodeLabels' => false,
                      'items' => [
  [
-    'label'   => '<b class=""># '.$model->id.'</b>',
+    'label'   => '<b class=""># '.Html::encode($model->id).'</b>',
     'content' => $this->blocks['app\models\Bloque'],
     'active'  => true,
 ],

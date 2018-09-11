@@ -143,9 +143,9 @@ foreach ($preguntas as $pregunta) {
     echo "<p class='pregunta'><strong>" .  nl2br(Html::encode($pregunta->descripcion)) . '</strong></p>' . PHP_EOL;
 
     $respuesta = $respuestas[$pregunta->id];
-    echo '<p>' . nl2br(Html::encode($respuesta->valor)) . "</p>\n\n";
+    echo '<p>' . nl2br(Html::encode($respuesta->valor)) . "</p><br>\n\n";
 
-    /* Valoración de las respuestas */
+    /* Valoración de las respuestas de cada pregunta */
     $bloques = $pregunta->bloques;
     foreach ($bloques as $bloque) {
         echo "<div class='cuadro-gris'>\n";
@@ -157,12 +157,14 @@ foreach ($preguntas as $pregunta) {
         if ($valoracion) {
             echo '<p>' . nl2br(Html::encode($valoracion->comentarios)) . '</p>' . PHP_EOL;
         }
-        printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación'));
-        if ($valoracion) {
-            echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</p>\n\n";
+        if (!$bloque->tiene_puntuacion_interna) {
+            printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación'));
+            if ($valoracion) {
+                echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</p>\n\n";
+            }
         }
 
-        if (Estado::APROB_INTERNA == $model->estado_id) {
+        if (Estado::APROB_INTERNA == $model->estado_id) {  // FIXME usar estado de la asignación
             echo Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
                 $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
@@ -170,8 +172,37 @@ foreach ($preguntas as $pregunta) {
                 ['id' => "editar-valoracion-{$bloque->id}", 'class' => 'btn btn-info']
             ) . "<br>\n";
         }
-        echo "</div>\n";
+        echo "</div><br>\n";
     }
+}
+
+/* Valoración de los bloques independientes de preguntas */
+foreach ($bloques_autonomos as $bloque) {
+    echo "<div class='cuadro-gris'>\n";
+    $valoracion = $bloque->getValoracions()->delEvaluador(Yii::$app->user->id)->one();
+    echo "<h3>{$bloque->titulo}</h3>\n";
+    echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
+
+    printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Comentarios'));
+    if ($valoracion) {
+        echo '<p>' . nl2br(Html::encode($valoracion->comentarios)) . '</p>' . PHP_EOL;
+    }
+    if (!$bloque->tiene_puntuacion_interna) {
+        printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación'));
+        if ($valoracion) {
+            echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</p>\n\n";
+        }
+    }
+
+    if (Estado::APROB_INTERNA == $model->estado_id) {  // FIXME usar estado de la asignación
+        echo Html::a(
+            '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
+            $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
+                        : ['evaluador/valoracion/crear-autonoma', 'bloque_id' => $bloque->id, 'propuesta_id' => $model->id],
+            ['id' => "editar-valoracion-{$bloque->id}", 'class' => 'btn btn-info']
+        ) . "<br>\n";
+    }
+    echo "</div>\n";
 }
 
 echo "<hr><br>\n";

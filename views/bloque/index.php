@@ -16,7 +16,7 @@ if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
 } else {
-Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']);
+Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New'), ['create'], ['class' => 'btn btn-success']);
     $actionColumnTemplateString = "{view} {update} {delete}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
@@ -37,7 +37,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
@@ -48,7 +48,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             [
             'id' => 'giiant-relations',
             'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . 'Relations',
+            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('cruds', 'Relations'),
             'dropdown' => [
             'options' => [
             'class' => 'dropdown-menu-right'
@@ -82,8 +82,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         'dataProvider' => $dataProvider,
         'pager' => [
         'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => 'First',
-        'lastPageLabel' => 'Last',
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel' => Yii::t('cruds', 'Last'),
         ],
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
@@ -122,7 +122,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			    },
 			    'format' => 'raw',
 			],
-			'es_nota_interna',
+			'tiene_puntuacion_interna',
 			'descripcion:ntext',
 			'porcentaje',
 			'titulo',

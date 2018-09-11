@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
+use app\models\Bloque;
 use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
@@ -64,6 +65,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
 
         return $this->render('ver', [
+            'bloques_autonomos' => Bloque::find()->where(['pregunta_id' => null])->all(),
             'model' => $propuesta,
             'preguntas' => $preguntas,
             'respuestas' => $respuestas,

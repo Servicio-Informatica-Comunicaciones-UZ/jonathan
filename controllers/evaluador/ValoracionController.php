@@ -20,6 +20,7 @@ class ValoracionController extends \app\controllers\base\ValoracionController
     public function behaviors()
     {
         $id = Yii::$app->request->get('id');
+        $propuesta_id = Yii::$app->request->get('propuesta_id');
         $respuesta_id = Yii::$app->request->get('respuesta_id');
 
         return [
@@ -33,6 +34,14 @@ class ValoracionController extends \app\controllers\base\ValoracionController
                             $respuesta = Respuesta::getModel($respuesta_id);
                             $asignadas = PropuestaEvaluador::find()->select('propuesta_id')->delEvaluador(Yii::$app->user->id)->column();
                             return in_array($respuesta->propuesta_id, $asignadas);
+                        },
+                        'roles' => ['evaluador'],
+                    ], [
+                        'actions' => ['crear-autonoma'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) use ($propuesta_id) {
+                            $asignadas = PropuestaEvaluador::find()->select('propuesta_id')->delEvaluador(Yii::$app->user->id)->column();
+                            return in_array($propuesta_id, $asignadas);
                         },
                         'roles' => ['evaluador'],
                     ], [
@@ -104,6 +113,55 @@ class ValoracionController extends \app\controllers\base\ValoracionController
 
         return $this->render('crear', ['model' => $model]);
     }
+
+
+    /** Crea una valoración de un bloque no asignado a ninguna pregunta */
+    public function actionCrearAutonoma($bloque_id, $propuesta_id)
+    {
+        $bloque = Bloque::getModel($bloque_id);
+        $propuesta = Propuesta::getPropuesta($propuesta_id);
+
+        $model = new Valoracion();
+
+        try {
+            if ($model->load(Yii::$app->request->post())) {
+                $model->propuesta_id = $propuesta->id;
+                $model->bloque_id = $bloque->id;
+                // $model->respuesta_id = null;
+                $model->user_id = Yii::$app->user->id;
+
+                if ($model->save()) {
+                    Yii::$app->session->addFlash('success', Yii::t(
+                        'jonathan',
+                        'Su evaluación se ha guardado con éxito.'
+                    ));
+                    Yii::info(
+                        sprintf(
+                            '%s (%s) ha evaluado el bloque «%d» de la propuesta %d (%s).',
+                            Yii::$app->user->identity->username,
+                            Yii::$app->user->identity->profile->name,
+                            $model->bloque_id,
+                            $model->propuesta_id,
+                            $model->propuesta->denominacion
+                        ),
+                        'evaluador'
+                    );
+
+                    return $this->redirect(['//evaluador/propuesta/ver', 'propuesta_id' => $model->propuesta_id]);
+                }
+            } elseif (!\Yii::$app->request->isPost) {
+                // $model->load(Yii::$app->request->get());
+                $model->attributes = Yii::$app->request->get();  // Cargamos bloque_id y propuesta_id de la URL
+            }
+        } catch (\Exception $e) {
+            $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
+            $model->addError('_exception', $msg);
+            Yii::$app->session->addFlash('error', $msg);
+        }
+
+        return $this->render('crear-autonoma', ['model' => $model]);
+    }
+
 
     /**
      * Edita una evaluación ya existente.
