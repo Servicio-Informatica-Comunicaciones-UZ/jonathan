@@ -145,10 +145,11 @@ foreach ($preguntas as $pregunta) {
     $respuesta = $respuestas[$pregunta->id];
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . "</p>\n\n";
 
+    /* Valoración de las respuestas */
     $bloques = $pregunta->bloques;
     foreach ($bloques as $bloque) {
         echo "<div class='cuadro-gris'>\n";
-        $valoracion = $bloque->getValoracions()->one();  // FIXME Sólo las de este valorador
+        $valoracion = $bloque->getValoracions()->delEvaluador(Yii::$app->user->id)->one();
         echo "<h3>{$bloque->titulo}</h3>\n";
         echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
 

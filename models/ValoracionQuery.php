@@ -32,4 +32,10 @@ class ValoracionQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+
+    public function delEvaluador($user_id)
+    {
+        return $this->andWhere(['user_id' => $user_id]);
+    }
 }
