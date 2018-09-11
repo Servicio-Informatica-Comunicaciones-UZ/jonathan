@@ -15,6 +15,8 @@ use app\models\Propuesta;
  */
 class PropuestaController extends \app\controllers\base\PropuestaController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         return [

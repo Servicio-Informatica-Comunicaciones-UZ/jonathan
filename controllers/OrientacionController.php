@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class OrientacionController extends \app\controllers\base\OrientacionController
 {
-
+    public $enableCsrfValidation = true;
 }

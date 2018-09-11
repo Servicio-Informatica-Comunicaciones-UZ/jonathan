@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class PropuestaGrupoInvesController extends \app\controllers\base\PropuestaGrupoInvesController
 {
-
+    public $enableCsrfValidation = true;
 }

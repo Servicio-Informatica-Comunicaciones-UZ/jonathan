@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvaluadorController
 {
-
+    public $enableCsrfValidation = true;
 }

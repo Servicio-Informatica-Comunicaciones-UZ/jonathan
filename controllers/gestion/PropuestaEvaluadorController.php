@@ -12,6 +12,8 @@ use app\models\PropuestaEvaluador;
  */
 class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvaluadorController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         return [

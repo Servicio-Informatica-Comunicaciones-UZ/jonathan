@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class TipoEstudioController extends \app\controllers\base\TipoEstudioController
 {
-
+    public $enableCsrfValidation = true;
 }

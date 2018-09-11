@@ -16,6 +16,8 @@ use Yii;
  */
 class LanguageController extends Controller
 {
+    public $enableCsrfValidation = true;
+
     public function actionSet($language)
     {
         // Get the cookie collection from the "response" component

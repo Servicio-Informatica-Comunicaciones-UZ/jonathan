@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class ValoracionController extends \app\controllers\base\ValoracionController
 {
-
+    public $enableCsrfValidation = true;
 }

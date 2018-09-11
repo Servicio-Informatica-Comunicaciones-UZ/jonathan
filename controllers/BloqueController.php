@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class BloqueController extends \app\controllers\base\BloqueController
 {
-
+    public $enableCsrfValidation = true;
 }

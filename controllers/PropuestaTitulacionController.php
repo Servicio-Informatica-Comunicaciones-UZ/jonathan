@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class PropuestaTitulacionController extends \app\controllers\base\PropuestaTitulacionController
 {
-
+    public $enableCsrfValidation = true;
 }

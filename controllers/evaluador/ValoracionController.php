@@ -15,6 +15,8 @@ use app\models\Valoracion;
 */
 class ValoracionController extends \app\controllers\base\ValoracionController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         $id = Yii::$app->request->get('id');

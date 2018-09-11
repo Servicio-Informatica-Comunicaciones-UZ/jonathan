@@ -16,6 +16,8 @@ use app\models\PropuestaEvaluador;
  */
 class PropuestaController extends \app\controllers\base\PropuestaController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         $propuesta_id = Yii::$app->request->get('propuesta_id');
@@ -28,7 +30,6 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         'actions' => ['ver'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) use ($propuesta_id) {
-                            $propuesta = $this->findModel($propuesta_id);
                             $asignadas = PropuestaEvaluador::find()->select('propuesta_id')->delEvaluador(Yii::$app->user->id)->column();
                             return in_array($propuesta_id, $asignadas);
                         },

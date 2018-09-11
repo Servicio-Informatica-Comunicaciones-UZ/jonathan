@@ -16,6 +16,8 @@ use yii\web\ServerErrorHttpException;
  */
 class RespuestaController extends \app\controllers\base\RespuestaController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         $id = Yii::$app->request->get('id');

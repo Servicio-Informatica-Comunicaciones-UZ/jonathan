@@ -11,6 +11,8 @@ use app\models\ContactForm;
 
 class SiteController extends \app\controllers\base\AppController
 {
+    public $enableCsrfValidation = true;
+
     /**
      * {@inheritdoc}
      */

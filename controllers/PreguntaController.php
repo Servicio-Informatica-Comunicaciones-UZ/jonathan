@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class PreguntaController extends \app\controllers\base\PreguntaController
 {
-
+    public $enableCsrfValidation = true;
 }

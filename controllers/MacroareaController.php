@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class MacroareaController extends \app\controllers\base\MacroareaController
 {
-
+    public $enableCsrfValidation = true;
 }

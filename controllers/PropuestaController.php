@@ -27,6 +27,8 @@ use yii\web\UploadedFile;
  */
 class PropuestaController extends \app\controllers\base\PropuestaController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         $id = Yii::$app->request->get('id');

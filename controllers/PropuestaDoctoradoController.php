@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class PropuestaDoctoradoController extends \app\controllers\base\PropuestaDoctoradoController
 {
-
+    public $enableCsrfValidation = true;
 }

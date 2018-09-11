@@ -13,6 +13,8 @@ use app\models\User;
  */
 class UserController extends \app\controllers\base\AppController
 {
+    public $enableCsrfValidation = true;
+
     public function behaviors()
     {
         return [

@@ -7,5 +7,5 @@ namespace app\controllers;
 */
 class ModalidadController extends \app\controllers\base\ModalidadController
 {
-
+    public $enableCsrfValidation = true;
 }
