@@ -17,6 +17,8 @@ class Estado extends BaseEstado
     const APROB_EXTERNA = 4;
     const RECHAZ_EXTERNA = 5;
     const EVALUABLES = [3, 4, 5];
+    const VALORACION_PENDIENTE = 6;
+    const VALORACION_PRESENTADA = 7;
 
     public function behaviors()
     {

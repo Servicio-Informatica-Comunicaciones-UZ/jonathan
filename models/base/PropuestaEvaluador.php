@@ -12,7 +12,9 @@ use Yii;
  * @property integer $id
  * @property integer $propuesta_id
  * @property integer $user_id
+ * @property integer $estado_id
  *
+ * @property \app\models\Estado $estado
  * @property \app\models\Propuesta $propuesta
  * @property \app\models\User $user
  * @property string $aliasModel
@@ -36,7 +38,8 @@ abstract class PropuestaEvaluador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['propuesta_id', 'user_id'], 'integer'],
+            [['propuesta_id', 'user_id', 'estado_id'], 'integer'],
+            [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['propuesta_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Propuesta::className(), 'targetAttribute' => ['propuesta_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\User::className(), 'targetAttribute' => ['user_id' => 'id']]
         ];
@@ -51,7 +54,16 @@ abstract class PropuestaEvaluador extends \yii\db\ActiveRecord
             'id' => Yii::t('models', 'ID'),
             'propuesta_id' => Yii::t('models', 'Propuesta ID'),
             'user_id' => Yii::t('models', 'User ID'),
+            'estado_id' => Yii::t('models', 'Estado ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstado()
+    {
+        return $this->hasOne(\app\models\Estado::className(), ['id' => 'estado_id']);
     }
 
     /**

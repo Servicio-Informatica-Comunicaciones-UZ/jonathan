@@ -24,8 +24,11 @@ echo GridView::widget([
             'attribute' => 'user.profile.name',
             'label' => Yii::t('jonathan', 'Responsable'),
         ], [
-            'attribute' => 'estado.nombre',
             'label' => Yii::t('jonathan', 'Estado'),
+            'value' => function ($propuesta) {
+                $asignacion = $propuesta->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
+                return $asignacion->estado ? $asignacion->estado->nombre : null;
+            }
         ], [
             'class' => yii\grid\ActionColumn::className(),  // 'yii\grid\ActionColumn',
             'template' => '{ver} {valorar}',
