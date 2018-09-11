@@ -19,7 +19,7 @@ class m180606_082025_create_valoracion_table extends Migration
             'respuesta_id' => $this->integer(),
             'user_id' => $this->integer(),
             'comentarios' => $this->text(),
-            'nota' => $this->decimal(5, 2),
+            'puntuacion' => $this->decimal(5, 2),
         ]);
         $this->addForeignKey(
             'fk-valoracion-propuesta_id',
@@ -53,7 +53,6 @@ class m180606_082025_create_valoracion_table extends Migration
             'id',
             'CASCADE'
         );
-
     }
 
     /**
