@@ -9,6 +9,8 @@ use yii\widgets\DetailView;
 $this->title = $model->denominacion;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas asignadas'), 'url' => ['evaluador/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$asignacion = $model->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
 ?>
 
 <h1><?php echo Html::encode($this->title); ?></h1>
@@ -164,7 +166,7 @@ foreach ($preguntas as $pregunta) {
             }
         }
 
-        if (Estado::APROB_INTERNA == $model->estado_id) {  // FIXME usar estado de la asignación
+        if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
             echo Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
                 $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
@@ -194,7 +196,7 @@ foreach ($bloques_autonomos as $bloque) {
         }
     }
 
-    if (Estado::APROB_INTERNA == $model->estado_id) {  // FIXME usar estado de la asignación
+    if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
             $valoracion ? ['evaluador/valoracion/editar', 'id' => $valoracion->id]
@@ -206,10 +208,11 @@ foreach ($bloques_autonomos as $bloque) {
 }
 
 echo "<hr><br>\n";
-// FIXME usar estado de la asignación
-if (Estado::BORRADOR == $model->estado_id) {
+
+/* Presentación de la valoración */
+if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
     echo Html::a(
-        '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
+        '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la valoración'),
         ['', '#' => 'modalPresentar'],
         [
             'id' => 'presentar',
@@ -217,7 +220,7 @@ if (Estado::BORRADOR == $model->estado_id) {
             'data-toggle' => 'modal',
             'title' => Yii::t(
                 'jonathan',
-                "Presentar la propuesta para su evaluación.\nYa no se podrán hacer más modificaciones."
+                "Presentar la valoración de la propuesta.\nYa no se podrán hacer más modificaciones."
             ),
         ]
     ) . "\n";
@@ -230,14 +233,14 @@ if (Estado::BORRADOR == $model->estado_id) {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><?php echo Yii::t('jonathan', '¿Presentar la propuesta?'); ?></h4>
+                <h4 class="modal-title"><?php echo Yii::t('jonathan', '¿Presentar la valoración?'); ?></h4>
             </div>
 
             <div class="modal-body">
                 <p><?php printf(
                     Yii::t(
                         'jonathan',
-                        '¿Seguro que ha finalizado y desea presentar la propuesta de «%s»?<br>'
+                        '¿Seguro que ha finalizado y desea presentar la valoración de la propuesta «%s»?<br>'
                         . 'Una vez la haya presentado ya no podrá modificarla.'
                     ),
                     $model->denominacion
@@ -248,15 +251,15 @@ if (Estado::BORRADOR == $model->estado_id) {
                 <?php
                 echo Html::a(
                     '<span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;'
-                        . Yii::t('jonathan', 'Presentar la propuesta'),
+                        . Yii::t('jonathan', 'Presentar la valoración'),
                     [
-                        'presentar',
-                        'id' => $model->id,
+                        '//evaluador/propuesta-evaluador/presentar',
+                        'id' => $asignacion->id,
                     ],
                     [
                         'id' => 'confirmar-presentacion',
                         'class' => 'btn btn-danger',  // Botón
-                        'title' => Yii::t('jonathan', 'La propuesta está acabada. Presentarla.'),
+                        'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
                     ]
                 );
                 ?>

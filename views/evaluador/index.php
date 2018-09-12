@@ -4,7 +4,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Yii::t('jonathan', 'Propuestas asignadas');
+$this->title = Yii::t('jonathan', 'Propuestas asignadas para su valoración');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -19,15 +19,24 @@ echo GridView::widget([
     // 'caption' => '',
     'columns' => [
         'anyo',
-        'denominacion',
         [
+            'attribute' => 'denominacion',
+            'format' => 'html',
+            'value' => function ($propuesta) {
+                return Html::a(
+                    Html::encode(trim($propuesta->denominacion)) ?:
+                        '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
+                    ['//evaluador/propuesta/ver', 'propuesta_id' => $propuesta->id]
+                );
+            },
+        ], [
             'attribute' => 'user.profile.name',
             'label' => Yii::t('jonathan', 'Responsable'),
         ], [
             'label' => Yii::t('jonathan', 'Estado'),
             'value' => function ($propuesta) {
                 $asignacion = $propuesta->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
-                return $asignacion->estado ? $asignacion->estado->nombre : null;
+                return $asignacion->estado_id ? $asignacion->estado->nombre : null;
             }
         ], [
             'class' => yii\grid\ActionColumn::className(),  // 'yii\grid\ActionColumn',

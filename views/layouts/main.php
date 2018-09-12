@@ -96,7 +96,7 @@ $enlaces = array_map(function ($e) {
             ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-scale navbar-icono"></i> &nbsp;' .
-                            Yii::t('jonathan', 'Valoración'),
+                            Yii::t('jonathan', 'Valoraciones'),
                 'url' => ['//evaluador/index'],
                 'visible' => Yii::$app->user->can('valorar'),
             ], [

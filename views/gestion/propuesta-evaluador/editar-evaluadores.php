@@ -3,6 +3,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Estado;
 use app\models\User;
 
 $this->title = sprintf(
@@ -79,6 +80,9 @@ echo $form->field($model, 'user_id')->dropDownList(
         'disabled' => (isset($relAttributes) && isset($relAttributes['user_id'])),
     ]
 )->label(false);
+
+// attribute estado_id
+echo $form->field($model, 'estado_id')->hiddenInput(['value' => Estado::VALORACION_PENDIENTE])->label(false);
 
 echo $form->errorSummary($model) . "\n";
 
