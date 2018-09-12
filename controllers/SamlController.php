@@ -18,26 +18,37 @@ class SamlController extends Controller
     {
         return [
             'login' => [
+                // This action will initiate the login process with the Identity Provider specified in the config file.
                 'class' => 'asasmoyo\yii2saml\actions\LoginAction'
             ],
             'acs' => [
+                // Assertion Consumer Service
+                // This action will process the SAML response sent by the Identity Provider after succesful login.
+                // You can register a callback to do some operation like reading the attributes sent by Identity Provider
+                // and create a new user from those attributes.
                 'class' => 'asasmoyo\yii2saml\actions\AcsAction',
                 'successCallback' => [$this, 'callback'],
                 'successUrl' => Url::to('@web/propuesta/listado'),
             ],
             'metadata' => [
+                // This action will show metadata of your application in XML.
                 'class' => 'asasmoyo\yii2saml\actions\MetadataAction'
             ],
             'logout' => [
+                // This action will initiate the SingleLogout process with the Identity Provider.
                 'class' => 'asasmoyo\yii2saml\actions\LogoutAction',
                 'returnTo' => Url::to(['//site/index']),
             ],
             'sls' => [
+                // Single Logout Service
+                // This action will process the SAML logout request/response sent by the Identity Provider.
                 'class' => 'asasmoyo\yii2saml\actions\SlsAction',
                 'successUrl' => Url::to(['//site/index']),
             ],
-        ];
+        ];  // NOTE: The acs and sls URLs should be set in the AssertionConsumerService and SingleLogoutService sections
+            // of the metadata of this Service Provider in the IdP.
     }
+
 
     /**
      * @param array $attributes Attributes sent by the Identity Provider.
