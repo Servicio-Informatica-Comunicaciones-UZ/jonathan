@@ -384,7 +384,14 @@ class PropuestaController extends \app\controllers\base\PropuestaController
      */
     public function actionListado()
     {
-        $dpPropuestas = Propuesta::getDpPropuestasDelUsuario(Yii::$app->user->identity->id);
+        $usuario = Yii::$app->user->identity;
+
+        // Si el usuario es un evaluador, enviarlo tras hacer login a la página de propuestas asignadas.
+        if ($usuario->hasRole('evaluador')) {
+            return $this->redirect('@web/evaluador/index');
+        }
+
+        $dpPropuestas = Propuesta::getDpPropuestasDelUsuario($usuario->id);
 
         return $this->render('listado', ['dpPropuestas' => $dpPropuestas]);
     }

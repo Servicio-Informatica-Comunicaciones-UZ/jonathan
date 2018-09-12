@@ -86,7 +86,7 @@ $enlaces = array_map(function ($e) {
                 'label' => '<i class="glyphicon glyphicon-education navbar-icono"></i> &nbsp;' .
                             Yii::t('app', 'Propuestas'),
                 'url' => ['//propuesta/listado'],
-                'visible' => !Yii::$app->user->isGuest,
+                'visible' => !Yii::$app->user->isGuest && !Yii::$app->user->identity->hasRole('evaluador'),
             ], [
                 'encode' => false,
                 'label' => '<i class="glyphicon glyphicon-cog navbar-icono"></i> &nbsp;' .
