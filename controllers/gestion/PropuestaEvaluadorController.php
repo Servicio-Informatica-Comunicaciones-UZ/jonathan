@@ -4,6 +4,7 @@ namespace app\controllers\gestion;
 
 use Yii;
 use yii\web\ForbiddenHttpException;
+use app\models\Estado;
 use app\models\Propuesta;
 use app\models\PropuestaEvaluador;
 
@@ -45,6 +46,28 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
         $dpEvaluables = Propuesta::getDpEvaluables($anyo);
 
         return $this->render('listado', ['dpEvaluables' => $dpEvaluables]);
+    }
+
+
+    /** Muestra un listado de cada una de las evaluaciones individualmente, y su estado */
+    public function actionValoraciones($anyo)
+    {
+        $asignacionesQuery = PropuestaEvaluador::find()
+            ->innerJoin('propuesta')
+            ->where([
+                'propuesta.anyo' => $anyo,
+                'propuesta.estado_id' => Estado::EVALUABLES,
+            ]);
+
+        $asignacionesDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $asignacionesQuery,
+            'pagination' => false,
+            'sort' => [
+                'attributes' => ['propuesta.denominacion', 'user_id', 'estado_id'],
+            ],
+        ]);
+
+        return $this->render('valoraciones', ['asignacionesDataProvider' => $asignacionesDataProvider]);
     }
 
     /**

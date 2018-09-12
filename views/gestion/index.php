@@ -35,4 +35,14 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
     ['//gestion/propuesta-evaluador/listado', 'anyo' => date('Y')]
 ); ?></li>
 
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Valoraciones individuales'),
+    ['//gestion/propuesta-evaluador/valoraciones', 'anyo' => date('Y')]
+); ?></li>
+
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Resumen de valoraciones'),
+    ['//gestion/valoracion/resumen', 'anyo' => date('Y')]
+); ?></li>
+
 </ul>
