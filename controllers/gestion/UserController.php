@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\UnprocessableEntityHttpException;
+use Da\User\Model\Profile;
 use app\models\User;
 
 /**
@@ -61,19 +62,20 @@ class UserController extends \app\controllers\base\AppController
                 ]);
                 $usuario->save();
 
-                /*
-                $profile = $usuario->getProfile()->one();
-                $profile->name = "{$nip}";
-                $profile->gravatar_email = "{$nip}@unizar.es";
-                $profile->save();
-                */
                 $identidad = User::findIdentidadByNip($nip);
-                $user->email = $identidad['CORREO_PRINCIPAL'];
-                $user->save();
+                if (!$identidad) {
+                    throw new UnprocessableEntityHttpException(
+                        sprintf(Yii::t('gestion', 'No se ha encontrado el NIP «%d» en Gestión de Identidades. 😨'), $nip)
+                    );
+                }
+                if (isset($identidad['CORREO_PRINCIPAL'])) {
+                    $usuario->email = $identidad['CORREO_PRINCIPAL'];
+                    $usuario->save();
+                }
 
-                $profile = Profile::findOne(['user_id' => $user->id]);
+                $profile = $usuario->getProfile()->one();
                 $profile->name = "{$identidad['NOMBRE']} {$identidad['APELLIDO_1']} {$identidad['APELLIDO_2']}";
-                $profile->gravatar_email = $user->email;
+                $profile->gravatar_email = $usuario->email;
                 // TODO: Extender el profile para guardar el colectivo, nombres y apellidos por separado, etc.
                 $profile->save();
             }
@@ -96,7 +98,7 @@ class UserController extends \app\controllers\base\AppController
             Yii::$app->session->addFlash('success', sprintf(Yii::t(
                 'jonathan',
                 'Se ha asignado el rol «%s» al usuario «%s».'
-            ), $rol, Html::encode($usuario->profile->name)));
+            ), $rol, Html::encode($usuario->getProfile()->one()->name)));
             Yii::info(
                 sprintf(
                     '%s (%s) ha creado el usuario «%s» (%s) con rol «%s»',

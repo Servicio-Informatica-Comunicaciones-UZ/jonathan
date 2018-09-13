@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = sprintf(Yii::t('gestion', 'Añadir usuario al rol «%s»'), $rol);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = [
     'label' => sprintf(Yii::t('models', 'Usuarios del rol «%s»'), $rol),
     'url' => ['listado', 'rol' => $rol],

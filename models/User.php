@@ -42,7 +42,9 @@ class User extends BaseUser
         $command = $query->createCommand(Yii::$app->dbident);
         // die(var_dump($command->rawSql));  // Returns the raw SQL by inserting parameter values into the corresponding placeholders
         $identidad = $command->queryOne();
-        $identidad = array_map('utf8_encode', $identidad);
+        if ($identidad) {
+            $identidad = array_map('utf8_encode', $identidad);
+        }
 
         return $identidad;
     }
