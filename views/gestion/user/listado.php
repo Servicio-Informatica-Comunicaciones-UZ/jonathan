@@ -34,10 +34,10 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <?php
 echo Html::a(
-    '<span class="glyphicon glyphicon-plus"></span> &nbsp;' . Yii::t('jonathan', 'Crear usuario'),
-    ['crear'],  // 'rol' => $rol],
+    '<span class="glyphicon glyphicon-plus"></span> &nbsp;' . Yii::t('jonathan', 'Añadir usuario'),
+    ['asignar-rol'],  // 'rol' => $rol],
     [
-        'id' => 'crear',
+        'id' => 'asignar-rol',
         'class' => 'btn btn-success',
         // 'title' => '',
     ]

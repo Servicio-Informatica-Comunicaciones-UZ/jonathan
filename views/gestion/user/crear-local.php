@@ -17,4 +17,4 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
-<?php echo $this->render('_formulario', ['model' => $model, 'rol' => $rol]); ?>
+<?php echo $this->render('_formulario_local', ['model' => $model, 'rol' => $rol]); ?>
