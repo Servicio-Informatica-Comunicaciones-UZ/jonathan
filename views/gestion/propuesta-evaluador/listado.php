@@ -16,6 +16,14 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
+<?php
+echo \yii\bootstrap\Alert::widget([
+    'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+        .Yii::t('jonathan', 'Sólo se muestran las propuestas que hayan sido aprobadas internamente.'),
+    'options' => ['class' => 'alert-info'],
+]);
+?>
+
 <div class="table-responsive">
     <?php echo GridView::widget([
         'dataProvider' => $dpEvaluables,
@@ -26,7 +34,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                 'value' => function ($propuesta) {
                     return Html::a(
                         Html::encode(trim($propuesta->denominacion)) ?:
-                            '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
+                            '<span class="not-set">'.Yii::t('jonathan', '(no definido)').'</span>',
                         ['//gestion/propuesta/ver', 'id' => $propuesta->id]
                     );
                 },
@@ -37,7 +45,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                     $nombres = ArrayHelper::getColumn($propuesta->evaluadores, 'profile.name');
                     $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
-                    return $nombres ? '<ul class="listado"><li>' . implode("</li>\n<li>", $nombres) . '</li></ul>' : null;
+                    return $nombres ? '<ul class="listado"><li>'.implode("</li>\n<li>", $nombres).'</li></ul>' : null;
                 },
             ], [
                 'class' => 'yii\grid\ActionColumn',

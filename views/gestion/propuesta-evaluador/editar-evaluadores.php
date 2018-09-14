@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Estado;
@@ -24,14 +25,53 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
-<ul class='listado'>
-    <?php
+<div class="table-responsive">
+    <?php echo GridView::widget(
+        [
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                [
+                    'attribute' => 'user.username',
+                    'label' => Yii::t('models', 'Usuario'),
+                ], [
+                    'attribute' => 'user.profile.name',
+                    'label' => Yii::t('models', 'Nombre'),
+                ], [
+                    'attribute' => 'user.email',
+                    'format' => 'email',  // See http://www.yiiframework.com/doc-2.0/guide-output-formatting.html
+                    'label' => Yii::t('models', 'Correo electrónico'),
+                ], [
+                    'class' => 'yii\grid\ActionColumn',
+                    'buttons' => [
+                        'borrar' => function ($url, $model, $key) {
+                            $options = [
+                                'title' => Yii::t('gestion', 'Quitar este evaluador de esta propuesta'),
+                                'aria-label' => Yii::t('gestion', 'Quitar este evaluador de esta propuestas'),
+                                'data-confirm' => Yii::t('gestion', '¿Seguro que desea eliminar este evaluador de esta propuesta?'),
+                            ];
 
-    foreach ($propuesta->evaluadores as $evaluador) {
-        printf("<li>%s</li>\n", Html::encode($evaluador->profile->name));
-    }
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+                        },
+                    ],
+                    // 'controller' => 'gestion',
+                    'template' => '{borrar}',
+                    'urlCreator' => function ($action, $model, $key, $index) {
+                        $params = [$action, 'id' => $model->id];
+
+                        return Url::toRoute($params);
+                    },
+                    // visibleButtons => ...,
+                    'contentOptions' => ['nowrap' => 'nowrap'],
+                ],
+            ],
+            // 'caption' => '',
+            'options' => ['class' => 'cabecera-azul'],
+            'summary' => false,
+            'tableOptions' => ['class' => 'table table-striped table-hover'],
+        ]
+    );
     ?>
-</ul>
+</div>
 
 <hr>
 
@@ -66,7 +106,7 @@ $evaluadoresIds = Yii::$app->authManager->getUserIdsByRole('evaluador');
 // Quitamos los IDs de los usuarios que ya son evaluadores de esta propuesta
 foreach ($propuesta->evaluadores as $evaluador_actual) {
     $key = array_search($evaluador_actual->id, $evaluadoresIds);
-    if ($key !== false) {
+    if (false !== $key) {
         unset($evaluadoresIds[$key]);
     }
 }
@@ -84,16 +124,16 @@ echo $form->field($model, 'user_id')->dropDownList(
 // attribute estado_id
 echo $form->field($model, 'estado_id')->hiddenInput(['value' => Estado::VALORACION_PENDIENTE])->label(false);
 
-echo $form->errorSummary($model) . "\n";
+echo $form->errorSummary($model)."\n";
 
 echo "<div class='form-group'>\n";
 echo Html::submitButton(
-    '<span class="glyphicon glyphicon-check"></span> ' . Yii::t('jonathan', 'Añadir'),
+    '<span class="glyphicon glyphicon-check"></span> '.Yii::t('jonathan', 'Añadir'),
     [
-        'id' => 'save-' . $model->formName(),
+        'id' => 'save-'.$model->formName(),
         'class' => 'btn btn-success',
     ]
-) . "\n";
+)."\n";
 echo "</div>\n";
 
 ActiveForm::end();
