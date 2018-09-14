@@ -40,7 +40,9 @@ class UserController extends \app\controllers\base\AppController
         ];
     }
 
-    /** Asigna un rol a un usuario.  Si no existe, lo crea. */
+    /**
+     * Asigna un rol a un usuario.  Si no existe, lo crea.
+     */
     public function actionAsignarRol($rol = 'evaluador')
     {
         if ('admin' == $rol or 'superadmin' == $rol) {
@@ -55,11 +57,13 @@ class UserController extends \app\controllers\base\AppController
             $usuario = User::findByUsername($nip);
 
             if (!$usuario) {
-                $usuario = new User([
+                $usuario = new User(
+                    [
                     'username' => $nip,
                     'email' => "{$nip}@unizar.es",  // restricción UNIQUE
                     'password_hash' => "{$rol}",  // restricción NOT NULL
-                ]);
+                    ]
+                );
                 $usuario->save();
 
                 $identidad = User::findIdentidadByNip($nip);
@@ -95,10 +99,17 @@ class UserController extends \app\controllers\base\AppController
             }
             $auth->assign($rolModel, $usuario->id);
 
-            Yii::$app->session->addFlash('success', sprintf(Yii::t(
-                'jonathan',
-                'Se ha asignado el rol «%s» al usuario «%s».'
-            ), $rol, Html::encode($usuario->getProfile()->one()->name)));
+            Yii::$app->session->addFlash(
+                'success',
+                sprintf(
+                    Yii::t(
+                        'jonathan',
+                        'Se ha asignado el rol «%s» al usuario «%s».'
+                    ),
+                    $rol,
+                    Html::encode($usuario->getProfile()->one()->name)
+                )
+            );
             Yii::info(
                 sprintf(
                     '%s (%s) ha creado el usuario «%s» (%s) con rol «%s»',
@@ -144,11 +155,18 @@ class UserController extends \app\controllers\base\AppController
                 $auth->assign($rolModel, $model->id);
 
                 $transaction->commit();
-                Yii::$app->session->addFlash('success', sprintf(Yii::t(
-                    'jonathan',
-                    "Se ha creado el usuario «%s».  Por favor, infórmele de su nombre de usuario y contraseña.\n"
-                        . "Al tratarse de un usuario externo, para iniciar sesión deberá usar la dirección\n%s"
-                ), Html::encode($model->username), Url::toRoute('//user/login', true)));
+                Yii::$app->session->addFlash(
+                    'success',
+                    sprintf(
+                        Yii::t(
+                            'jonathan',
+                            "Se ha creado el usuario «%s».  Por favor, infórmele de su nombre de usuario y contraseña.\n"
+                            ."Al tratarse de un usuario externo, para iniciar sesión deberá usar la dirección\n%s"
+                        ),
+                        Html::encode($model->username),
+                        Url::toRoute('//user/login', true)
+                    )
+                );
                 Yii::info(
                     sprintf(
                         '%s (%s) ha creado el usuario «%s» (%s) con rol «%s»',
@@ -175,15 +193,51 @@ class UserController extends \app\controllers\base\AppController
     }
 
     /**
+     * Quita un rol a un usuario.
+     */
+    public function actionQuitarRol($user_id, $rol)
+    {
+        if ('admin' == $rol or 'superadmin' == $rol) {
+            Yii::$app->session->addFlash('danger', Yii::t('jonathan', '¡No puede quitar el rol de administrador!'));
+
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        try {
+            $model = User::getModel($user_id);
+            $auth = Yii::$app->authManager;
+            $rolModel = $auth->getRole($rol);
+            if (!$rolModel) {
+                throw new UnprocessableEntityHttpException(
+                    sprintf(Yii::t('gestion', 'El rol «%s» no existe. 😨'), $rol)
+                );
+            }
+            $auth->revoke($rolModel, $model->id);
+
+            Yii::$app->session->addFlash(
+                'success',
+                sprintf(Yii::t('gestion', '%s ya no tiene el rol «%s».'), $model->profile->name, $rol)
+            );
+        } catch (\Exception $e) {
+            $msg = (isset($e->errorInfo[2])) ? $e->errorInfo[2] : $e->getMessage();
+            Yii::$app->getSession()->addFlash('error', $msg);
+
+            return $this->redirect(Url::previous());
+        }
+
+        return $this->redirect(['//gestion/user/listado', 'rol' => $rol]);
+    }
+
+    /**
      * Muestra un listado de los usuarios que tienen un rol determinado.
      */
     public function actionListado($rol = 'evaluador')
     {
-        $usuarios = User::find()->orderBy('username')->all();
-        $usuarios_del_rol = array_filter($usuarios, function ($usuario) use ($rol) {
-            return $usuario->hasRole($rol);
-        });
+        Url::remember();
+        $usuariosIds = Yii::$app->authManager->getUserIdsByRole($rol);
+        // $usuarios = array_map('\app\models\User::getModel', $usuariosIds);
+        $usuarios = User::find()->where(['id' => $usuariosIds])->orderBy('username')->all();
 
-        return $this->render('listado', ['rol' => $rol, 'usuarios' => $usuarios_del_rol]);
+        return $this->render('listado', ['rol' => $rol, 'usuarios' => $usuarios]);
     }
 }

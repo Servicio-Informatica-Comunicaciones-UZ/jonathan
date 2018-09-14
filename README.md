@@ -15,7 +15,8 @@ Requisitos
 * Un SGBD aceptado por PDO (vg PostgreSQL o MySQL), y el módulo para PHP correspondiente
 * [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html)
   (basic y devel).
-  En la sección _Dynamic Extensions_ de la configuración CLI de PHP añadir la línea `extension=oci8.so`.
+  Instalar con `pecl` el paquete [`oci8`](https://pecl.php.net/package/oci8).
+  En la sección _Dynamic Extensions_ de la configuración CLI de PHP añadir la línea `extension=oci8`.
 * Un servidor web que interprete PHP (vg Apache)
 * La última versión de [Composer](https://getcomposer.org/download/)
 * [Node.js](https://nodejs.org/es/download/package-manager/#distribuciones-de-linux-basadas-en-debian-y-ubuntu) 6.4.0+

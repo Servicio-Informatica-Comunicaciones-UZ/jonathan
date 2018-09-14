@@ -11,7 +11,7 @@ namespace app\models;
 use Yii;
 use yii\db\Query;
 use yii\web\ServerErrorHttpException;
-use \Da\User\Model\User as BaseUser;
+use Da\User\Model\User as BaseUser;
 
 class User extends BaseUser
 {
@@ -22,7 +22,6 @@ class User extends BaseUser
     {
         return strcasecmp($a->profile->name, $b->profile->name);
     }
-
 
     public static function findByUsername($username)
     {
@@ -88,6 +87,26 @@ class User extends BaseUser
         $entries = ldap_get_entries($ds, $results);
         $mail = $entries[0]['mail'][0];
         ldap_unbind($ds);
+
         return $mail;
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @throws HttpException if the model cannot be found
+     *
+     * @param int $id
+     *
+     * @return User the loaded model
+     */
+    public static function getModel($id)
+    {
+        if (null !== ($model = self::findOne(['id' => $id]))) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese usuario.  ☹'));
     }
 }
