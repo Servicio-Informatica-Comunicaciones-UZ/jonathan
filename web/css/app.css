@@ -291,6 +291,10 @@ h1 a:hover {
     background: #B2CADF;
 }
 
+.cabecera-azul tfoot {
+    background: #B2CADF;
+}
+
 .cabecera-azul tbody tr td {
     border: 0px;
 }

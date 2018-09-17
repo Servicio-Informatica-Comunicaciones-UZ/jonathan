@@ -16,7 +16,8 @@ class ValoracionQuery extends \yii\db\ActiveQuery
     }*/
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return Valoracion[]|array
      */
     public function all($db = null)
@@ -25,7 +26,8 @@ class ValoracionQuery extends \yii\db\ActiveQuery
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return Valoracion|array|null
      */
     public function one($db = null)
@@ -33,9 +35,13 @@ class ValoracionQuery extends \yii\db\ActiveQuery
         return parent::one($db);
     }
 
-
     public function delEvaluador($user_id)
     {
         return $this->andWhere(['user_id' => $user_id]);
+    }
+
+    public function deLaPropuesta($propuesta_id)
+    {
+        return $this->andWhere(['propuesta_id' => $propuesta_id]);
     }
 }

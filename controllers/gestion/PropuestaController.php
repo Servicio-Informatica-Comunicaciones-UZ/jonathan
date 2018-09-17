@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
+use yii\web\ServerErrorHttpException;
 use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
@@ -55,7 +56,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Presentada». 😨'));
         }
         $model->estado_id = Estado::APROB_INTERNA;
-        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Aprobación interna de la propuesta') . "\n";
+        $model->log .= date(DATE_RFC3339).' — '.Yii::t('jonathan', 'Aprobación interna de la propuesta')."\n";
         $model->save();
         Yii::info(
             sprintf(
@@ -72,11 +73,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'success',
             Yii::t(
                 'jonathan',
-                "La propuesta ha sido aprobada internamente.\n" .
+                "La propuesta ha sido aprobada internamente.\n".
                     'Si lo desea, puede enviar un mensaje de correo electrónico al autor de la propuesta: '
-            ) . Html::mailto(
-                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
-                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada internamente'),
+            ).Html::mailto(
+                '"'.Html::encode($model->user->profile->name).'" &lt;'.Html::encode($model->user->email).'&gt;',
+                $model->user->email.'?subject='.Yii::t('jonathan', 'Propuesta aprobada internamente'),
                 ['class' => 'alert-link']
             )
         );
@@ -100,7 +101,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Presentada». 😨'));
         }
         $model->estado_id = Estado::BORRADOR;
-        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Rechazo interno de la propuesta') . "\n";
+        $model->log .= date(DATE_RFC3339).' — '.Yii::t('jonathan', 'Rechazo interno de la propuesta')."\n";
         $model->save();
         Yii::info(
             sprintf(
@@ -117,11 +118,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'success',
             Yii::t(
                 'jonathan',
-                "La propuesta ha sido rechazada internamente.\n" .
+                "La propuesta ha sido rechazada internamente.\n".
                     'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
-            ) . Html::mailto(
-                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
-                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada internamente'),
+            ).Html::mailto(
+                '"'.Html::encode($model->user->profile->name).'" &lt;'.Html::encode($model->user->email).'&gt;',
+                $model->user->email.'?subject='.Yii::t('jonathan', 'Propuesta rechazada internamente'),
                 ['class' => 'alert-link']
             )
         );
@@ -155,9 +156,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             ->orderBy('orden')
             ->all();
 
-        return $this->render('ver', [
-            'model' => $propuesta,
-            'preguntas' => $preguntas,
-        ]);
+        return $this->render(
+            'ver',
+            [
+                'model' => $propuesta,
+                'preguntas' => $preguntas,
+            ]
+        );
     }
 }
