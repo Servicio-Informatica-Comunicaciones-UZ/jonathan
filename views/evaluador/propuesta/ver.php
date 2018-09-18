@@ -142,7 +142,7 @@ echo DetailView::widget([
 
 foreach ($preguntas as $pregunta) {
     echo "<br>\n\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
-    echo "<p class='pregunta'><strong>" .  nl2br(Html::encode($pregunta->descripcion)) . '</strong></p>' . PHP_EOL;
+    echo "<p class='pregunta'><strong>" . nl2br(Html::encode($pregunta->descripcion)) . '</strong></p>' . PHP_EOL;
 
     $respuesta = $respuestas[$pregunta->id];
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . "</p><br>\n\n";
@@ -151,7 +151,7 @@ foreach ($preguntas as $pregunta) {
     $bloques = $pregunta->bloques;
     foreach ($bloques as $bloque) {
         echo "<div class='cuadro-gris'>\n";
-        $valoracion = $bloque->getValoracions()->delEvaluador(Yii::$app->user->id)->one();
+        $valoracion = $bloque->getValoracions()->deLaPropuesta($model->id)->delEvaluador(Yii::$app->user->id)->one();
         echo "<h3>{$bloque->titulo}</h3>\n";
         echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
 
@@ -181,7 +181,7 @@ foreach ($preguntas as $pregunta) {
 /* Valoración de los bloques independientes de preguntas */
 foreach ($bloques_autonomos as $bloque) {
     echo "<div class='cuadro-gris'>\n";
-    $valoracion = $bloque->getValoracions()->delEvaluador(Yii::$app->user->id)->one();
+    $valoracion = $bloque->getValoracions()->deLaPropuesta($model->id)->delEvaluador(Yii::$app->user->id)->one();
     echo "<h3>{$bloque->titulo}</h3>\n";
     echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
 
