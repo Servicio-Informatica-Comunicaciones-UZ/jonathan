@@ -2,8 +2,11 @@
 
 namespace app\controllers\gestion;
 
+use Yii;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
+use app\models\Bloque;
+use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
 use app\models\Valoracion;
@@ -56,5 +59,29 @@ class ValoracionController extends \app\controllers\base\ValoracionController
             'respuestas' => $respuestas,
             'valoraciones' => $valoraciones,
         ]);
+    }
+
+    /**
+     * Muestra las puntuaciones de todas las propuestas de un año.
+     */
+    public function actionResumen($anyo = null)
+    {
+        $anyo = $anyo ?: date('Y');
+
+        $bloques = Bloque::find()->joinWith('pregunta')->where(['pregunta.anyo' => $anyo])->orderBy('pregunta.orden')->all();
+        $valoraciones = Valoracion::find()
+            ->joinWith('propuesta')
+            ->innerJoin('propuesta_evaluador', 'valoracion.user_id = propuesta_evaluador.user_id AND valoracion.propuesta_id = propuesta_evaluador.propuesta_id')
+            ->where(['propuesta.anyo' => $anyo, 'propuesta_evaluador.estado_id' => Estado::VALORACION_PRESENTADA])
+            ->orderBy('propuesta.denominacion, bloque_id, valoracion.user_id')
+            //->createCommand()->getRawSql();
+            ->all();
+
+        $propuestas = [];
+        foreach ($valoraciones as $valoracion) {
+            $propuestas[$valoracion->propuesta_id][$valoracion->bloque_id][$valoracion->user_id] = $valoracion;
+        }
+
+        return $this->render('resumen', ['bloques' => $bloques, 'propuestas' => $propuestas]);
     }
 }

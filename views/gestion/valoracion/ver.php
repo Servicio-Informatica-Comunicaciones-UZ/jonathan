@@ -4,15 +4,19 @@ use yii\helpers\Html;
 
 $this->title = $propuesta->denominacion;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Valoraciones individuales'), 'url' => ['//gestion/propuesta-evaluador/valoraciones', 'anyo' => $propuesta->anyo]];
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('models', 'Valoraciones individuales'),
+    'url' => ['//gestion/propuesta-evaluador/valoraciones', 'anyo' => $propuesta->anyo]
+];
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 
-<h1><?php echo Html::encode($this->title); ?></h1>
-
+<h1><?php echo Html::a(
+    $propuesta->denominacion,
+    ['//gestion/propuesta/ver', 'id' => $propuesta->id],
+    ['target' => '_blank']
+); ?></h1>
 <hr><br>
-
 
 <!-- ⸻⸻⸻⸻⸻⸻⸻⸻⸻ Puntuaciones de los bloques ⸻⸻⸻⸻⸻⸻⸻⸻⸻ -->
 
@@ -32,7 +36,7 @@ foreach ($valoraciones as $valoracion) {
     if (!$valoracion->bloque->tiene_puntuacion_interna) {
         echo "  <tr>\n";
         echo "    <td>{$valoracion->bloque->titulo}</td>\n";
-        echo '    <td>'.Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1)."</td>\n";
+        echo '    <td>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</td>\n";
         echo "  </tr>\n";
     }
 }
@@ -65,7 +69,7 @@ foreach ($valoraciones as $valoracion) {
 <?php
 foreach ($valoraciones as $valoracion) {
             echo "<h3>{$valoracion->bloque->titulo}</h3>\n";
-            echo "<p style='font-weight: bold;'>".nl2br(Html::encode($valoracion->bloque->descripcion))."</p>\n\n";
-            echo '<p>'.nl2br(Html::encode($valoracion->comentarios))."</p>\n\n";
+            echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($valoracion->bloque->descripcion)) . "</p>\n\n";
+            echo '<p>' . nl2br(Html::encode($valoracion->comentarios)) . "</p>\n\n";
 }
 ?>
