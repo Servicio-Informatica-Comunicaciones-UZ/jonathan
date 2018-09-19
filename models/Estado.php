@@ -19,6 +19,7 @@ class Estado extends BaseEstado
     const EVALUABLES = [3, 4, 5];
     const VALORACION_PENDIENTE = 6;
     const VALORACION_PRESENTADA = 7;
+    const FUERA_DE_PLAZO = 8;
 
     public function behaviors()
     {

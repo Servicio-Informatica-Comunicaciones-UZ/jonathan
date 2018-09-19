@@ -30,6 +30,11 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ], [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['gestion'],
+                    'logFile' => '@runtime/logs/gestion.log',
                 ],
             ],
         ],
