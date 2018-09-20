@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Estado;
 
 $this->title = $propuesta->denominacion;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
@@ -71,5 +72,19 @@ foreach ($valoraciones as $valoracion) {
             echo "<h3>{$valoracion->bloque->titulo}</h3>\n";
             echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($valoracion->bloque->descripcion)) . "</p>\n\n";
             echo '<p>' . nl2br(Html::encode($valoracion->comentarios)) . "</p>\n\n";
+        }
+
+if (Estado::VALORACION_PRESENTADA == $asignacion->estado_id) {
+    echo Html::a(
+        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al evaluador'),
+        ['//gestion/propuesta-evaluador/abrir', 'id' => $asignacion->id],
+        [
+            'id' => 'devolver',
+            'class' => 'btn btn-danger',
+            'title' => Yii::t(
+                'jonathan',
+                "La evaluación está incompleta.\nVolverla a poner en estado Pendiente de evaluación para su corrección."
+            ),
+        ]
+    ) . "\n\n";
 }
-?>

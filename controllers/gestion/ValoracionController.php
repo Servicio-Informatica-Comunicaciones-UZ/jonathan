@@ -9,6 +9,7 @@ use app\models\Bloque;
 use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
+use app\models\PropuestaEvaluador;
 use app\models\Valoracion;
 
 /**
@@ -47,13 +48,14 @@ class ValoracionController extends \app\controllers\base\ValoracionController
     public function actionVer($propuesta_id, $user_id)
     {
         Url::remember();
+        $asignacion = PropuestaEvaluador::find()->where(['propuesta_id' => $propuesta_id, 'user_id' => $user_id])->one();
         $propuesta = Propuesta::getPropuesta($propuesta_id);
         $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
         $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador($user_id)->orderBy('bloque_id')->indexBy('bloque_id')->all();
 
         return $this->render('ver', [
-            // 'bloques_autonomos' => Bloque::find()->where(['pregunta_id' => null])->all(),
+            'asignacion' => $asignacion,
             'propuesta' => $propuesta,
             'preguntas' => $preguntas,
             'respuestas' => $respuestas,

@@ -41,6 +41,37 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
     }
 
     /**
+     * Devuelve una evaluación al estado Pendiente.
+     */
+    public function actionAbrir($id)
+    {
+        $asignacion = $this->findModel($id);
+        $asignacion->estado_id = Estado::VALORACION_PENDIENTE;
+        $asignacion->save();
+
+        Yii::info(
+            sprintf(
+                '%s ha vuelto a abrir la valoración de la propuesta %s del evaluador %s.',
+                Yii::$app->user->identity->profile->name,
+                $asignacion->propuesta->denominacion,
+                $asignacion->user->profile->name
+            ),
+            'evaluador'
+        );
+
+        Yii::$app->session->addFlash(
+            'success',
+            sprintf(
+                Yii::t('gestion', 'Se ha vuelto a abrir la evaluación de la propuesta «%s» por el evaluador «%s».'),
+                $asignacion->propuesta->denominacion,
+                $asignacion->user->profile->name
+            )
+        );
+
+        return $this->redirect(['//gestion/propuesta-evaluador/valoraciones', 'anyo' => $asignacion->propuesta->anyo]);
+    }
+
+    /**
      * Muestra un listado de las asignaciones Propuesta ⟷ Evaluador.
      */
     public function actionListado($anyo)
