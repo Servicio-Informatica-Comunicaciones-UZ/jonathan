@@ -9,7 +9,7 @@ switch ($estado_id) {
         $this->title = Yii::t('jonathan', 'Propuestas en borrador');
         break;
     case Estado::PRESENTADA:
-        $this->title = Yii::t('jonathan', 'Propuestas presentadas');
+        $this->title = Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna');
         break;
     case Estado::APROB_INTERNA:
         $this->title = Yii::t('jonathan', 'Propuestas aprobadas internamente');
@@ -19,6 +19,9 @@ switch ($estado_id) {
         break;
     case Estado::RECHAZ_EXTERNA:
         $this->title = Yii::t('jonathan', 'Propuestas rechazadas externamente');
+        break;
+    case Estado::FUERA_DE_PLAZO:
+        $this->title = Yii::t('jonathan', 'Propuestas fuera de plazo');
         break;
 }
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
