@@ -47,6 +47,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         'matchCallback' => function ($rule, $action) use ($id) {
                             $usuario = Yii::$app->user;
                             $propuesta = $this->findModel($id);
+
                             return $usuario->id === $propuesta->user_id;
                         },
                         'roles' => ['@'],
@@ -61,6 +62,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                                 return true;
                             }
                             $propuesta = $this->findModel($id);
+
                             return Yii::$app->user->id === $propuesta->user_id;
                         },
                     ],
@@ -201,6 +203,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
                 $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Creación de la propuesta') . "\n";
                 $model->save();
+
                 return $this->redirect(['respuesta/crear', 'propuesta_id' => $model->id]);
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load(Yii::$app->request->get());
@@ -428,8 +431,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionPresentar($id)
     {
         $model = $this->findModel($id);
-        if (Estado::PRESENTADA == $model->estado_id) {
-            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta ya estaba presentada. 😨'));
+        if (Estado::BORRADOR !== $model->estado_id) {
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'Esta propuesta ya no está en estado Borrador, por lo que no se puede presentar. 😨')
+            );
         }
         $model->estado_id = Estado::PRESENTADA;
         $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Presentación de la propuesta') . "\n";
