@@ -20,6 +20,10 @@ class m180911_115455_add_rows_to_estado_table extends Migration
             'id' => 7,
             'nombre' => 'Valoración presentada',
         ]);
+        $this->insert('estado', [
+            'id' => 8,
+            'nombre' => 'Fuera de plazo',
+        ]);
         /* Al añadir o modificar estados, actualizar las constantes del modelo Estado. */
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Estado;
 
 $this->title = Yii::t('app', 'Gestión');
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,14 +17,29 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <ul class='listado'>
 
 <li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas presentadas'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 2]
+    Yii::t('jonathan', 'Propuestas en borrador'),
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::BORRADOR]
 ); ?></li>
 
 <li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas en borrador'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => 1]
+    Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna'),
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::PRESENTADA]
 ); ?></li>
+
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Propuestas aprobadas internamente'),
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::APROB_INTERNA]
+); ?></li>
+
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Propuestas fuera de plazo'),
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::FUERA_DE_PLAZO]
+); ?></li>
+
+</ul>
+
+
+<ul class='listado'>
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Evaluadores'),
