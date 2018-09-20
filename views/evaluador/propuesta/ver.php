@@ -258,21 +258,25 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
 
             <div class="modal-footer">
                 <?php
-                echo Html::a(
-                    '<span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;'
-                        . Yii::t('jonathan', 'Presentar la valoración'),
-                    $evaluacion_presentable ? [
-                        '//evaluador/propuesta-evaluador/presentar',
-                        'id' => $asignacion->id,
-                    ] : '#',
-                    [
-                        'id' => 'confirmar-presentacion',
-                        'class' => 'btn btn-danger',  // Botón
-                        'data-method' => 'post',
-                        'disabled' => !$evaluacion_presentable,
-                        'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
-                    ]
-                );
+                if ($evaluacion_presentable) {
+                    echo Html::a(
+                        '<span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;'
+                            . Yii::t('jonathan', 'Presentar la valoración'),
+                        [
+                            '//evaluador/propuesta-evaluador/presentar',
+                            'id' => $asignacion->id,
+                        ],
+                        [
+                            'id' => 'confirmar-presentacion',
+                            'class' => 'btn btn-danger',  // Botón
+                            'data-method' => 'post',
+                            'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
+                        ]
+                    );
+                } else {
+                    echo Yii::t('evaluador', 'No puede presentar la valoración en estos momentos.') . "<br>\n";
+                    echo Yii::t('evaluador', 'Por favor, verifique que ha puntuado todos los apartados.') . "<br>\n";
+                }
                 ?>
 
                 <button type="button" class="btn btn-info" data-dismiss="modal">
