@@ -140,6 +140,8 @@ echo DetailView::widget([
 
 /*̣ ⸻⸻⸻⸻⸻⸻⸻⸻ Preguntas y respuestas de la propuesta ⸻⸻⸻⸻⸻⸻⸻⸻ */
 
+$evaluacion_presentable = true;
+
 foreach ($preguntas as $pregunta) {
     echo "<br>\n\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
     echo "<p class='pregunta'><strong>" . nl2br(Html::encode($pregunta->descripcion)) . '</strong></p>' . PHP_EOL;
@@ -158,11 +160,17 @@ foreach ($preguntas as $pregunta) {
         printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Comentarios'));
         if ($valoracion) {
             echo '<p>' . nl2br(Html::encode($valoracion->comentarios)) . '</p>' . PHP_EOL;
+        } else {
+            $evaluacion_presentable = false;
         }
+
         if (!$bloque->tiene_puntuacion_interna) {
             printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación'));
             if ($valoracion) {
                 echo '<p>' . Yii::$app->formatter->asDecimal($valoracion->puntuacion, 1) . "</p>\n\n";
+                if ($valoracion->puntuacion === null) {  // 0 es falsey, pero es una puntuación válida.
+                    $evaluacion_presentable = false;
+                }
             }
         }
 
@@ -217,6 +225,7 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
         [
             'id' => 'presentar',
             'class' => 'btn btn-danger',
+            'disabled' => !$evaluacion_presentable,
             'data-toggle' => 'modal',
             'title' => Yii::t(
                 'jonathan',
@@ -252,14 +261,15 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
                 echo Html::a(
                     '<span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;'
                         . Yii::t('jonathan', 'Presentar la valoración'),
-                    [
+                    $evaluacion_presentable ? [
                         '//evaluador/propuesta-evaluador/presentar',
                         'id' => $asignacion->id,
-                    ],
+                    ] : '#',
                     [
                         'id' => 'confirmar-presentacion',
                         'class' => 'btn btn-danger',  // Botón
                         'data-method' => 'post',
+                        'disabled' => !$evaluacion_presentable,
                         'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
                     ]
                 );
