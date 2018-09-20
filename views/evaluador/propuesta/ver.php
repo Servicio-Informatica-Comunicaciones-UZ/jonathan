@@ -259,6 +259,7 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
                     [
                         'id' => 'confirmar-presentacion',
                         'class' => 'btn btn-danger',  // Botón
+                        'data-method' => 'post',
                         'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
                     ]
                 );

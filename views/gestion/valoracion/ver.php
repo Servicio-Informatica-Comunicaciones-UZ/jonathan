@@ -76,11 +76,13 @@ foreach ($valoraciones as $valoracion) {
 
 if (Estado::VALORACION_PRESENTADA == $asignacion->estado_id) {
     echo Html::a(
-        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al evaluador'),
+        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('gestion', 'Devolver al evaluador'),
         ['//gestion/propuesta-evaluador/abrir', 'id' => $asignacion->id],
         [
             'id' => 'devolver',
             'class' => 'btn btn-danger',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea volver a abrir esta evaluación?'),
+            'data-method' => 'post',
             'title' => Yii::t(
                 'jonathan',
                 "La evaluación está incompleta.\nVolverla a poner en estado Pendiente de evaluación para su corrección."

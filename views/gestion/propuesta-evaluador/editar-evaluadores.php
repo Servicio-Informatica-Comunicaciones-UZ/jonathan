@@ -48,6 +48,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                                 'title' => Yii::t('gestion', 'Quitar este evaluador de esta propuesta'),
                                 'aria-label' => Yii::t('gestion', 'Quitar este evaluador de esta propuestas'),
                                 'data-confirm' => Yii::t('gestion', '¿Seguro que desea eliminar este evaluador de esta propuesta?'),
+                                'data-method' => 'post',
                             ];
 
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
@@ -124,16 +125,16 @@ echo $form->field($model, 'user_id')->dropDownList(
 // attribute estado_id
 echo $form->field($model, 'estado_id')->hiddenInput(['value' => Estado::VALORACION_PENDIENTE])->label(false);
 
-echo $form->errorSummary($model)."\n";
+echo $form->errorSummary($model) . "\n";
 
 echo "<div class='form-group'>\n";
 echo Html::submitButton(
-    '<span class="glyphicon glyphicon-check"></span> '.Yii::t('jonathan', 'Añadir'),
+    '<span class="glyphicon glyphicon-check"></span> ' . Yii::t('jonathan', 'Añadir'),
     [
-        'id' => 'save-'.$model->formName(),
+        'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success',
     ]
-)."\n";
+) . "\n";
 echo "</div>\n";
 
 ActiveForm::end();

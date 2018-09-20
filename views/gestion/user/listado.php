@@ -41,6 +41,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                             'title' => Yii::t('gestion', 'Quitar rol al usuario'),
                             'aria-label' => Yii::t('gestion', 'Quitar rol al usuario'),
                             'data-confirm' => Yii::t('gestion', '¿Seguro que desea eliminar este usuario del rol?'),
+                            'data-method' => 'post',
                         ];
 
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
@@ -69,11 +70,11 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <?php
 echo Html::a(
-    '<span class="glyphicon glyphicon-plus"></span> &nbsp;'.Yii::t('jonathan', 'Añadir usuario'),
+    '<span class="glyphicon glyphicon-plus"></span> &nbsp;' . Yii::t('jonathan', 'Añadir usuario'),
     ['asignar-rol'],  // 'rol' => $rol],
     [
         'id' => 'asignar-rol',
         'class' => 'btn btn-success',
         // 'title' => '',
     ]
-)."&nbsp;\n&nbsp;";
+) . "&nbsp;\n&nbsp;";

@@ -184,6 +184,8 @@ if (Estado::PRESENTADA == $model->estado_id) {
         [
             'id' => 'devolver',
             'class' => 'btn btn-danger',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea devolver esta propuesta al proponente?'),
+            'data-method' => 'post',
             'title' => Yii::t(
                 'jonathan',
                 "La propuesta no cumple los requisitos.\nVolverla a poner en estado borrador para su corrección."
@@ -197,6 +199,8 @@ if (Estado::PRESENTADA == $model->estado_id) {
         [
             'id' => 'aprobar',
             'class' => 'btn btn-success',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea aprobar esta propuesta?'),
+            'data-method' => 'post',
             'title' => Yii::t(
                 'jonathan',
                 "La propuesta cumple los criterios.\nAprobarla para su evaluación externa."
