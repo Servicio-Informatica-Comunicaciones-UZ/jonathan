@@ -15,11 +15,12 @@ class Estado extends BaseEstado
     const PRESENTADA = 2;
     const APROB_INTERNA = 3;
     const APROB_EXTERNA = 4;
-    const RECHAZ_EXTERNA = 5;
+    const RECHAZ_INTERNO = 5;
     const EVALUABLES = [3, 4, 5];
+    const FUERA_DE_PLAZO = 8;
+
     const VALORACION_PENDIENTE = 6;
     const VALORACION_PRESENTADA = 7;
-    const FUERA_DE_PLAZO = 8;
 
     public function behaviors()
     {

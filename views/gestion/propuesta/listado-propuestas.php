@@ -17,8 +17,8 @@ switch ($estado_id) {
     case Estado::APROB_EXTERNA:
         $this->title = Yii::t('jonathan', 'Propuestas aprobadas externamente');
         break;
-    case Estado::RECHAZ_EXTERNA:
-        $this->title = Yii::t('jonathan', 'Propuestas rechazadas externamente');
+    case Estado::RECHAZ_INTERNO:
+        $this->title = Yii::t('jonathan', 'Propuestas rechazadas internamente');
         break;
     case Estado::FUERA_DE_PLAZO:
         $this->title = Yii::t('jonathan', 'Propuestas fuera de plazo');

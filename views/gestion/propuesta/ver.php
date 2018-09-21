@@ -22,8 +22,11 @@ switch ($model->estado_id) {
     case Estado::APROB_EXTERNA:
         $label = Yii::t('jonathan', 'Propuestas aprobadas externamente');
         break;
-    case Estado::RECHAZ_EXTERNA:
-        $label = Yii::t('jonathan', 'Propuestas rechazadas externamente');
+    case Estado::RECHAZ_INTERNO:
+        $label = Yii::t('jonathan', 'Propuestas rechazadas internamente');
+        break;
+    case Estado::FUERA_DE_PLAZO:
+        $label = Yii::t('jonathan', 'Propuestas fuera de plazo');
         break;
 }
 $this->params['breadcrumbs'][] = [
@@ -34,6 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 // Change background color
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
+?>
+
+<?php
+if (Estado::PRESENTADA == $model->estado_id) {
+    echo \yii\bootstrap\Alert::widget([
+        'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+            . Yii::t('gestion', 'Esta página muestra una propuesta presentada.  Aquí puede:') . "<br>\n<ul style='margin-left: 20px;'>\n<li>"
+            . Yii::t('gestion', 'Rechazar la propuesta, si ésta carece de interés y no merece ser evaluada.  Las propuestas desestimadas quedan archivadas.') . "</li>\n<li>"
+            . Yii::t('gestion', 'Devolver la propuesta al proponente, si ésta tiene defectos que pueden ser subsanados. El proponente podrá hacer correciones y volver a presentarla.') . "</li>\n<li>"
+            . Yii::t('gestion', 'Aprobar la propuesta para que sea valorada externamente.') . "</li>\n</ul>\n\n",
+        'options' => ['class' => 'alert-info'],
+    ]);
+}
 ?>
 
 <h1><?php echo Html::encode($this->title); ?></h1>
@@ -179,12 +195,29 @@ foreach ($preguntas as $pregunta) {
 echo "<hr><br>\n";
 if (Estado::PRESENTADA == $model->estado_id) {
     echo Html::a(
+        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Rechazar internamente'),
+        ['rechazar', 'id' => $model->id],
+        [
+            'id' => 'rechazar',
+            'class' => 'btn btn-danger',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea rechazar esta propuesta?') . "\n\n"
+                . Yii::t('gestion', 'La propuesta quedará archivada pasa su consulta.'),
+            'data-method' => 'post',
+            'title' => Yii::t(
+                'jonathan',
+                "Desestimar la propuesta.\nLa propuesta quedará archivada para su consulta."
+            ),
+        ]
+    ) . "&nbsp;\n&nbsp;";
+
+    echo Html::a(
         '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al proponente'),
         ['devolver', 'id' => $model->id],
         [
             'id' => 'devolver',
-            'class' => 'btn btn-danger',
-            'data-confirm' => Yii::t('gestion', '¿Seguro que desea devolver esta propuesta al proponente?'),
+            'class' => 'btn btn-warning',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea devolver esta propuesta al proponente?') . "\n\n"
+                . Yii::t('gestion', 'El proponente podrá hacer modificaciones y volver a presentarla.'),
             'data-method' => 'post',
             'title' => Yii::t(
                 'jonathan',
