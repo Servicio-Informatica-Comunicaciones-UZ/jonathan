@@ -3,11 +3,13 @@
 namespace app\controllers\gestion;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use app\models\Estado;
 use app\models\Propuesta;
+use app\models\PropuestaSearch;
 use app\models\PropuestaEvaluador;
 
 /**
@@ -77,7 +79,11 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
     public function actionListado($anyo)
     {
         Url::remember();
-        $dpEvaluables = Propuesta::getDpEvaluables($anyo);
+        $searchModel = new PropuestaSearch;
+        $dpEvaluables = $searchModel->search(['PropuestaSearch' => [
+            'anyo' => $anyo,
+            'estado_id' => Estado::APROB_INTERNA,
+        ]]);
 
         return $this->render('listado', ['dpEvaluables' => $dpEvaluables]);
     }

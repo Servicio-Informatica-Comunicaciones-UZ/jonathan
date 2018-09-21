@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1>
         <?= Yii::t('models', 'Propuesta') ?>
         <small>
-                        <?= $model->id ?>
+                        <?= Html::encode($model->id) ?>
         </small>
     </h1>
 

@@ -7,6 +7,7 @@ use yii\grid\GridView;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
+    * @var app\models\PropuestaSearch $searchModel
 */
 
 $this->title = Yii::t('models', 'Propuestas');
@@ -24,7 +25,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 <div class="giiant-crud propuesta-index">
 
     <?php
-//         ?>
+//             echo $this->render('_search', ['model' =>$searchModel]);
+        ?>
 
     
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
@@ -42,7 +44,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
         <div class="pull-right">
 
-                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                    
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -84,6 +86,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Propuesta Doctorado'),
             ],
                                 [
+                'url' => ['propuesta-evaluador/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Propuesta Evaluador'),
+            ],
+                                [
                 'url' => ['propuesta-grupo-inves/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Propuesta Grupo Inves'),
             ],
@@ -98,6 +104,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 [
                 'url' => ['respuesta/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Respuesta'),
+            ],
+                                [
+                'url' => ['valoracion/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('models', 'Valoracion'),
             ],
                     
 ]
@@ -121,6 +131,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         'firstPageLabel' => Yii::t('cruds', 'First'),
         'lastPageLabel' => Yii::t('cruds', 'Last'),
         ],
+                    'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
         'columns' => [

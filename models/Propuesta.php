@@ -104,27 +104,6 @@ class Propuesta extends BasePropuesta
         throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa propuesta.  ☹'));
     }
 
-    /**
-     * Devuelve un DataProvider con las propuestas evaluables.
-     */
-    public static function getDpEvaluables($anyo)
-    {
-        $query = self::find()
-            ->where([
-                'anyo' => $anyo,
-                'estado_id' => Estado::EVALUABLES,
-            ])
-            ->orderBy(['denominacion' => SORT_ASC])
-        ;
-        // die($query->createCommand()->getRawSql());  // DEBUG
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        return $dataProvider;
-    }
-
     /** Devuelve los usuarios evaluadores de una propuesta */
     public function getEvaluadores()
     {

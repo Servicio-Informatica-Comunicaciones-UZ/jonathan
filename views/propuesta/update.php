@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', 'Edit');
     <h1>
         <?= Yii::t('models', 'Propuesta') ?>
         <small>
-                        <?= $model->id ?>
+                        <?= Html::encode($model->id) ?>
         </small>
     </h1>
 

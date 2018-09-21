@@ -33,11 +33,20 @@ class PropuestaQuery extends \yii\db\ActiveQuery
         return parent::one($db);
     }
 
+    public function delAnyo($anyo)
+    {
+        return $this->andWhere(['anyo' => $anyo]);
+    }
 
     public function delEvaluador($user_id)
     {
         return $this
             ->innerJoinWith(['propuestaEvaluadors pe'], false)
             ->andWhere(['pe.user_id' => $user_id]);
+    }
+
+    public function enEstado($estado_id)
+    {
+        return $this->andWhere(['estado_id' => $estado_id]);
     }
 }
