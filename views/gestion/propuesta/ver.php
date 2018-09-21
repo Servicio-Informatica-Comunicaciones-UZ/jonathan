@@ -43,9 +43,12 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 if (Estado::PRESENTADA == $model->estado_id) {
     echo \yii\bootstrap\Alert::widget([
         'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
-            . Yii::t('gestion', 'Esta página muestra una propuesta presentada.  Aquí puede:') . "<br>\n<ul style='margin-left: 20px;'>\n<li>"
-            . Yii::t('gestion', 'Rechazar la propuesta, si ésta carece de interés y no merece ser evaluada.  Las propuestas desestimadas quedan archivadas.') . "</li>\n<li>"
-            . Yii::t('gestion', 'Devolver la propuesta al proponente, si ésta tiene defectos que pueden ser subsanados. El proponente podrá hacer correciones y volver a presentarla.') . "</li>\n<li>"
+            . Yii::t('gestion', 'Esta página muestra una propuesta presentada.  Aquí puede:') . "<br>\n"
+            . "<ul style='margin-left: 20px;'>\n<li>"
+            . Yii::t('gestion', 'Rechazar la propuesta, si ésta carece de interés y no merece ser evaluada.') . ' '
+            . Yii::t('gestion', 'Las propuestas desestimadas quedan archivadas.') . "</li>\n<li>"
+            . Yii::t('gestion', 'Devolver la propuesta al proponente, si ésta tiene defectos que pueden ser subsanados.') . ' '
+            . Yii::t('gestion', 'El proponente podrá hacer correcciones y volver a presentarla.') . "</li>\n<li>"
             . Yii::t('gestion', 'Aprobar la propuesta para que sea valorada externamente.') . "</li>\n</ul>\n\n",
         'options' => ['class' => 'alert-info'],
     ]);
@@ -200,7 +203,7 @@ if (Estado::PRESENTADA == $model->estado_id) {
         [
             'id' => 'rechazar',
             'class' => 'btn btn-danger',
-            'data-confirm' => Yii::t('gestion', '¿Seguro que desea rechazar esta propuesta?') . "\n\n"
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea desestimar esta propuesta?') . "\n\n"
                 . Yii::t('gestion', 'La propuesta quedará archivada pasa su consulta.'),
             'data-method' => 'post',
             'title' => Yii::t(
@@ -211,7 +214,7 @@ if (Estado::PRESENTADA == $model->estado_id) {
     ) . "&nbsp;\n&nbsp;";
 
     echo Html::a(
-        '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al proponente'),
+        '<span class="glyphicon glyphicon-step-backward"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al proponente'),
         ['devolver', 'id' => $model->id],
         [
             'id' => 'devolver',
