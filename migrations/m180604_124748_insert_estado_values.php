@@ -22,7 +22,7 @@ class m180604_124748_insert_estado_values extends Migration
         ]);
         $this->insert('estado', [
             'id' => 5,
-            'nombre' => 'Rechazada externamente',
+            'nombre' => 'Rechazada internamente',
         ]);
         /* Al añadir o modificar estados, actualizar las constantes del modelo Estado. */
     }
