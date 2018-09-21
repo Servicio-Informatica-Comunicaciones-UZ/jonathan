@@ -13,8 +13,19 @@ $this->params['breadcrumbs'][] = $this->title;
 $asignacion = $model->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
 ?>
 
-<h1><?php echo Html::encode($this->title); ?></h1>
+<?php
+if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
+    echo \yii\bootstrap\Alert::widget([
+        'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+            . Yii::t('evaluador', 'En esta página puede comentar y puntuar cada uno de los apartados de la propuesta.') . ' '
+            . Yii::t('evaluador', 'Puede modificar sus comentarios y puntuaciones tantas veces como desee.') . "<br>\n"
+            . Yii::t('evaluador', 'Una vez esté satisfecho, pulse el botón «Presentar la valoración».') . "<br>\n",
+    'options' => ['class' => 'alert-info'],
+    ]);
+}
+?>
 
+<h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <?php
@@ -246,14 +257,24 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
             </div>
 
             <div class="modal-body">
-                <p><?php printf(
+            <p><?php
+            if ($evaluacion_presentable) {
+                printf(
                     Yii::t(
                         'jonathan',
                         '¿Seguro que ha finalizado y desea presentar la valoración de la propuesta «%s»?<br>'
                         . 'Una vez la haya presentado ya no podrá modificarla.'
                     ),
                     $model->denominacion
-                ); ?></p>
+                );
+            } else {
+                echo \yii\bootstrap\Alert::widget([
+                    'body' => "<span class='glyphicon glyphicon-exclamation-sign'></span>"
+                        . Yii::t('evaluador', 'No puede presentar la valoración en estos momentos.') . "<br>\n"
+                        . Yii::t('evaluador', 'Por favor, verifique que ha puntuado todos los apartados.') . "<br>\n",
+                    'options' => ['class' => 'alert-danger'],
+                ]);
+            }?></p>
             </div>
 
             <div class="modal-footer">
@@ -273,9 +294,6 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
                             'title' => Yii::t('jonathan', 'La valoración está acabada. Presentarla.'),
                         ]
                     );
-                } else {
-                    echo Yii::t('evaluador', 'No puede presentar la valoración en estos momentos.') . "<br>\n";
-                    echo Yii::t('evaluador', 'Por favor, verifique que ha puntuado todos los apartados.') . "<br>\n";
                 }
                 ?>
 
