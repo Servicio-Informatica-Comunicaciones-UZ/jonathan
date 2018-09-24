@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class='table-responsive'>
 <?php
 $estados_map = ArrayHelper::map(
-    Estado::find()->where(['id' => [Estado::VALORACION_PENDIENTE, Estado::VALORACION_PRESENTADA]])->all(),
+    Estado::find()->where(['id' => [Estado::VALORACION_PENDIENTE, Estado::VALORACION_PRESENTADA]])->asArray()->all(),
     'id',
     'nombre'
 );
@@ -44,12 +44,7 @@ echo GridView::widget([
             'attribute' => 'nombreEvaluador',
         ], [
             'attribute' => 'estado_id',
-            'filter' => Html::dropDownList(
-                'PropuestaEvaluadorSearch[estado_id]',
-                Yii::$app->request->get('PropuestaEvaluadorSearch')['estado_id'],
-                $estados_map,
-                ['prompt' => Yii::t('gestion', 'Todos')]
-            ),
+            'filter' => Html::activeDropDownList($searchModel, 'estado_id', $estados_map, ['prompt' => Yii::t('gestion', 'Todos')]),
             'format' => 'html',
             'label' => Yii::t('jonathan', 'Estado'),
             'value' => function ($asignacion) {

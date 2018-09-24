@@ -92,7 +92,8 @@ class PropuestaEvaluadorSearch extends PropuestaEvaluador
 
         // filter by profile name
         $query->joinWith(['profile' => function ($q) {
-            $q->where(['LIKE', 'profile.name', $this->nombreEvaluador]);
+            // $q->where(['LIKE', 'profile.name', $this->nombreEvaluador ?: '']);
+            $q->where("profile.name LIKE '%{$this->nombreEvaluador}%'");
         }]);
 
         return $dataProvider;
