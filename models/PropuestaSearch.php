@@ -8,8 +8,8 @@ use yii\data\ActiveDataProvider;
 use app\models\Propuesta;
 
 /**
-* PropuestaSearch represents the model behind the search form about `app\models\Propuesta`.
-*/
+ * PropuestaSearch represents the model behind the search form about `app\models\Propuesta`.
+ */
 class PropuestaSearch extends Propuesta
 {
     /**

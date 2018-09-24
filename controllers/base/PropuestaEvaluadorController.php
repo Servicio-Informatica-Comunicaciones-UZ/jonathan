@@ -5,6 +5,7 @@
 namespace app\controllers\base;
 
 use app\models\PropuestaEvaluador;
+    use app\models\PropuestaEvaluadorSearch;
 use app\controllers\base\AppController;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -60,9 +61,8 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
-    $dataProvider = new \yii\data\ActiveDataProvider([
-    'query' => PropuestaEvaluador::find(),
-    ]);
+    $searchModel  = new PropuestaEvaluadorSearch;
+    $dataProvider = $searchModel->search($_GET);
 
 Tabs::clearLocalStorage();
 
@@ -71,6 +71,7 @@ Url::remember();
 
 return $this->render('index', [
 'dataProvider' => $dataProvider,
+    'searchModel' => $searchModel,
 ]);
 }
 

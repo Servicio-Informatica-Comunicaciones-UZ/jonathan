@@ -11,6 +11,7 @@ use app\models\Estado;
 use app\models\Propuesta;
 use app\models\PropuestaSearch;
 use app\models\PropuestaEvaluador;
+use app\models\PropuestaEvaluadorSearch;
 
 /**
  * This is the class for controller "gestion/PropuestaEvaluadorController".
@@ -91,22 +92,13 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
     /** Muestra un listado de cada una de las evaluaciones individualmente, y su estado */
     public function actionValoraciones($anyo)
     {
-        $asignacionesQuery = PropuestaEvaluador::find()
-            ->innerJoin('propuesta')
-            ->where([
-                'propuesta.anyo' => $anyo,
-                'propuesta.estado_id' => Estado::EVALUABLES,
-            ]);
+        $searchModel = new PropuestaEvaluadorSearch(['anyo' => $anyo]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $asignacionesDataProvider = new \yii\data\ActiveDataProvider([
-            'query' => $asignacionesQuery,
-            'pagination' => false,
-            'sort' => [
-                'attributes' => ['propuesta.denominacion', 'user_id', 'estado_id'],
-            ],
-        ]);
-
-        return $this->render('valoraciones', ['asignacionesDataProvider' => $asignacionesDataProvider]);
+        return $this->render(
+            'valoraciones',
+            ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]
+        );
     }
 
     /**

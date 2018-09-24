@@ -1,6 +1,7 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Estado;
@@ -10,14 +11,23 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' =>
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
 <div class='table-responsive'>
 <?php
+$estados_map = ArrayHelper::map(
+    Estado::find()->where(['id' => [Estado::VALORACION_PENDIENTE, Estado::VALORACION_PRESENTADA]])->all(),
+    'id',
+    'nombre'
+);
+$estados_map = array_map(function ($e) {
+    return Yii::t('db', $e);
+}, $estados_map);
+
 echo GridView::widget([
-    'dataProvider' => $asignacionesDataProvider,
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     // 'caption' => '',
     'columns' => [
         [
@@ -31,13 +41,15 @@ echo GridView::widget([
                 );
             },
         ], [
-            'attribute' => 'user_id',
-            'label' => Yii::t('jonathan', 'Evaluador'),
-            'value' => function ($asignacion) {
-                return $asignacion->user->profile->name;
-            }
+            'attribute' => 'nombreEvaluador',
         ], [
             'attribute' => 'estado_id',
+            'filter' => Html::dropDownList(
+                'PropuestaEvaluadorSearch[estado_id]',
+                Yii::$app->request->get('PropuestaEvaluadorSearch')['estado_id'],
+                $estados_map,
+                ['prompt' => Yii::t('gestion', 'Todos')]
+            ),
             'format' => 'html',
             'label' => Yii::t('jonathan', 'Estado'),
             'value' => function ($asignacion) {
@@ -45,7 +57,7 @@ echo GridView::widget([
 
                 if ($estado->id === Estado::VALORACION_PRESENTADA) {
                     return Html::a(
-                        $estado->nombre,
+                        Yii::t('db', $estado->nombre),
                         [
                             '@web/gestion/valoracion/ver',
                             'user_id' => $asignacion->user_id,
@@ -53,14 +65,14 @@ echo GridView::widget([
                         ]
                     );
                 }
-                return $estado->nombre;
+                return Yii::t('db', $estado->nombre);
             }
         ],
     ],
     'options' => ['class' => 'cabecera-azul'],
     // 'pager' => ...,
     'summary' => false,  // Do not show `Showing 1-19 of 19 items'.
-    'tableOptions' => ['class' => 'table table-striped table-hover'],
+    'tableOptions' => ['class' => 'table table-bordered table-hover table-striped'],
 ]);
 ?>
 </div>

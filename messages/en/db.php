@@ -15,4 +15,6 @@
  */
 return [
     'FIXME' => '',
+    'Valoración pendiente' => 'Pending evaluation',
+    'Valoración presentada' => 'Evaluation turned in',
 ];

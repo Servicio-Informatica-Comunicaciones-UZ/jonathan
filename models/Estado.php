@@ -41,4 +41,23 @@ class Estado extends BaseEstado
             ]
         );
     }
+
+    /**
+     * Finds the Estado model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @throws HttpException if the model cannot be found
+     *
+     * @param int $id
+     *
+     * @return Estado the loaded model
+     */
+    public static function getModel($id)
+    {
+        if (null !== ($model = self::findOne(['id' => $id]))) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa estado.  ☹'));
+    }
 }

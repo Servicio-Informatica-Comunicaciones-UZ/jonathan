@@ -15,4 +15,6 @@
  */
 return [
     'FIXME' => 'ARRÉGLAME',
+    'Valoración pendiente' => '',
+    'Valoración presentada' => '',
 ];

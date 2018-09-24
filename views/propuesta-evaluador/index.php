@@ -7,6 +7,7 @@ use yii\grid\GridView;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
+    * @var app\models\PropuestaEvaluadorSearch $searchModel
 */
 
 $this->title = Yii::t('models', 'Propuesta Evaluadors');
@@ -41,7 +42,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 <div class="giiant-crud propuesta-evaluador-index">
 
     <?php
-//         ?>
+//             echo $this->render('_search', ['model' =>$searchModel]);
+        ?>
 
     
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
@@ -111,6 +113,7 @@ if(\Yii::$app->user->can('app_propuesta-evaluador_create', ['route' => true])){
         'firstPageLabel' => Yii::t('cruds', 'First'),
         'lastPageLabel' => Yii::t('cruds', 'Last'),
         ],
+                    'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
         'columns' => [
