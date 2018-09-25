@@ -3,6 +3,7 @@
 namespace app\controllers\gestion;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
@@ -10,6 +11,7 @@ use yii\web\ServerErrorHttpException;
 use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
+use app\models\PropuestaSearch;
 
 /**
  * This is the class for controller "gestion/PropuestaController".
@@ -178,9 +180,16 @@ class PropuestaController extends \app\controllers\base\PropuestaController
      */
     public function actionListadoPropuestas($anyo, $estado_id)
     {
-        $dpPropuestas = Propuesta::getDpPropuestasEnEstado($anyo, $estado_id);
+        $searchModel = new PropuestaSearch();
+        $params = Yii::$app->request->queryParams;
+        $params['PropuestaSearch']['anyo'] = $anyo;
+        $params['PropuestaSearch']['estado_id'] = $estado_id;
+        $dataProvider = $searchModel->search($params);
 
-        return $this->render('listado-propuestas', ['dpPropuestas' => $dpPropuestas, 'estado_id' => $estado_id]);
+        return $this->render(
+            'listado-propuestas',
+            ['dataProvider' => $dataProvider, 'estado_id' => $estado_id, 'searchModel' => $searchModel]
+        );
     }
 
     /**

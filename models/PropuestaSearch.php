@@ -12,6 +12,9 @@ use app\models\Propuesta;
  */
 class PropuestaSearch extends Propuesta
 {
+    // Atributos calculados o de tablas relacionadas
+    public $nombreProponente;
+
     /**
     * @inheritdoc
     */
@@ -21,6 +24,8 @@ class PropuestaSearch extends Propuesta
             [['id', 'anyo', 'user_id', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'estado_id'], 'integer'],
             [['denominacion', 'log'], 'safe'],
             [['creditos_practicas'], 'number'],
+            // Reglas para los atributos calculados/referenciados
+            [['nombreProponente'], 'safe']
         ];
     }
 
@@ -47,7 +52,16 @@ class PropuestaSearch extends Propuesta
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'attributes' => ['denominacion'],
+                'attributes' => [
+                    'denominacion',
+                    // Setup our sorting attributes
+                    'nombreProponente' => [
+                        'asc' => ['profile.name' => SORT_ASC],
+                        'desc' => ['profile.name' => SORT_DESC],
+                        // 'label' => 'Nombre del responsable'
+                        'default' => SORT_ASC,
+                    ],
+                ],
                 'defaultOrder' => ['denominacion' => SORT_ASC],
             ],
         ]);
@@ -55,7 +69,7 @@ class PropuestaSearch extends Propuesta
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+            $query->where('0=1');
             return $dataProvider;
         }
 
@@ -75,6 +89,12 @@ class PropuestaSearch extends Propuesta
 
         $query->andFilterWhere(['like', 'denominacion', $this->denominacion])
             ->andFilterWhere(['like', 'log', $this->log]);
+
+        // filter by profile name
+        $query->joinWith(['profile' => function ($q) {
+            // $q->where(['LIKE', 'profile.name', $this->nombreProponente ?: '']);
+            $q->where("profile.name LIKE '%{$this->nombreProponente}%'");
+        }]);
 
         return $dataProvider;
     }

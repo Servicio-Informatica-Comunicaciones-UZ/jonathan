@@ -45,7 +45,8 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <div class="table-responsive">
     <?php echo GridView::widget([
-        'dataProvider' => $dpPropuestas,
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'denominacion',
@@ -57,10 +58,9 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                         ['//gestion/propuesta/ver', 'id' => $propuesta->id]
                     );
                 },
-            ], [
-                'attribute' => 'user.profile.name',
-                'label' => Yii::t('jonathan', 'Responsable'),
-            ], [
+            ],
+            'nombreProponente',
+            [
                 'label' => Yii::t('jonathan', 'Centro gestor'),
                 'value' => function ($propuesta) {
                     // Se considera centro gestor al primero de la lista.
