@@ -14,6 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
+<?php
+\yii\widgets\Pjax::begin([
+    'id' => 'pjax-main',
+    'enableReplaceState' => false,
+    'linkSelector' => '#pjax-main ul.pagination a, th a',
+    // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
+]);
+?>
+
 <div class='table-responsive'>
 <?php
 $estados_map = ArrayHelper::map(
@@ -44,7 +53,12 @@ echo GridView::widget([
             'attribute' => 'nombreEvaluador',
         ], [
             'attribute' => 'estado_id',
-            'filter' => Html::activeDropDownList($searchModel, 'estado_id', $estados_map, ['prompt' => Yii::t('gestion', 'Todos')]),
+            'filter' => Html::activeDropDownList(
+                $searchModel,
+                'estado_id',
+                $estados_map,
+                ['class' => 'form-control', 'prompt' => Yii::t('gestion', 'Todos')]
+            ),
             'format' => 'html',
             'label' => Yii::t('jonathan', 'Estado'),
             'value' => function ($asignacion) {
@@ -71,3 +85,6 @@ echo GridView::widget([
 ]);
 ?>
 </div>
+
+<?php
+\yii\widgets\Pjax::end();

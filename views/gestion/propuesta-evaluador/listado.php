@@ -22,6 +22,13 @@ echo \yii\bootstrap\Alert::widget([
         . Yii::t('jonathan', 'Sólo se muestran las propuestas que hayan sido aprobadas internamente.'),
     'options' => ['class' => 'alert-info'],
 ]);
+
+\yii\widgets\Pjax::begin([
+    'id' => 'pjax-main',
+    'enableReplaceState' => false,
+    'linkSelector' => '#pjax-main ul.pagination a, th a',
+    // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
+]);
 ?>
 
 <div class="table-responsive">
@@ -74,6 +81,9 @@ echo \yii\bootstrap\Alert::widget([
         // 'caption' => '',
         'options' => ['class' => 'cabecera-azul'],
         'summary' => false,
-        'tableOptions' => ['class' => 'table table-striped table-hover'],
+        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover'],
     ]); ?>
 </div>
+
+<?php
+\yii\widgets\Pjax::end();

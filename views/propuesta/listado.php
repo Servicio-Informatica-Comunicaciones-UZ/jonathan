@@ -16,6 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
 </h1>
 <hr><br>
 
+<?php
+\yii\widgets\Pjax::begin([
+    'id' => 'pjax-main',
+    'enableReplaceState' => false,
+    'linkSelector' => '#pjax-main ul.pagination a, th a',
+    // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
+]);
+?>
+
 <div class="table-responsive">
     <?php echo GridView::widget([
         'dataProvider' => $dpPropuestas,
@@ -47,11 +56,13 @@ $this->params['breadcrumbs'][] = $this->title;
         // 'caption' => '',
         'options' => ['class' => 'cabecera-azul'],
         'summary' => false,
-        'tableOptions' => ['class' => 'table table-striped table-hover'],
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
     ]); ?>
 </div>
 
 <?php
+\yii\widgets\Pjax::end();
+
 echo Html::a(
     '<span class="glyphicon glyphicon-plus"></span> &nbsp;' . Yii::t('jonathan', 'Nueva propuesta'),
     ['crear'],
@@ -61,4 +72,3 @@ echo Html::a(
         'title' => Yii::t('jonathan', 'Crear una nueva propuesta'),
     ]
 ) . "\n";
-?>

@@ -34,6 +34,15 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
 
+<?php
+\yii\widgets\Pjax::begin([
+    'id' => 'pjax-main',
+    'enableReplaceState' => false,
+    'linkSelector' => '#pjax-main ul.pagination a, th a',
+    // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
+]);
+?>
+
 <div class="table-responsive">
     <?php echo GridView::widget([
         'dataProvider' => $dpPropuestas,
@@ -67,6 +76,9 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
         // 'caption' => '',
         'options' => ['class' => 'cabecera-azul'],
         'summary' => false,
-        'tableOptions' => ['class' => 'table table-striped table-hover'],
+        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover'],
     ]); ?>
 </div>
+
+<?php
+\yii\widgets\Pjax::end();
