@@ -12,6 +12,7 @@ use app\models\PropuestaCentro;
 use app\models\PropuestaDoctorado;
 use app\models\PropuestaGrupoInves;
 use app\models\PropuestaMacroarea;
+use app\models\PropuestaSearch;
 use app\models\PropuestaTitulacion;
 use Cocur\BackgroundProcess\BackgroundProcess;
 use Yii;
@@ -394,7 +395,9 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             return $this->redirect('@web/evaluador/index');
         }
 
-        $dpPropuestas = Propuesta::getDpPropuestasDelUsuario($usuario->id);
+        $searchModel = new PropuestaSearch();
+        $params = ['PropuestaSearch' => ['user_id' => $usuario->id]];
+        $dpPropuestas = $searchModel->search($params);
 
         return $this->render('listado', ['dpPropuestas' => $dpPropuestas]);
     }

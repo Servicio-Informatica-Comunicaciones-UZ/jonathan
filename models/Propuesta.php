@@ -56,22 +56,6 @@ class Propuesta extends BasePropuesta
     }
 
     /**
-     * Devuelve un DataProvider con las propuestas creadas por un usuario.
-     */
-    public static function getDpPropuestasDelUsuario($user_id)
-    {
-        $query = self::find()
-            ->where(['user_id' => $user_id])
-            ->orderBy(['anyo' => SORT_DESC, 'denominacion' => SORT_ASC]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        return $dataProvider;
-    }
-
-    /**
      * Finds the Propuesta model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *

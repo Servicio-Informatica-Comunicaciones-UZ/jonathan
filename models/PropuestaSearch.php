@@ -53,6 +53,7 @@ class PropuestaSearch extends Propuesta
             'query' => $query,
             'sort' => [
                 'attributes' => [
+                    'anyo',
                     'denominacion',
                     // Setup our sorting attributes
                     'nombreProponente' => [
@@ -62,7 +63,7 @@ class PropuestaSearch extends Propuesta
                         'default' => SORT_ASC,
                     ],
                 ],
-                'defaultOrder' => ['denominacion' => SORT_ASC],
+                'defaultOrder' => ['anyo' => SORT_DESC, 'denominacion' => SORT_ASC],
             ],
         ]);
         $this->load($params);
@@ -76,7 +77,7 @@ class PropuestaSearch extends Propuesta
         $query->andFilterWhere([
             'id' => $this->id,
             'anyo' => $this->anyo,
-            'user_id' => $this->user_id,
+            'propuesta.user_id' => $this->user_id,
             'orientacion_id' => $this->orientacion_id,
             'creditos' => $this->creditos,
             'duracion' => $this->duracion,
