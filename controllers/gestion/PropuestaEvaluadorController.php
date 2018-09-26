@@ -5,6 +5,7 @@ namespace app\controllers\gestion;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use app\models\Estado;
@@ -95,9 +96,18 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
         $searchModel = new PropuestaEvaluadorSearch(['anyo' => $anyo]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $estados_map = ArrayHelper::map(
+            Estado::find()->where(['id' => Estado::DE_VALORACIONES])->asArray()->all(),
+            'id',
+            'nombre'
+        );
+        $mapa_estados = array_map(function ($nombre_estado) {
+            return Yii::t('db', $nombre_estado);
+        }, $estados_map);
+
         return $this->render(
             'valoraciones',
-            ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]
+            ['dataProvider' => $dataProvider, 'mapa_estados' => $mapa_estados, 'searchModel' => $searchModel]
         );
     }
 

@@ -1,7 +1,6 @@
 <?php
 
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Estado;
@@ -25,15 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class='table-responsive'>
 <?php
-$estados_map = ArrayHelper::map(
-    Estado::find()->where(['id' => [Estado::VALORACION_PENDIENTE, Estado::VALORACION_PRESENTADA]])->asArray()->all(),
-    'id',
-    'nombre'
-);
-$estados_map = array_map(function ($e) {
-    return Yii::t('db', $e);
-}, $estados_map);
-
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -56,7 +46,7 @@ echo GridView::widget([
             'filter' => Html::activeDropDownList(
                 $searchModel,
                 'estado_id',
-                $estados_map,
+                $mapa_estados,
                 ['class' => 'form-control', 'prompt' => Yii::t('gestion', 'Todos')]
             ),
             'format' => 'html',

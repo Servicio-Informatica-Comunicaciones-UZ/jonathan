@@ -176,19 +176,27 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     }
 
     /**
-     * Muestra un listado de las propuestas de un año que estén en un estado determinado.
+     * Muestra un listado de las propuestas de un año.
      */
-    public function actionListadoPropuestas($anyo, $estado_id)
+    public function actionListadoPropuestas($anyo)
     {
         $searchModel = new PropuestaSearch();
         $params = Yii::$app->request->queryParams;
         $params['PropuestaSearch']['anyo'] = $anyo;
-        $params['PropuestaSearch']['estado_id'] = $estado_id;
         $dataProvider = $searchModel->search($params);
+
+        $estados_map = ArrayHelper::map(
+            Estado::find()->where(['id' => Estado::DE_PROPUESTAS])->asArray()->all(),
+            'id',
+            'nombre'
+        );
+        $mapa_estados = array_map(function ($nombre_estado) {
+            return Yii::t('db', $nombre_estado);
+        }, $estados_map);
 
         return $this->render(
             'listado-propuestas',
-            ['dataProvider' => $dataProvider, 'estado_id' => $estado_id, 'searchModel' => $searchModel]
+            ['dataProvider' => $dataProvider, 'mapa_estados' => $mapa_estados, 'searchModel' => $searchModel]
         );
     }
 

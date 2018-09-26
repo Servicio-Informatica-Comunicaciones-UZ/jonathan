@@ -17,34 +17,9 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <ul class='listado'>
 
 <li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas en borrador'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::BORRADOR]
+    Yii::t('jonathan', 'Propuestas'),
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y')]
 ); ?></li>
-
-<li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::PRESENTADA]
-); ?></li>
-
-<li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas fuera de plazo'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::FUERA_DE_PLAZO]
-); ?></li>
-
-<li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas aprobadas internamente'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::APROB_INTERNA]
-); ?></li>
-
-<li><?php echo Html::a(
-    Yii::t('jonathan', 'Propuestas rechazadas internamente'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y'), 'estado_id' => Estado::RECHAZ_INTERNO]
-); ?></li>
-
-</ul>
-
-
-<ul class='listado'>
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Evaluadores'),

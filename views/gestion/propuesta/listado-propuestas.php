@@ -1,38 +1,24 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use app\models\Estado;
 
-switch ($estado_id) {
-    case Estado::BORRADOR:
-        $this->title = Yii::t('jonathan', 'Propuestas en borrador');
-        break;
-    case Estado::PRESENTADA:
-        $this->title = Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna');
-        break;
-    case Estado::APROB_INTERNA:
-        $this->title = Yii::t('jonathan', 'Propuestas aprobadas internamente');
-        break;
-    case Estado::APROB_EXTERNA:
-        $this->title = Yii::t('jonathan', 'Propuestas aprobadas externamente');
-        break;
-    case Estado::RECHAZ_INTERNO:
-        $this->title = Yii::t('jonathan', 'Propuestas rechazadas internamente');
-        break;
-    case Estado::FUERA_DE_PLAZO:
-        $this->title = Yii::t('jonathan', 'Propuestas fuera de plazo');
-        break;
-}
+$titulos = [
+    Estado::BORRADOR => Yii::t('jonathan', 'Propuestas en borrador'),
+    Estado::PRESENTADA => Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna'),
+    Estado::APROB_INTERNA => Yii::t('jonathan', 'Propuestas aprobadas internamente'),
+    Estado::RECHAZ_INTERNO => Yii::t('jonathan', 'Propuestas rechazadas internamente'),
+    Estado::FUERA_DE_PLAZO => Yii::t('jonathan', 'Propuestas fuera de plazo'),
+];
+
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // Change background color
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
-
-<h1><?php echo Html::encode($this->title); ?></h1>
-<hr><br>
 
 <?php
 \yii\widgets\Pjax::begin([
@@ -41,7 +27,13 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
     'linkSelector' => '#pjax-main ul.pagination a, th a',
     // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
 ]);
+
+$estado_id = ArrayHelper::getValue(Yii::$app->request->get('PropuestaSearch'), 'estado_id');
+$this->title = ArrayHelper::getValue($titulos, $estado_id, Yii::t('jonathan', 'Todas las propuestas'));
 ?>
+
+<h1><?php echo Html::encode($this->title); ?></h1>
+<hr><br>
 
 <div class="table-responsive">
     <?php echo GridView::widget([
@@ -69,8 +61,17 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                     return $centro_gestor ? $centro_gestor->nombre_centro : null;
                 },
             ], [
-                'attribute' => 'estado.nombre',
+                'attribute' => 'estado_id',
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'estado_id',
+                    $mapa_estados,
+                    ['class' => 'form-control', 'prompt' => Yii::t('gestion', 'Todos')]
+                ),
                 'label' => Yii::t('jonathan', 'Estado'),
+                'value' => function ($propuesta) {
+                    return Yii::t('db', $propuesta->estado->nombre);
+                }
             ],
         ],
         // 'caption' => '',
