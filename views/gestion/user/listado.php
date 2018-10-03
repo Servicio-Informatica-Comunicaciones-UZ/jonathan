@@ -30,19 +30,17 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
         [
         'dataProvider' => new ArrayDataProvider(
             [
-            'allModels' => $usuarios,
-            'sort' => [
-                'attributes' => ['username', 'profile.name', 'email'],
-            ],
+                'allModels' => $usuarios,
+                'sort' => [
+                    'attributes' => ['username', 'profile.name', 'email'],
+                ],
             ]
         ),
         'columns' => [
             'username',
             'profile.name',
+            'email:email',  // See http://www.yiiframework.com/doc-2.0/guide-output-formatting.html
             [
-                'attribute' => 'email',
-                'format' => 'email',  // See http://www.yiiframework.com/doc-2.0/guide-output-formatting.html
-            ], [
                 'class' => 'yii\grid\ActionColumn',
                 'buttons' => [
                     'quitar-rol' => function ($url, $model, $key) {
@@ -86,6 +84,6 @@ echo Html::a(
     [
         'id' => 'asignar-rol',
         'class' => 'btn btn-success',
-        // 'title' => '',
+        'title' => 'Añadir un usuario a este rol',
     ]
 ) . "&nbsp;\n&nbsp;";

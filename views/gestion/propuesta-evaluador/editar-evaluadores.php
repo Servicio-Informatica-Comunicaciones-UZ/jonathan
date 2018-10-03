@@ -45,11 +45,9 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
                 ], [
                     'attribute' => 'user.profile.name',
                     'label' => Yii::t('models', 'Nombre'),
-                ], [
-                    'attribute' => 'user.email',
-                    'format' => 'email',  // See http://www.yiiframework.com/doc-2.0/guide-output-formatting.html
-                    'label' => Yii::t('models', 'Correo electrónico'),
-                ], [
+                ],
+                'user.email:email',  // See http://www.yiiframework.com/doc-2.0/guide-output-formatting.html
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'buttons' => [
                         'borrar' => function ($url, $model, $key) {
@@ -128,10 +126,7 @@ $evaluadores = User::find()->where(['id' => $evaluadoresIds])->all();
 usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
 echo $form->field($model, 'user_id')->dropDownList(
     \yii\helpers\ArrayHelper::map($evaluadores, 'id', 'profile.name'),
-    [
-        'prompt' => Yii::t('jonathan', 'Seleccione el evaluador'),
-        'disabled' => (isset($relAttributes) && isset($relAttributes['user_id'])),
-    ]
+    ['prompt' => Yii::t('jonathan', 'Seleccione el evaluador')]
 )->label(false);
 
 // attribute estado_id
