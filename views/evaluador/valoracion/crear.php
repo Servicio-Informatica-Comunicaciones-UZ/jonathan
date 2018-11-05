@@ -23,7 +23,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <p><?php echo nl2br(Html::encode($model->respuesta->valor)); ?></p>
 
 <div class='cuadro-gris'>
-    <h3><?php echo $model->bloque->titulo; ?></h3>
+    <h3><?php echo "{$model->bloque->titulo} ({$model->bloque->porcentaje}%)"; ?></h3>
     <p style='font-weight: bold;'><?php echo nl2br(Html::encode($model->bloque->descripcion)); ?></p>
 
     <?php echo $this->render('_formulario', ['model' => $model]); ?>

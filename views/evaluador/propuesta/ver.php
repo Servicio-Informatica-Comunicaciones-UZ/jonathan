@@ -165,7 +165,7 @@ foreach ($preguntas as $pregunta) {
     foreach ($bloques as $bloque) {
         echo "<div class='cuadro-gris'>\n";
         $valoracion = $bloque->getValoracions()->deLaPropuesta($model->id)->delEvaluador(Yii::$app->user->id)->one();
-        echo "<h3>{$bloque->titulo}</h3>\n";
+        echo "<h3>{$bloque->titulo} ({$bloque->porcentaje}%)</h3>\n";
         echo "<p style='font-weight: bold;'>" . nl2br(Html::encode($bloque->descripcion)) . "</p>\n\n";
 
         printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Comentarios'));
