@@ -26,7 +26,11 @@ echo GridView::widget([
                 return Html::a(
                     Html::encode(trim($propuesta->denominacion)) ?:
                         '<span class="not-set">' . Yii::t('jonathan', '(no definido)') . '</span>',
-                    ['//evaluador/propuesta/ver', 'propuesta_id' => $propuesta->id]
+                    ['//evaluador/propuesta/ver', 'propuesta_id' => $propuesta->id],
+                    [
+                        'title' => Yii::t('evaluador', 'Ver/valorar la propuesta'),
+                        'aria-label' => Yii::t('evaluador', 'Ver/valorar la propuesta'),
+                    ]
                 );
             },
         ], [
@@ -38,9 +42,9 @@ echo GridView::widget([
                 $asignacion = $propuesta->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
                 return $asignacion->estado_id ? $asignacion->estado->nombre : null;
             }
-        ], [
+        ], /* [
             'class' => yii\grid\ActionColumn::className(),  // 'yii\grid\ActionColumn',
-            'template' => '{ver} {valorar}',
+            'template' => '{ver}',
             'buttons' => [
                 'ver' => function ($url, $model, $key) {
                     $options = [
@@ -63,7 +67,20 @@ echo GridView::widget([
                     'propuesta_id' => $key,
                 ]);
             },
-        ],
+        ], */
+        [
+            'format' => 'html',
+            'value' => function ($propuesta) {
+                return Html::a(
+                    '<span class="glyphicon glyphicon glyphicon-save-file" aria-label="Ver"></span>',
+                    "@web/pdf/propuestas/{$propuesta->id}.pdf",
+                    [
+                        'title' => Yii::t('evaluador', 'Descargar PDF de la propuesta'),
+                        'aria-label' => Yii::t('evaluador', 'Descargar PDF de la propuesta'),
+                    ]
+                );
+            },
+        ]
     ],
     'options' => ['class' => 'cabecera-azul'],
     // 'pager' => ...,
