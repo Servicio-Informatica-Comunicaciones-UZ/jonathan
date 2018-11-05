@@ -10,7 +10,13 @@ Requisitos
 
 * PHP 7, con la extensión PHP Data Objects (PDO)
 * Los módulos curl, GD, intl, JSON, LDAP, mbstring y XML para PHP
-* El módulo mcrypt de PHP, que en PHP 7.2+ es necesario instalar con `pecl` y habilitar con `phpenmod`.
+* El módulo mcrypt de PHP, requerido por asasmoyo/yii2-saml, que en PHP 7.2+ es necesario instalar con `pecl` y habilitar con `phpenmod`.
+  ```shell
+  sudo apt install gcc make autoconf libc-dev pkg-config php-dev libmcrypt-dev
+  sudo pecl install mcrypt-1.0.1
+  ```
+  Habilitarlo añadiendo `extension=mcrypt.so` al final de `etc/php/7.2/{cli, apache, fpm}/php.ini`.
+  Reiniciar el servicio con `systemctl restart php7.2-fpm` o la orden correspondiente.
   Véase [How to install mcrypt in php7.2](https://lukasmestan.com/install-mcrypt-extension-in-php7-2/)
 * Un SGBD aceptado por PDO (vg PostgreSQL o MySQL), y el módulo para PHP correspondiente
 * [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html)
