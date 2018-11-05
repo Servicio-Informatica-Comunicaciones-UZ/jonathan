@@ -228,6 +228,23 @@ foreach ($bloques_autonomos as $bloque) {
 
 echo "<hr><br>\n";
 
+/* Cálculo de la puntuación final */
+echo "<div class='cuadro-gris'>\n";
+printf("<h4>%s</h4>\n", Yii::t('evaluador', 'Puntuación final'));
+
+echo Yii::$app->formatter->asDecimal(
+    array_sum(
+        array_map(
+            function ($valoracion) {
+                return ($valoracion->bloque->porcentaje / 100) * $valoracion->puntuacion;
+            },
+            $valoraciones
+        )
+    ),
+    2
+);
+echo "</div>\n<br>\n";
+
 /* Presentación de la valoración */
 if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
     echo Html::a(

@@ -11,6 +11,7 @@ use app\models\Estado;
 use app\models\Pregunta;
 use app\models\Propuesta;
 use app\models\PropuestaEvaluador;
+use app\models\Valoracion;
 
 /**
  * This is the class for controller "evaluador/PropuestaController".
@@ -63,12 +64,14 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $propuesta = $this->findModel($propuesta_id);
         $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
+        $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador(Yii::$app->user->id)->all();
 
         return $this->render('ver', [
             'bloques_autonomos' => Bloque::find()->where(['pregunta_id' => null])->all(),
             'model' => $propuesta,
             'preguntas' => $preguntas,
             'respuestas' => $respuestas,
+            'valoraciones' => $valoraciones,
         ]);
     }
 }
