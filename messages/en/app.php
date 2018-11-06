@@ -21,6 +21,7 @@ return [
     'Enlaces' => '',
     'Gestión' => '',
     'No tiene permisos para acceder a esta página. 😨' => '',
+    'Número de Identificación Personal' => '',
     'Off' => '',
     'On' => '',
     'Propuestas' => '',

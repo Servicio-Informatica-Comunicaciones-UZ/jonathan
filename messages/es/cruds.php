@@ -17,6 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Reset' => '',
+    'Search' => '',
     'Are you sure to delete this item?' => '¿Seguro que desea borrar este elemento?',
     'Cancel' => 'Cancelar',
     'Copy' => 'Copiar',

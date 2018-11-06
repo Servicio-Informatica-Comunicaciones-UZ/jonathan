@@ -26,6 +26,7 @@ return [
     'Gestión' => '',
     'Iniciar sesión' => '',
     'No tiene permisos para acceder a esta página. 😨' => '',
+    'Número de Identificación Personal' => '',
     'Off' => '',
     'On' => '',
     'Política de privacidad' => '',
