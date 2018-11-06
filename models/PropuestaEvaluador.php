@@ -28,6 +28,7 @@ class PropuestaEvaluador extends BasePropuestaEvaluador
             parent::rules(),
             [
                 // custom validation rules
+                [['user_id'], 'required'],
             ]
         );
     }

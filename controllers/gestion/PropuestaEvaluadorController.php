@@ -60,7 +60,7 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
                 $asignacion->propuesta->denominacion,
                 $asignacion->user->profile->name
             ),
-            'evaluador'
+            'gestion'
         );
 
         Yii::$app->session->addFlash(
@@ -117,11 +117,21 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
     public function actionEditarEvaluadores($id)
     {
         Url::remember();
-        $propuesta = Propuesta::findOne(['id' => $id]);
+        $propuesta = Propuesta::getPropuesta($id);
         $model = new PropuestaEvaluador();
 
         try {
             if ($model->load($_POST) && $model->save()) {
+                Yii::info(
+                    sprintf(
+                        '%s ha asignado la propuesta «%s» al evaluador %s.',
+                        Yii::$app->user->identity->profile->name,
+                        $model->propuesta->denominacion,
+                        $model->user->profile->name
+                    ),
+                    'gestion'
+                );
+
                 return $this->redirect(['editar-evaluadores', 'id' => $id]);
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
@@ -151,6 +161,16 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
         try {
             $model = $this->findModel($id);
             $model->delete();
+
+            Yii::info(
+                sprintf(
+                    '%s ha desasignado la propuesta «%s» al evaluador %s.',
+                    Yii::$app->user->identity->profile->name,
+                    $model->propuesta->denominacion,
+                    $model->user->profile->name
+                ),
+                'gestion'
+            );
             Yii::$app->session->addFlash(
                 'success',
                 sprintf(Yii::t('gestion', 'Se ha quitado al evaluador %s de esta propuesta.'), $model->user->profile->name)
