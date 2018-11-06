@@ -112,12 +112,12 @@ class UserController extends \app\controllers\base\AppController
             );
             Yii::info(
                 sprintf(
-                    '%s (%s) ha creado el usuario «%s» (%s) con rol «%s»',
+                    '%s (%s) ha asignado el rol «%s» al usuario «%s» (%s).',
                     Yii::$app->user->identity->username,
                     Yii::$app->user->identity->profile->name,
+                    $rol,
                     $usuario->username,
-                    $usuario->getProfile()->one()->name,
-                    $rol
+                    $usuario->profile->name
                 ),
                 'gestion'
             );
@@ -161,7 +161,7 @@ class UserController extends \app\controllers\base\AppController
                         Yii::t(
                             'jonathan',
                             "Se ha creado el usuario «%s».  Por favor, infórmele de su nombre de usuario y contraseña.\n"
-                            ."Al tratarse de un usuario externo, para iniciar sesión deberá usar la dirección\n%s"
+                            . "Al tratarse de un usuario externo, para iniciar sesión deberá usar la dirección\n%s"
                         ),
                         Html::encode($model->username),
                         Url::toRoute('//user/login', true)
