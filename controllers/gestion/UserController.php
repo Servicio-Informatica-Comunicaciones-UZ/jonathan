@@ -117,7 +117,7 @@ class UserController extends \app\controllers\base\AppController
                     Yii::$app->user->identity->profile->name,
                     $rol,
                     $usuario->username,
-                    $usuario->profile->name
+                    $usuario->getProfile()->one()->name
                 ),
                 'gestion'
             );

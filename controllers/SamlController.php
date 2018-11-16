@@ -72,10 +72,19 @@ class SamlController extends Controller
 
         // email and name may change.  Let's update them.
         $identidad = User::findIdentidadByNip($nip);
-        $user->email = $identidad['CORREO_PRINCIPAL'];
-        $user->save();
+        $email_identidad = yii\helpers\ArrayHelper::getValue($identidad, 'CORREO_PRINCIPAL', null);
+        if ($email_identidad) {
+            $user->email = $email_identidad;
+            $user->save();
+        }
+
         $profile = Profile::findOne(['user_id' => $user->id]);
-        $profile->name = "{$identidad['NOMBRE']} {$identidad['APELLIDO_1']} {$identidad['APELLIDO_2']}";  // $attributes['cn'][0];
+        $profile->name = sprintf(
+            '%s %s %s',
+            yii\helpers\ArrayHelper::getValue($identidad, 'NOMBRE', ''),
+            yii\helpers\ArrayHelper::getValue($identidad, 'APELLIDO_1', ''),
+            yii\helpers\ArrayHelper::getValue($identidad, 'APELLIDO_2', '')
+        );  // $attributes['cn'][0];
         $profile->gravatar_email = $user->email;
         // TODO: Extender el profile para guardar el colectivo, nombres y apellidos por separado, etc.
         $profile->save();
