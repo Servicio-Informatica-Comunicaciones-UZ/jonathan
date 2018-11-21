@@ -40,6 +40,7 @@ body {
     margin-bottom: 50px;
     padding: 2.8rem 0 1.8rem 0;
     width: 83.33%;
+    border-radius: 6px 6px 6px 6px;
 }
 
 .view-header ul {
