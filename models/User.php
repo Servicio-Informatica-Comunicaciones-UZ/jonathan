@@ -107,6 +107,6 @@ class User extends BaseUser
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese usuario.  ☹'));
+        throw new yii\web\NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese usuario.  ☹'));
     }
 }

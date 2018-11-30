@@ -47,6 +47,6 @@ class Bloque extends BaseBloque
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese bloque.  ☹'));
+        throw new yii\web\NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese bloque.  ☹'));
     }
 }

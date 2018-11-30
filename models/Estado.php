@@ -59,6 +59,6 @@ class Estado extends BaseEstado
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa estado.  ☹'));
+        throw new yii\web\NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado ese estado.  ☹'));
     }
 }
