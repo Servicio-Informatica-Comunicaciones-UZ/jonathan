@@ -5,6 +5,7 @@ use app\models\Estado;
 
 $this->title = Yii::t('app', 'Gestión');
 $this->params['breadcrumbs'][] = $this->title;
+$anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
 
 // Change background color
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
@@ -18,7 +19,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Propuestas'),
-    ['//gestion/propuesta/listado-propuestas', 'anyo' => date('Y')]
+    ['//gestion/propuesta/listado-propuestas', 'anyo' => $anyo_academico]
 ); ?></li>
 
 <li><?php echo Html::a(
@@ -28,17 +29,17 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Asignaciones Propuesta⟷Evaluador'),
-    ['//gestion/propuesta-evaluador/listado', 'anyo' => date('Y')]
+    ['//gestion/propuesta-evaluador/listado', 'anyo' => $anyo_academico]
 ); ?></li>
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Valoraciones individuales'),
-    ['//gestion/propuesta-evaluador/valoraciones', 'anyo' => date('Y')]
+    ['//gestion/propuesta-evaluador/valoraciones', 'anyo' => $anyo_academico]
 ); ?></li>
 
 <li><?php echo Html::a(
     Yii::t('jonathan', 'Resumen de valoraciones'),
-    ['//gestion/valoracion/resumen', 'anyo' => date('Y')]
+    ['//gestion/valoracion/resumen', 'anyo' => $anyo_academico]
 ); ?></li>
 
 </ul>

@@ -35,7 +35,8 @@ $max_filesize = ini_get('upload_max_filesize');
     ]);
 
     // attribute anyo
-    echo $form->field($model, 'anyo')->hiddenInput(['value' => date('Y')])->label(false);
+    $anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+    echo $form->field($model, 'anyo')->hiddenInput(['value' => $anyo_academico])->label(false);
 
     // attribute user_id
     echo $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false);

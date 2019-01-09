@@ -68,7 +68,8 @@ class ValoracionController extends \app\controllers\base\ValoracionController
      */
     public function actionResumen($anyo = null)
     {
-        $anyo = $anyo ?: date('Y');
+        $anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+        $anyo = $anyo ?: $anyo_academico;
 
         $bloques = Bloque::find()->joinWith('pregunta')->where(['pregunta.anyo' => $anyo])->orderBy('pregunta.orden')->all();
         $valoraciones = Valoracion::find()
