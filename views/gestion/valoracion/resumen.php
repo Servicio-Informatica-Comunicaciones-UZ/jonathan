@@ -3,6 +3,7 @@
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use app\models\Estado;
 
 $this->title = Yii::t('gestion', 'Resumen de valoraciones');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
@@ -79,8 +80,51 @@ foreach ($propuestas as $bloques_propuesta) {
         $puntuacion_final = array_sum($puntos_evaluadores) / sizeof($evaluadores);
         printf("<td>%s</td>\n", Yii::$app->formatter->asDecimal($puntuacion_final, 2)); ?>
     </tr></tfoot>
-</table>
-</div>
-<?php
+    </table>
+    </div>
+    <div style='text-align: right'>
+    <?php
+    $propuesta = $primera_valoracion->propuesta;
+    if ($propuesta->estado_id === Estado::APROB_INTERNA) {
+        echo Html::a(
+            '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Rechazar externamente'),
+            ['gestion/propuesta/rechazar-externamente', 'id' => $propuesta->id],
+            [
+                'id' => 'rechazar',
+                'class' => 'btn btn-danger',
+                'data-confirm' => Yii::t(
+                    'gestion',
+                    '¿Seguro que los evaluadores externos han valorado negativamente esta propuesta?'
+                ) . "\n\n" . Yii::t('gestion', 'La propuesta quedará archivada para su consulta.'),
+                'data-method' => 'post',
+                'title' => Yii::t(
+                    'jonathan',
+                    "La propuesta ha sido valorada negativamente.\n"
+                    . "Marcar esta propuesta como «Rechazada externamente».\n"
+                    . 'La propuesta quedará archivada para su consulta.'
+                ),
+            ]
+        ) . "&nbsp;\n&nbsp;";
+        echo Html::a(
+            '<span class="glyphicon glyphicon-ok"></span> &nbsp;' . Yii::t('jonathan', 'Aprobar externamente'),
+            ['gestion/propuesta/aprobar-externamente', 'id' => $propuesta->id],
+            [
+                'id' => 'aprobar',
+                'class' => 'btn btn-success',
+                'data-confirm' => Yii::t(
+                    'gestion',
+                    '¿Seguro que los evaluadores externos han valorado positivamente esta propuesta y puede pasar a la fase 2?'
+                ),
+                'data-method' => 'post',
+                'title' => Yii::t(
+                    'jonathan',
+                    "La propuesta ha sido valorada positivamente.\nMarcar esta propuesta como «Aprobada externamente»."
+                ),
+            ]
+        ) . "\n";
+    } else {
+        printf('<strong>%s</strong>', $propuesta->estado->nombre);
+    }
+    echo "</div>\n";
 }
 ?>

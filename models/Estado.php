@@ -13,11 +13,12 @@ class Estado extends BaseEstado
     // Valores definidos en m180410_100001_insert_estado_values y migraciones posteriores
     const BORRADOR = 1;
     const PRESENTADA = 2;
-    const APROB_INTERNA = 3;
-    const APROB_EXTERNA = 4;  // Por el momento no se usa.
-    const RECHAZ_INTERNO = 5;
     const FUERA_DE_PLAZO = 8;
-    const DE_PROPUESTAS = [1, 2, 3, 5, 8];
+    const APROB_INTERNA = 3;
+    const RECHAZ_INTERNO = 5;
+    const APROB_EXTERNA = 4;
+    const RECHAZ_EXTERNO = 9;
+    const DE_PROPUESTAS = [1, 2, 8, 3, 4, 5, 9];
 
     const VALORACION_PENDIENTE = 6;
     const VALORACION_PRESENTADA = 7;

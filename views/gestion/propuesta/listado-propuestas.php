@@ -8,15 +8,17 @@ use app\models\Estado;
 $titulos = [
     Estado::BORRADOR => Yii::t('jonathan', 'Propuestas en borrador'),
     Estado::PRESENTADA => Yii::t('jonathan', 'Propuestas presentadas pendientes de aprobación interna'),
+    Estado::FUERA_DE_PLAZO => Yii::t('jonathan', 'Propuestas fuera de plazo'),
     Estado::APROB_INTERNA => Yii::t('jonathan', 'Propuestas aprobadas internamente'),
     Estado::RECHAZ_INTERNO => Yii::t('jonathan', 'Propuestas rechazadas internamente'),
-    Estado::FUERA_DE_PLAZO => Yii::t('jonathan', 'Propuestas fuera de plazo'),
+    Estado::APROB_EXTERNA => Yii::t('jonathan', 'Propuestas aprobadas externamente'),
+    Estado::RECHAZ_EXTERNO => Yii::t('jonathan', 'Propuestas rechazadas externamente'),
 ];
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-// Change background color
+// Cambiar color de fondo
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);
 ?>
 

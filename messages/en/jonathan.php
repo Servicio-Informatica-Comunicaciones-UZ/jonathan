@@ -144,6 +144,6 @@ Al tratarse de un usuario externo, para iniciar sesión deberá usar la direcci�
     '¿Seguro que ha finalizado y desea presentar la valoración de la propuesta «%s»?<br>Una vez la haya presentado ya no podrá modificarla.' => '',
     'Crear usuario' => '@@@@',
     'Esta propuesta ya estaba presentada. 😨' => '@@@@',
-    'Propuestas rechazadas externamente' => '@@@@',
+    'Propuestas rechazadas externamente' => '',
     'Valoradores' => '@@@@',
 ];

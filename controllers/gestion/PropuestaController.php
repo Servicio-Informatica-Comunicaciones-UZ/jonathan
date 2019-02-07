@@ -87,6 +87,53 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         return $this->redirect(['ver', 'id' => $id]);
     }
 
+
+    /**
+     * Cambiar el estado de una propuesta a «Aprobada externamente».
+     * La propuesta ha sido valorada positivamente por los evaluadores externos, por lo que puede pasar a la fase 2.
+     *
+     * @param int $id El id de la propuesta
+     *
+     * @return mixed
+     */
+    public function actionAprobarExternamente($id)
+    {
+        $model = $this->findModel($id);
+        if (Estado::APROB_INTERNA !== $model->estado_id) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Aprobada internamente». 😨'));
+        }
+        $model->estado_id = Estado::APROB_EXTERNA;
+        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Aprobación externa de la propuesta') . "\n";
+        $model->save();
+        Yii::info(
+            sprintf(
+                '%s (%s) ha cambiado el estado de la propuesta %d (%s) a «%s»',
+                Yii::$app->user->identity->username,
+                Yii::$app->user->identity->profile->name,
+                $id,
+                $model->denominacion,
+                $model->estado->nombre
+            ),
+            'gestion'
+        );
+
+        Yii::$app->session->addFlash(
+            'success',
+            Yii::t(
+                'jonathan',
+                "Ha cambiado el estado de la propuesta «{$model->denominacion}» a «{$model->estado->nombre}».\n" .
+                    'Si lo desea, puede enviar un mensaje de correo electrónico al autor de la propuesta: '
+            ) . Html::mailto(
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta aprobada externamente'),
+                ['class' => 'alert-link']
+            )
+        );
+
+        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo]);
+    }
+
+
     /**
      * La propuesta no cumple los criterios, por lo que se devuelve al estado «Borrador»
      * para que el proponente la corrija.
@@ -173,6 +220,51 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         );
 
         return $this->redirect(['ver', 'id' => $id]);
+    }
+
+    /**
+     * Cambiar el estado de una propuesta a «Rechazada externamente».
+     * La propuesta ha sido valorada negativamente por los evaluadores externos, por lo que desestima y se archiva.
+     *
+     * @param int $id El id de la propuesta
+     *
+     * @return mixed
+     */
+    public function actionRechazarExternamente($id)
+    {
+        $model = $this->findModel($id);
+        if (Estado::APROB_INTERNA !== $model->estado_id) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Aprobada internamente». 😨'));
+        }
+        $model->estado_id = Estado::RECHAZ_EXTERNO;
+        $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Rechazo externo de la propuesta') . "\n";
+        $model->save();
+        Yii::info(
+            sprintf(
+                '%s (%s) ha cambiado el estado de la propuesta %d (%s) a «%s».',
+                Yii::$app->user->identity->username,
+                Yii::$app->user->identity->profile->name,
+                $id,
+                $model->denominacion,
+                $model->estado->nombre
+            ),
+            'gestion'
+        );
+
+        Yii::$app->session->addFlash(
+            'success',
+            Yii::t(
+                'jonathan',
+                "Ha cambiado el estado de la propuesta «{$model->denominacion}» a «{$model->estado->nombre}».\n" .
+                    'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
+            ) . Html::mailto(
+                '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',
+                $model->user->email . '?subject=' . Yii::t('jonathan', 'Propuesta rechazada externamente'),
+                ['class' => 'alert-link']
+            )
+        );
+
+        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo]);
     }
 
     /**
