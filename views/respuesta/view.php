@@ -201,7 +201,7 @@ $this->params['breadcrumbs'][] = 'View';
     'format' => 'raw',
 ],
         'comentarios:ntext',
-        'nota',
+        'puntuacion',
 ]
 ])
  . '</div>' 
