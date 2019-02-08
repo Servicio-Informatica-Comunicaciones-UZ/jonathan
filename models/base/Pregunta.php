@@ -16,6 +16,7 @@ use Yii;
  * @property integer $max_longitud
  * @property integer $orden
  * @property integer $tipo_estudio_id
+ * @property integer $fase
  *
  * @property \app\models\Bloque[] $bloques
  * @property \app\models\TipoEstudio $tipoEstudio
@@ -41,7 +42,7 @@ abstract class Pregunta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['anyo', 'max_longitud', 'orden', 'tipo_estudio_id'], 'integer'],
+            [['anyo', 'max_longitud', 'orden', 'tipo_estudio_id', 'fase'], 'integer'],
             [['descripcion'], 'string'],
             [['titulo'], 'string', 'max' => 100],
             [['tipo_estudio_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEstudio::className(), 'targetAttribute' => ['tipo_estudio_id' => 'id']]
@@ -61,6 +62,7 @@ abstract class Pregunta extends \yii\db\ActiveRecord
             'max_longitud' => Yii::t('models', 'Max Longitud'),
             'orden' => Yii::t('models', 'Orden'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
+            'fase' => Yii::t('models', 'Fase'),
         ];
     }
 

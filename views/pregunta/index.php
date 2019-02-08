@@ -129,6 +129,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			    },
 			    'format' => 'raw',
 			],
+			'fase',
 			'descripcion:ntext',
 			'titulo',
         ],

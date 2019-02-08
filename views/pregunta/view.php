@@ -86,6 +86,7 @@ $this->params['breadcrumbs'][] = 'View';
         : 
         '<span class="label label-warning">?</span>'),
 ],
+        'fase',
         'descripcion:ntext',
         'titulo',
     ],
@@ -157,7 +158,7 @@ $this->params['breadcrumbs'][] = 'View';
         'titulo',
         'descripcion:ntext',
         'porcentaje',
-        'es_nota_interna',
+        'tiene_puntuacion_interna',
 ]
 ])
  . '</div>' 

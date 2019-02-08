@@ -59,6 +59,9 @@ $form->field($model, 'tipo_estudio_id')->dropDownList(
     ]
 ); ?>
 
+<!-- attribute fase -->
+			<?= $form->field($model, 'fase')->textInput() ?>
+
 <!-- attribute descripcion -->
 			<?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
