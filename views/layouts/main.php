@@ -155,7 +155,7 @@ $enlaces = array_map(function ($e) {
         <div class="col-lg-2" style="text-align: right;">
             Universidad de Zaragoza<br>
             C/ Pedro Cerbuna, 12<br>
-            E-50009 Zaragoza<br>
+            ES-50009 Zaragoza<br>
             España / Spain<br>
             Tel: +34 976761000<br>
             ciu@unizar.es<br>

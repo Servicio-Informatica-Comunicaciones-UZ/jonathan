@@ -25,19 +25,6 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'db' => $db['jonathan'],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ], [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['info'],
-                    'categories' => ['gestion'],
-                    'logFile' => '@runtime/logs/gestion.log',
-                ],
-            ],
-        ],
         'i18n' => [
             'translations' => [
                 '*' => [
@@ -48,6 +35,19 @@ $config = [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
+                ],
+            ],
+        ],
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ], [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['gestion'],
+                    'logFile' => '@runtime/logs/gestion.log',
                 ],
             ],
         ],
