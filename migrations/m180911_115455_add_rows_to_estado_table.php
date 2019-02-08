@@ -32,9 +32,9 @@ class m180911_115455_add_rows_to_estado_table extends Migration
      */
     public function safeDown()
     {
-        echo "m180911_115455_add_rows_to_estado_table cannot be reverted.\n";
-
-        return false;
+        $this->delete('estado', [
+            'id' => [6, 7, 8],
+        ]);
     }
 
     /*
