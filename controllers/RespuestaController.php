@@ -86,7 +86,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
             return $this->redirect(['propuesta/ver', 'id' => $propuesta_id]);
         } elseif (!\Yii::$app->request->isPost) {
             $preguntas = Pregunta::find()
-                ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id])
+                ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id, 'fase' => 1])
                 ->orderBy('orden')
                 ->all();
 

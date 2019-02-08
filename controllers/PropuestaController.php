@@ -415,6 +415,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $propuesta = $this->findModel($id);
         $preguntas = Pregunta::find()
             ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id])
+            ->andWhere(['fase' => 1])
             ->orderBy('orden')
             ->all();
 
