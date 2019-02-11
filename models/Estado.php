@@ -18,7 +18,13 @@ class Estado extends BaseEstado
     const RECHAZ_INTERNO = 5;
     const APROB_EXTERNA = 4;
     const RECHAZ_EXTERNO = 9;
-    const DE_PROPUESTAS = [1, 2, 8, 3, 4, 5, 9];
+    const FUERA_DE_PLAZO_FASE_2 = 10;
+    const PRESENTADA_FASE_2 = 11;
+    const RECHAZ_EXTERNO_FASE_2 = 12;
+    const APROB_EXTERNA_FASE_2 = 13;
+    const DE_PROPUESTAS = [1, 2, 8, 3, 4, 5, 9, 10, 11, 12, 13];
+    const EN_FASE_1 = [1, 2, 8, 3, 5, 9];
+    const EN_FASE_2 = [4, 10, 11, 12, 13];
 
     const VALORACION_PENDIENTE = 6;
     const VALORACION_PRESENTADA = 7;
@@ -56,7 +62,7 @@ class Estado extends BaseEstado
      */
     public static function getModel($id)
     {
-        if (null !== ($model = self::findOne(['id' => $id]))) {
+        if (null !== ($model = static::findOne(['id' => $id]))) {
             return $model;
         }
 
