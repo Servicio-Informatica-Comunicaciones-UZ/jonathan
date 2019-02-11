@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use app\models\base\Propuesta as BasePropuesta;
+use app\models\Estado;
 
 /**
  * This is the model class for table "propuesta".
@@ -67,14 +68,16 @@ class Propuesta extends BasePropuesta
      */
     public static function getPropuesta($id)
     {
-        if (null !== ($model = self::findOne(['id' => $id]))) {
+        if (null !== ($model = static::findOne(['id' => $id]))) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('jonathan', 'No se ha encontrado esa propuesta.  ☹'));
     }
 
-    /** Devuelve los usuarios evaluadores de una propuesta. */
+    /**
+     * Devuelve los usuarios evaluadores de una propuesta.
+     */
     public function getEvaluadores()
     {
         $asignaciones = $this->propuestaEvaluadors;
@@ -84,7 +87,22 @@ class Propuesta extends BasePropuesta
         return $evaluadores;
     }
 
-    /** Devuelve el nombre del proponente. */
+    /**
+     * Devuelve en qué fase se encuentra una propuesta.
+     */
+    public function getFase()
+    {
+        if (in_array($this->estado_id, Estado::EN_FASE_1)) {
+            return 1;
+        } elseif (in_array($this->estado_id, Estado::EN_FASE_2)) {
+            return 2;
+        }
+        return null;
+    }
+
+    /**
+     * Devuelve el nombre del proponente.
+     */
     public function getNombreProponente()
     {
         return $this->user->profile->name;

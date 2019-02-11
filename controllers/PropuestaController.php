@@ -415,11 +415,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $propuesta = $this->findModel($id);
         $preguntas = Pregunta::find()
             ->where(['anyo' => $propuesta->anyo, 'tipo_estudio_id' => $propuesta->tipo_estudio_id])
-            ->andWhere(['fase' => 1])
+            ->andWhere(['fase' => $propuesta->fase])
             ->orderBy('orden')
             ->all();
 
-        return $this->render('ver', [
+        return $this->render("ver-fase-{$propuesta->fase}", [
             'model' => $propuesta,
             'preguntas' => $preguntas,
         ]);
