@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f1d0cece18d014a8302e253e70d11e1",
+    "content-hash": "92a6702e607f47bc30bb3448dfbb41ec",
     "packages": [
         {
             "name": "2amigos/2fa-library",
@@ -467,6 +467,22 @@
             ]
         },
         {
+            "name": "bower-asset/codemirror",
+            "version": "5.43.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/codemirror.git",
+                "reference": "04eed19089584f02037ea73580a8c71d47c637d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/codemirror/zipball/04eed19089584f02037ea73580a8c71d47c637d7",
+                "reference": "04eed19089584f02037ea73580a8c71d47c637d7",
+                "shasum": null
+            },
+            "type": "bower-asset"
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
@@ -584,6 +600,22 @@
             "license": [
                 "Apache License, Version 2.0"
             ]
+        },
+        {
+            "name": "bower-asset/summernote",
+            "version": "v0.8.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/summernote/summernote.git",
+                "reference": "93c893cdaa976dd5ca6355b75165571618657c7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/summernote/summernote/zipball/93c893cdaa976dd5ca6355b75165571618657c7c",
+                "reference": "93c893cdaa976dd5ca6355b75165571618657c7c",
+                "shasum": null
+            },
+            "type": "bower-asset"
         },
         {
             "name": "bower-asset/typeahead.js",
@@ -1597,6 +1629,64 @@
                 "processing"
             ],
             "time": "2018-02-12T23:28:25+00:00"
+        },
+        {
+            "name": "marqu3s/yii2-summernote",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marqu3s/yii2-summernote.git",
+                "reference": "484d6753f7ede4750689dd8ba706b701731d0abc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marqu3s/yii2-summernote/zipball/484d6753f7ede4750689dd8ba706b701731d0abc",
+                "reference": "484d6753f7ede4750689dd8ba706b701731d0abc",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/codemirror": "@stable",
+                "bower-asset/summernote": "0.*",
+                "yiisoft/yii2": "~2"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "marqu3s\\summernote\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Zelenin",
+                    "email": "aleksandr@zelenin.me",
+                    "homepage": "http://zelenin.me",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Joao Marques",
+                    "email": "joao@jjmf.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Yii2 Summernote widget. Super simple WYSIWYG editor on Bootstrap",
+            "homepage": "https://github.com/marqu3s/yii2-summernote",
+            "keywords": [
+                "summernote",
+                "widget",
+                "wysiwyg",
+                "yii2"
+            ],
+            "time": "2018-02-08T16:47:15+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -6340,7 +6430,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "schmunk42/yii2-giiant": 0,
-        "apaoww/yii2-oci8": 20
+        "apaoww/yii2-oci8": 20,
+        "marqu3s/yii2-summernote": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

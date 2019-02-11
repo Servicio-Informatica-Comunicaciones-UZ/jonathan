@@ -151,7 +151,7 @@ foreach ($preguntas as $pregunta) {
     if ($model->estado_id === Estado::APROB_EXTERNA) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
-            ['respuesta/editar-fase-2', 'id' => $respuesta->id],
+            ['respuesta/editar', 'id' => $respuesta->id],
             ['id' => "editar-{$respuesta->id}", 'class' => 'btn btn-info']
         ) . "<br>\n\n";
     }

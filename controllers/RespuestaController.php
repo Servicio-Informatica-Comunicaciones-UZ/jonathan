@@ -115,7 +115,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
     {
         $model = $this->findModel($id);
         $propuesta = $model->propuesta;
-        if ($propuesta->estado_id != Estado::BORRADOR) {
+        if (!in_array($propuesta->estado_id, [Estado::BORRADOR, Estado::APROB_EXTERNA])) {
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'Esta propuesta ya ha sido presentada, por lo que ya no se puede editar. 😨')
             );
@@ -125,7 +125,7 @@ class RespuestaController extends \app\controllers\base\RespuestaController
             Yii::$app->session->addFlash('success', Yii::t('jonathan', 'Cambios guardados con éxito.'));
             return $this->redirect(['propuesta/ver', 'id' => $model->propuesta_id]);
         } else {
-            return $this->render('editar', [
+            return $this->render("editar-fase-{$propuesta->fase}", [
                 'model' => $model,
             ]);
         }

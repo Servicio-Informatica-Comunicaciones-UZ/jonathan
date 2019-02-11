@@ -27,7 +27,8 @@
         "cocur/background-process": "^0.7.0",
         "apaoww/yii2-oci8": "dev-master",
         "npm-asset/puppeteer": "^1.5",
-        "spatie/browsershot": "^3.22"
+        "spatie/browsershot": "^3.22",
+        "marqu3s/yii2-summernote": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
