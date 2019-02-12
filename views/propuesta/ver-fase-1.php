@@ -140,7 +140,7 @@ echo DetailView::widget(
     ]
 ) . "\n\n";
 
-if (Estado::BORRADOR == $model->estado_id) {
+if (Estado::BORRADOR === $model->estado_id && $model->user_id === Yii::$app->user->id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
         ['editar', 'id' => $model->id],
@@ -164,7 +164,7 @@ foreach ($preguntas as $pregunta) {
         $respuesta->save();
     }
     echo '<p>' . nl2br(Html::encode($respuesta->valor)) . '</p>' . PHP_EOL;
-    if (Estado::BORRADOR == $model->estado_id) {
+    if (Estado::BORRADOR === $model->estado_id && $model->user_id === Yii::$app->user->id) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
             ['respuesta/editar', 'id' => $respuesta->id],
@@ -174,7 +174,7 @@ foreach ($preguntas as $pregunta) {
 }
 
 echo "<hr><br>\n";
-if (Estado::BORRADOR == $model->estado_id) {
+if (Estado::BORRADOR === $model->estado_id && $model->user_id === Yii::$app->user->id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
         ['', '#' => 'modalPresentar'],
