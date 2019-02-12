@@ -104,7 +104,7 @@ echo DetailView::widget(
     ]
 ) . "\n\n";
 
-if (Estado::APROB_EXTERNA === $model->estado_id) {
+if (Estado::APROB_EXTERNA === $model->estado_id && $model->user_id === Yii::$app->user->id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
         ['editar', 'id' => $model->id],
@@ -114,8 +114,8 @@ if (Estado::APROB_EXTERNA === $model->estado_id) {
 
 /* Preguntas y respuestas de la propuesta */
 foreach ($preguntas as $pregunta) {
-    echo "<br>\n<h2>" . Html::encode($pregunta->titulo) . '</h2>' . PHP_EOL;
-    echo "<p class='pregunta'><strong>" . Html::encode($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    echo "<br>\n<h2>" . HtmlPurifier::process($pregunta->titulo) . '</h2>' . PHP_EOL;
+    // echo "<p class='pregunta'><strong>" . HtmlPurifier::process($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
     $respuestas = array_filter(
         $model->respuestas,
         function ($r) use ($pregunta) {
@@ -128,14 +128,28 @@ foreach ($preguntas as $pregunta) {
         $respuesta->save();
     }
 
-    echo '<div>' . HtmlPurifier::process(
-        $respuesta->valor,
-        [
+    echo '<div>' . str_replace(
+        '<table>',
+        "<table class='table table-bordered'>",
+        HtmlPurifier::process(
+            $respuesta->valor,
+            [
             'Attr.ForbiddenClasses' => ['Apple-interchange-newline', 'Apple-converted-space',
-                'Apple-paste-as-quotation', 'Apple-style-span', 'Apple-tab-span',
-                'MsoChpDefault', 'MsoListParagraphCxSpFirst', 'MsoListParagraphCxSpLast',
-                'MsoListParagraphCxSpMiddle', 'MsoNormal', 'MsoNormalTable', 'MsoPapDefault', 'western', ],
-            'CSS.ForbiddenProperties' => ['border', 'border-bottom', 'border-left', 'border-right', 'border-top',
+                'Apple-paste-as-quotation', 'Apple-style-span', 'Apple-tab-span', 'BalloonTextChar', 'BodyTextIndentChar',
+                'Heading1Char', 'Heading2Char', 'Heading3Char', 'Heading4Char', 'Heading5Char', 'Heading6Char',
+                'IntenseQuoteChar', 'MsoAcetate', 'MsoBodyText', 'MsoBodyText1', 'MsoBodyText2', 'MsoBodyText3',
+                'MsoBodyTextIndent', 'MsoBookTitle', 'MsoCaption', 'MsoChpDefault',
+                'MsoFooter', 'MsoHeader', 'MsoHyperlink', 'MsoHyperlinkFollowed',
+                'MsoIntenseEmphasis', 'MsoIntenseQuote', 'MsoIntenseReference', 'MsoListParagraph',
+                'MsoListParagraphCxSpFirst', 'MsoListParagraphCxSpMiddle', 'MsoListParagraphCxSpLast',
+                'MsoNormal', 'MsoNormalTable', 'MsoNoSpacing', 'MsoPapDefault', 'MsoQuote',
+                'MsoSubtleEmphasis', 'MsoSubtleReference', 'MsoTableGrid',
+                'MsoTitle', 'MsoTitleCxSpFirst', 'MsoTitleCxSpMiddle', 'MsoTitleCxSpLast',
+                'MsoToc1', 'MsoToc2', 'MsoToc3', 'MsoToc4', 'MsoToc5', 'MsoToc6', 'MsoToc7', 'MsoToc8', 'MsoToc9',
+                'MsoTocHeading', 'QuoteChar', 'SubtitleChar', 'TitleChar',
+                'western', 'WordSection1', ],
+            'CSS.ForbiddenProperties' => ['background', 'border', 'border-bottom',
+                'border-collapse', 'border-left', 'border-right', 'border-style', 'border-top', 'border-width',
                 'font', 'font-family', 'font-size', 'font-weight', 'height', 'line-height',
                 'margin', 'margin-bottom', 'margin-left', 'margin-right', 'margin-top',
                 'padding', 'padding-bottom', 'padding-left', 'padding-right', 'padding-top',
@@ -146,9 +160,10 @@ foreach ($preguntas as $pregunta) {
             'HTML.ForbiddenElements' => ['font'],
             // 'data' permite incrustar imágenes en base64
             'URI.AllowedSchemes' => ['data' => true, 'http' => true, 'https' => true, 'mailto' => true],
-        ]
+            ]
+        )
     ) . "</div>\n\n";
-    if ($model->estado_id === Estado::APROB_EXTERNA) {
+    if ($model->estado_id === Estado::APROB_EXTERNA && $model->user_id === Yii::$app->user->id) {
         echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> &nbsp;' . Yii::t('jonathan', 'Editar'),
             ['respuesta/editar', 'id' => $respuesta->id],
@@ -158,7 +173,7 @@ foreach ($preguntas as $pregunta) {
 }
 
 echo "<hr><br>\n";
-if ($model->estado_id === Estado::APROB_EXTERNA) {
+if ($model->estado_id === Estado::APROB_EXTERNA && $model->user_id === Yii::$app->user->id) {
     echo Html::a(
         '<span class="glyphicon glyphicon-check"></span> &nbsp;' . Yii::t('jonathan', 'Presentar la propuesta'),
         ['', '#' => 'modalPresentar'],

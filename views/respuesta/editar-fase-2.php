@@ -43,30 +43,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     echo Html::activeHiddenInput($model, 'pregunta_id') . "\n";
     echo Html::activeHiddenInput($model, 'propuesta_id') . "\n";
-    /*
-    echo $form->field($model, 'valor')
-        ->label('<h2>' . Html::encode($model->pregunta->titulo) . '</h2>')
-        ->hint(
-            Html::encode($model->pregunta->descripcion) . '<br>' .
-            sprintf(
-                Yii::t('jonathan', 'Máximo: %d caracteres, aprox. %d palabras'),
-                $model->pregunta->max_longitud,
-                floor($model->pregunta->max_longitud / 5)
-            )
-        )
-        ->textarea(['maxlength' => $model->pregunta->max_longitud, 'rows' => 6]) . "\n\n";
-    */
+
+    echo "<div class='form-group'>";
+    printf(
+        "<label class='control-label' for='respuesta-valor'><h2>%s</h2></label>",
+        HtmlPurifier::process($model->pregunta->titulo)
+    );
     echo Summernote::widget([
         'id' => 'respuesta-valor',
         'name' => 'Respuesta[valor]',
         'value' => ($model and $model->valor) ?
             HtmlPurifier::process($model->valor, [
                 'Attr.ForbiddenClasses' => ['Apple-interchange-newline', 'Apple-converted-space',
-                    'Apple-paste-as-quotation', 'Apple-style-span', 'Apple-tab-span',
-                    'MsoChpDefault', 'MsoListParagraphCxSpFirst', 'MsoListParagraphCxSpLast',
-                    'MsoListParagraphCxSpMiddle', 'MsoNormal', 'MsoNormalTable', 'MsoPapDefault', 'western', ],
-                'CSS.ForbiddenProperties' => ['border', 'border-bottom', 'border-left', 'border-right',
-                    'border-top', 'font', 'font-family', 'font-size', 'font-weight', 'height', 'line-height',
+                    'Apple-paste-as-quotation', 'Apple-style-span', 'Apple-tab-span', 'BalloonTextChar', 'BodyTextIndentChar',
+                    'Heading1Char', 'Heading2Char', 'Heading3Char', 'Heading4Char', 'Heading5Char', 'Heading6Char',
+                    'IntenseQuoteChar', 'MsoAcetate', 'MsoBodyText', 'MsoBodyText1', 'MsoBodyText2', 'MsoBodyText3',
+                    'MsoBodyTextIndent', 'MsoBookTitle', 'MsoCaption', 'MsoChpDefault',
+                    'MsoFooter', 'MsoHeader', 'MsoHyperlink', 'MsoHyperlinkFollowed',
+                    'MsoIntenseEmphasis', 'MsoIntenseQuote', 'MsoIntenseReference', 'MsoListParagraph',
+                    'MsoListParagraphCxSpFirst', 'MsoListParagraphCxSpMiddle', 'MsoListParagraphCxSpLast',
+                    'MsoNormal', 'MsoNormalTable', 'MsoNoSpacing', 'MsoPapDefault', 'MsoQuote',
+                    'MsoSubtleEmphasis', 'MsoSubtleReference', 'MsoTableGrid',
+                    'MsoTitle', 'MsoTitleCxSpFirst', 'MsoTitleCxSpMiddle', 'MsoTitleCxSpLast',
+                    'MsoToc1', 'MsoToc2', 'MsoToc3', 'MsoToc4', 'MsoToc5', 'MsoToc6', 'MsoToc7', 'MsoToc8', 'MsoToc9',
+                    'MsoTocHeading', 'QuoteChar', 'SubtitleChar', 'TitleChar',
+                    'western', 'WordSection1', ],
+                'CSS.ForbiddenProperties' => ['background', 'border', 'border-bottom',
+                    'border-collapse', 'border-left', 'border-right', 'border-style', 'border-top', 'border-width',
+                    'font', 'font-family', 'font-size', 'font-weight', 'height', 'line-height',
                     'margin', 'margin-bottom', 'margin-left', 'margin-right', 'margin-top',
                     'padding', 'padding-bottom', 'padding-left', 'padding-right', 'padding-top',
                     'text-autospace', 'text-indent', 'width', ],
@@ -80,9 +84,12 @@ $this->params['breadcrumbs'][] = $this->title;
             : '',
         'clientOptions' => [
             'lang' => 'es',
-            'placeholder' => Yii::t('jonathan', $model->pregunta->descripcion),
+            'placeholder' => Yii::t('jonathan', 'Introduzca sus comentarios'),
         ],
     ]) . "\n\n";
+    printf("<p class='help-block'>%s</p>\n", HtmlPurifier::process($model->pregunta->descripcion));
+    echo "</div>\n";
+
     echo $form->errorSummary($model) . "\n";
 
     echo "<div class='form-group'>\n";
