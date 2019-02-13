@@ -62,7 +62,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     {
         Url::remember();
         $propuesta = $this->findModel($propuesta_id);
-        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->all();
+        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->deLaFase($propuesta->fase)->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
         $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador(Yii::$app->user->id)->all();
 

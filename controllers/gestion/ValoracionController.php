@@ -50,7 +50,7 @@ class ValoracionController extends \app\controllers\base\ValoracionController
         Url::remember();
         $asignacion = PropuestaEvaluador::find()->where(['propuesta_id' => $propuesta_id, 'user_id' => $user_id])->one();
         $propuesta = Propuesta::getPropuesta($propuesta_id);
-        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->all();
+        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->deLaFase($propuesta->fase)->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
         $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador($user_id)->orderBy('bloque_id')->indexBy('bloque_id')->all();
 

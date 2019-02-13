@@ -42,4 +42,14 @@ class PreguntaQuery extends \yii\db\ActiveQuery
             ->andWhere(['anyo' => $anyo, 'tipo_estudio_id' => $tipo_estudio_id])
             ->orderBy('orden');
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function deLaFase($fase)
+    {
+        return $this
+            ->andWhere(['fase' => $fase])
+            ->orderBy('orden');
+    }
 }
