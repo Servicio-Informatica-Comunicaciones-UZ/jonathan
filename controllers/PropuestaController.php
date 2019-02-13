@@ -435,12 +435,16 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionPresentar($id)
     {
         $model = $this->findModel($id);
-        if (Estado::BORRADOR !== $model->estado_id) {
+        if (!in_array($model->estado_id, [Estado::BORRADOR, Estado::APROB_EXTERNA])) {
             throw new ServerErrorHttpException(
-                Yii::t('jonathan', 'Esta propuesta ya no está en estado Borrador, por lo que no se puede presentar. 😨')
+                Yii::t('jonathan', 'El estado de esta propuesta no es válido para presentarla. 😨')
             );
         }
-        $model->estado_id = Estado::PRESENTADA;
+        if ($model->fase === 1) {
+            $model->estado_id = Estado::PRESENTADA;
+        } else {
+            $model->estado_id = Estado::PRESENTADA_FASE_2;
+        }
         $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Presentación de la propuesta') . "\n";
         $model->save();
         Yii::info(
