@@ -73,7 +73,7 @@ echo GridView::widget([
             'value' => function ($propuesta) {
                 return Html::a(
                     '<span class="glyphicon glyphicon glyphicon-save-file" aria-label="Ver"></span>',
-                    "@web/pdf/propuestas/{$propuesta->id}.pdf",
+                    "@web/pdf/propuestas/{$propuesta->id}-fase{$propuesta->fase}.pdf",
                     [
                         'title' => Yii::t('evaluador', 'Descargar PDF de la propuesta'),
                         'aria-label' => Yii::t('evaluador', 'Descargar PDF de la propuesta'),

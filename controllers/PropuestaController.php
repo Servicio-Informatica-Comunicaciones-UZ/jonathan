@@ -463,13 +463,13 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'chromePath' => Yii::$app->params['chromePath'],
             'url' => Url::to(['propuesta/ver', 'id' => $id], true),
             'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
-            'filename' => "{$id}.pdf",
+            'filename' => "{$id}-fase{$model->fase}.pdf",
             'margins' => [20, 25, 20, 30],  // top, right, bottom, left
         ]));
 
         // Encolamos otra tarea a continuación de la anterior, para enviar correo.
         Yii::$app->queue->push(new SendMailJob([
-            'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}.pdf",
+            'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}-fase{$model->fase}.pdf",
             'recipients' => $model->user->email,
             'sender' => [Yii::$app->params['adminEmail'] => 'Robot Olba'],
             'subject' => Yii::t('jonathan', 'Propuesta presentada') . ': ' . $model->denominacion,
