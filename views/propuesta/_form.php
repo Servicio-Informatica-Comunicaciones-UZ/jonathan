@@ -110,6 +110,12 @@ $form->field($model, 'estado_id')->dropDownList(
 
 <!-- attribute denominacion -->
 			<?= $form->field($model, 'denominacion')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute memoria_verificacion -->
+			<?= $form->field($model, 'memoria_verificacion')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute memoria_economica -->
+			<?= $form->field($model, 'memoria_economica')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

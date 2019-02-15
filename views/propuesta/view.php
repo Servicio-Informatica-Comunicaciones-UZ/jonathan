@@ -134,6 +134,8 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
         'creditos_practicas',
         'log:ntext',
         'denominacion',
+        'memoria_verificacion',
+        'memoria_economica',
     ],
     ]); ?>
 
@@ -150,6 +152,71 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
 
 
     
+<?php $this->beginBlock('Profile'); ?>
+<div style='position: relative'>
+<div style='position:absolute; right: 0px; top: 0px;'>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Profile',
+            ['profile/index'],
+            ['class'=>'btn text-muted btn-xs']
+        ) ?>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Profile',
+            ['profile/create', 'Profile' => ['user_id' => $model->id]],
+            ['class'=>'btn btn-success btn-xs']
+        ); ?>
+</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-Profile', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Profile ul.pagination a, th a']) ?>
+<?=
+ '<div class="table-responsive">'
+ . \yii\grid\GridView::widget([
+    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getProfile(),
+        'pagination' => [
+            'pageSize' => 20,
+            'pageParam'=>'page-profile',
+        ]
+    ]),
+    'pager'        => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    ],
+    'columns' => [
+ [
+    'class'      => 'yii\grid\ActionColumn',
+    'template'   => '{view} {update}',
+    'contentOptions' => ['nowrap'=>'nowrap'],
+    'urlCreator' => function ($action, $model, $key, $index) {
+        // using the column name as key, not mapping to 'id' like the standard generator
+        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        $params[0] = 'profile' . '/' . $action;
+        $params['Profile'] = ['user_id' => $model->primaryKey()[0]];
+        return $params;
+    },
+    'buttons'    => [
+        
+    ],
+    'controller' => 'profile'
+],
+        'name',
+        'public_email:email',
+        'gravatar_email:email',
+        'gravatar_id',
+        'location',
+        'website',
+        'timezone',
+        'bio:ntext',
+]
+])
+ . '</div>' 
+?>
+<?php Pjax::end() ?>
+<?php $this->endBlock() ?>
+
+
 <?php $this->beginBlock('PropuestaCentros'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
@@ -723,6 +790,11 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
     'label'   => '<b class=""># '.Html::encode($model->id).'</b>',
     'content' => $this->blocks['app\models\Propuesta'],
     'active'  => true,
+],
+[
+    'content' => $this->blocks['Profile'],
+    'label'   => '<small>Profile <span class="badge badge-default">'. $model->getProfile()->count() . '</span></small>',
+    'active'  => false,
 ],
 [
     'content' => $this->blocks['PropuestaCentros'],

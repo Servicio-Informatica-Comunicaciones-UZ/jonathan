@@ -21,6 +21,8 @@ use Yii;
  * @property string $creditos_practicas
  * @property integer $tipo_estudio_id
  * @property integer $estado_id
+ * @property string $memoria_verificacion
+ * @property string $memoria_economica
  * @property string $log
  *
  * @property \app\models\Estado $estado
@@ -61,6 +63,7 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             [['creditos_practicas'], 'number'],
             [['log'], 'string'],
             [['denominacion'], 'string', 'max' => 250],
+            [['memoria_verificacion', 'memoria_economica'], 'string', 'max' => 255],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['modalidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Modalidad::className(), 'targetAttribute' => ['modalidad_id' => 'id']],
             [['orientacion_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Orientacion::className(), 'targetAttribute' => ['orientacion_id' => 'id']],
@@ -87,6 +90,8 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             'creditos_practicas' => Yii::t('models', 'Creditos Practicas'),
             'tipo_estudio_id' => Yii::t('models', 'Tipo Estudio ID'),
             'estado_id' => Yii::t('models', 'Estado ID'),
+            'memoria_verificacion' => Yii::t('models', 'Memoria Verificacion'),
+            'memoria_economica' => Yii::t('models', 'Memoria Economica'),
             'log' => Yii::t('models', 'Log'),
         ];
     }

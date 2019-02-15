@@ -17,4 +17,4 @@ $this->params['breadcrumbs'][] = $this->title;
 </h1>
 <hr><br>
 
-<?php echo $this->render('_formulario', ['model' => $model]); ?>
+<?php echo $this->render("_formulario-fase-{$model->fase}", ['model' => $model]); ?>

@@ -228,12 +228,20 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionEditar($id)
     {
         $model = $this->findModel($id);
-        if (Estado::BORRADOR != $model->estado_id) {
+        if (!in_array($model->estado_id, [Estado::BORRADOR, Estado::APROB_EXTERNA])) {
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'Esta propuesta ya ha sido presentada, por lo que ya no se puede editar. 😨')
             );
         }
 
+        if ($model->fase === 1) {
+            return $this->editarFase1($model);
+        }
+        return $this->editarFase2($model);
+    }
+
+    private function editarFase1($model)
+    {
         $transaction = Yii::$app->db->beginTransaction();
 
         if ($model->load($_POST) && $model->save()) {
@@ -367,6 +375,66 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             foreach ($grupos_quitados as $g) {
                 @unlink(Yii::getAlias('@webroot') . "/pdf/firmas_grupos_inves/{$g->id}.pdf");
                 $g->delete();
+            }
+
+            $transaction->commit();
+            Yii::$app->session->addFlash(
+                'success',
+                Yii::t('jonathan', 'Cambios guardados con éxito.')
+            );
+
+            return $this->redirect(Url::previous());
+        } else {
+            return $this->render('editar', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+    private function editarFase2($model)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+
+        if (Yii::$app->request->isPost) {
+            // Guardamos la memoria de verificación
+            $ficheroPdf = new FicheroPdf();
+            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[memoria_verificacion]fichero");
+            if (isset($ficheroPdf->fichero)) {
+                if ($ficheroPdf->upload('memorias_verificacion', $model->id)) {
+                    $model->memoria_verificacion = $ficheroPdf->fichero->name;
+                    $model->save();
+                } else {
+                    Yii::$app->session->addFlash(
+                        'danger',
+                        sprintf(
+                            Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                            $ficheroPdf->fichero->error,
+                            $ficheroPdf->fichero->name,
+                            $ficheroPdf->errorMessage
+                        )
+                    );
+                }
+            }
+
+            // Guardamos la memoria económica
+            $ficheroPdf = new FicheroPdf();
+            $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, '[memoria_economica]fichero');
+            if (isset($ficheroPdf->fichero)) {
+                if ($ficheroPdf->upload('memorias_economicas', $model->id)) {
+                    $model->memoria_economica = $ficheroPdf->fichero->name;
+                    $model->save();
+                } else {
+                    Yii::$app->session->addFlash(
+                        'danger',
+                        sprintf(
+                            Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                            $ficheroPdf->fichero->error,
+                            $ficheroPdf->fichero->name,
+                            $ficheroPdf->errorMessage
+                        )
+                    );
+                }
             }
 
             $transaction->commit();

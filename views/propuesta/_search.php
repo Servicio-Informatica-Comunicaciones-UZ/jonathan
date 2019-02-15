@@ -41,6 +41,10 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'estado_id') ?>
 
+		<?php // echo $form->field($model, 'memoria_verificacion') ?>
+
+		<?php // echo $form->field($model, 'memoria_economica') ?>
+
 		<?php // echo $form->field($model, 'log') ?>
 
     <div class="form-group">

@@ -97,6 +97,28 @@ echo DetailView::widget(
                 },
                 'format' => 'html',
             ], [
+                'attribute' => 'memoria_verificacion',
+                'format' => 'html',
+                'value' => function ($model) {
+                    if ($model->memoria_verificacion) {
+                        return Html::a(
+                            Html::encode($model->memoria_verificacion),
+                            "@web/pdf/memorias_verificacion/{$model->id}.pdf"
+                        );
+                    }
+                }
+            ], [
+                'attribute' => 'memoria_economica',
+                'format' => 'html',
+                'value' => function ($model) {
+                    if ($model->memoria_economica) {
+                        return Html::a(
+                            Html::encode($model->memoria_economica),
+                            "@web/pdf/memorias_economicas/{$model->id}.pdf"
+                        );
+                    }
+                }
+            ], [
                 'label' => 'Estado de la propuesta',
                 'attribute' => 'estado.nombre',
             ],

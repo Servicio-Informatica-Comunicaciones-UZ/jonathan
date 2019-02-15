@@ -49,6 +49,8 @@ class Propuesta extends BasePropuesta
                 'plazas' => Yii::t('models', 'Número de plazas ofertadas de nuevo ingreso'),
                 'creditos_practicas' => Yii::t('models', 'Número de créditos para la realización de prácticas externas (en el caso de que las hubiere)'),
                 'tipo_estudio_id' => Yii::t('models', 'ID del tipo de estudio'),
+                'memoria_verificacion' => Yii::t('models', 'Memoria de verificación'),
+                'memoria_economica' => Yii::t('models', 'Memoria económica'),
                 'estado_id' => Yii::t('models', 'ID del estado'),
                 // Atributos de tablas relacionadas
                 'nombreProponente' => Yii::t('models', 'Nombre del responsable'),

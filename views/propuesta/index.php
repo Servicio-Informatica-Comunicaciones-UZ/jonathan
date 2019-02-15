@@ -44,7 +44,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
         <div class="pull-right">
 
-                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -58,6 +58,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'encodeLabels' => false,
             'items' => [
             [
+                'url' => ['profile/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-left"></i> ' . Yii::t('models', 'Profile'),
+            ],
+                                [
                 'url' => ['estado/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-left"></i> ' . Yii::t('models', 'Estado'),
             ],
@@ -228,6 +232,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			/*'creditos_practicas',*/
 			/*'log:ntext',*/
 			/*'denominacion',*/
+			/*'memoria_verificacion',*/
+			/*'memoria_economica',*/
         ],
         ]); ?>
     </div>
