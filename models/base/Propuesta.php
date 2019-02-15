@@ -25,6 +25,8 @@ use Yii;
  * @property string $memoria_economica
  * @property string $log
  *
+ * @property \app\models\ConvenioIntercambios[] $convenioIntercambios
+ * @property \app\models\ConvenioPracticas[] $convenioPracticas
  * @property \app\models\Estado $estado
  * @property \app\models\Modalidad $modalidad
  * @property \app\models\Orientacion $orientacion
@@ -94,6 +96,22 @@ abstract class Propuesta extends \yii\db\ActiveRecord
             'memoria_economica' => Yii::t('models', 'Memoria Economica'),
             'log' => Yii::t('models', 'Log'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConvenioIntercambios()
+    {
+        return $this->hasMany(\app\models\ConvenioIntercambios::className(), ['propuesta_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConvenioPracticas()
+    {
+        return $this->hasMany(\app\models\ConvenioPracticas::className(), ['propuesta_id' => 'id']);
     }
 
     /**

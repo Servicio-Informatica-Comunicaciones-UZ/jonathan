@@ -22,6 +22,8 @@ use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\ServerErrorHttpException;
 use yii\web\UploadedFile;
+use app\models\ConvenioIntercambios;
+use app\models\ConvenioPracticas;
 
 /**
  * This is the class for controller "PropuestaController".
@@ -435,6 +437,86 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                         )
                     );
                 }
+            }
+
+            /* Tabla convenio_practicas */
+            // Guardamos los convenios de prácticas recibidos.
+            $convenios_anteriores = $model->convenioPracticas;
+            $convenios_recibidos = Yii::$app->request->post('ConvenioPracticas') ?? [];
+            foreach ($convenios_recibidos as $num => $datos_convenio) {
+                $cp = isset($datos_convenio['id']) ? ConvenioPracticas::findOne(['id' => $datos_convenio['id']])
+                                                 : new ConvenioPracticas();
+                $cp->attributes = $datos_convenio;
+                $cp->propuesta_id = $model->id;
+                $cp->save();
+
+                $ficheroPdf = new FicheroPdf();
+                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[practicas-{$num}]fichero");
+                if (isset($ficheroPdf->fichero)) {
+                    if ($ficheroPdf->upload('convenios_practicas', $cp->id)) {
+                        $cp->documento = $ficheroPdf->fichero->name;
+                        $cp->save();
+                    } else {
+                        Yii::$app->session->addFlash(
+                            'danger',
+                            sprintf(
+                                Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                                $ficheroPdf->fichero->error,
+                                $ficheroPdf->fichero->name,
+                                $ficheroPdf->errorMessage
+                            )
+                        );
+                    }
+                }
+            }
+            // Eliminamos los convenios que se hayan quitado.
+            $ids_recibidos = array_column($convenios_recibidos, 'id');
+            $convenios_quitados = array_filter($convenios_anteriores, function ($c) use ($ids_recibidos) {
+                return !in_array($c->id, $ids_recibidos);
+            });
+            foreach ($convenios_quitados as $c) {
+                @unlink(Yii::getAlias('@webroot') . "/pdf/convenios_practicas/{$c->id}.pdf");
+                $c->delete();
+            }
+
+            /* Tabla convenio_intercambios */
+            // Guardamos los convenios de intercambios recibidos.
+            $convenios_anteriores = $model->convenioIntercambios;
+            $convenios_recibidos = Yii::$app->request->post('ConvenioIntercambios') ?? [];
+            foreach ($convenios_recibidos as $num => $datos_convenio) {
+                $ci = isset($datos_convenio['id']) ? ConvenioIntercambios::findOne(['id' => $datos_convenio['id']])
+                                                 : new ConvenioIntercambios();
+                $ci->attributes = $datos_convenio;
+                $ci->propuesta_id = $model->id;
+                $ci->save();
+
+                $ficheroPdf = new FicheroPdf();
+                $ficheroPdf->fichero = UploadedFile::getInstance($ficheroPdf, "[intercambios-{$num}]fichero");
+                if (isset($ficheroPdf->fichero)) {
+                    if ($ficheroPdf->upload('convenios_intercambios', $ci->id)) {
+                        $ci->documento = $ficheroPdf->fichero->name;
+                        $ci->save();
+                    } else {
+                        Yii::$app->session->addFlash(
+                            'danger',
+                            sprintf(
+                                Yii::t('jonathan', 'Error %d al guardar el fichero «%s»: %s'),
+                                $ficheroPdf->fichero->error,
+                                $ficheroPdf->fichero->name,
+                                $ficheroPdf->errorMessage
+                            )
+                        );
+                    }
+                }
+            }
+            // Eliminamos los convenios que se hayan quitado.
+            $ids_recibidos = array_column($convenios_recibidos, 'id');
+            $convenios_quitados = array_filter($convenios_anteriores, function ($c) use ($ids_recibidos) {
+                return !in_array($c->id, $ids_recibidos);
+            });
+            foreach ($convenios_quitados as $c) {
+                @unlink(Yii::getAlias('@webroot') . "/pdf/convenios_intercambios/{$c->id}.pdf");
+                $c->delete();
             }
 
             $transaction->commit();

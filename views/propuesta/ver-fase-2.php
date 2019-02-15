@@ -119,6 +119,56 @@ echo DetailView::widget(
                     }
                 }
             ], [
+                'label' => Yii::t('jonathan', 'Prácticas externas'),
+                'value' => function ($model) {
+                    $convenios = $model->convenioPracticas;
+
+                    $salida = null;
+                    if ($convenios) {
+                        $salida = "<ul class='listado'>\n";
+                        foreach ($convenios as $convenio) {
+                            $salida .= '<li>' . Html::encode($convenio->nombre_entidad);
+                            if ($convenio->documento) {
+                                $salida .= ' ['
+                                . Html::a(
+                                    Html::encode($convenio->documento),
+                                    "@web/pdf/convenios_practicas/{$convenio->id}.pdf"
+                                ) . ']';
+                            }
+                            $salida .= "</li>\n";
+                        }
+                        $salida .= "</ul>\n";
+                    }
+
+                    return $salida;
+                },
+                'format' => 'html',
+            ], [
+                'label' => Yii::t('jonathan', 'Intercambios internacionales'),
+                'value' => function ($model) {
+                    $convenios = $model->convenioIntercambios;
+
+                    $salida = null;
+                    if ($convenios) {
+                        $salida = "<ul class='listado'>\n";
+                        foreach ($convenios as $convenio) {
+                            $salida .= '<li>' . Html::encode($convenio->nombre_entidad);
+                            if ($convenio->documento) {
+                                $salida .= ' ['
+                                . Html::a(
+                                    Html::encode($convenio->documento),
+                                    "@web/pdf/convenios_intercambios/{$convenio->id}.pdf"
+                                ) . ']';
+                            }
+                            $salida .= "</li>\n";
+                        }
+                        $salida .= "</ul>\n";
+                    }
+
+                    return $salida;
+                },
+                'format' => 'html',
+            ], [
                 'label' => 'Estado de la propuesta',
                 'attribute' => 'estado.nombre',
             ],
