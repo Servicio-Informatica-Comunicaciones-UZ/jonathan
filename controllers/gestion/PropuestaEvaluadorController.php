@@ -78,16 +78,24 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
     /**
      * Muestra un listado de las asignaciones Propuesta ⟷ Evaluador.
      */
-    public function actionListado($anyo)
+    public function actionListado($anyo, $estado_id = null)
     {
         Url::remember();
+        if (!$estado_id) {
+            $estado_id = [Estado::APROB_INTERNA, Estado::PRESENTADA_FASE_2];
+        }
         $searchModel = new PropuestaSearch;
-        $dpEvaluables = $searchModel->search(['PropuestaSearch' => [
-            'anyo' => $anyo,
-            'estado_id' => Estado::APROB_INTERNA,
-        ]]);
+        $dpEvaluables = $searchModel->search(
+            [
+                'PropuestaSearch' => [
+                    'anyo' => $anyo,
+                    'estado_id' => $estado_id,
+                ],
+            ]
+        );
+        $dpEvaluables->sort->defaultOrder = ['estado_id' => SORT_ASC, 'denominacion' => SORT_ASC];
 
-        return $this->render('listado', ['dpEvaluables' => $dpEvaluables]);
+        return $this->render('listado', ['dpEvaluables' => $dpEvaluables, 'searchModel' => $searchModel]);
     }
 
     /** Muestra un listado de cada una de las evaluaciones individualmente, y su estado */
@@ -142,7 +150,7 @@ class PropuestaEvaluadorController extends \app\controllers\base\PropuestaEvalua
         }
 
         $dataProvider = new ArrayDataProvider([
-            'allModels' => PropuestaEvaluador::find()->where(['propuesta_id' => $id])->all(),
+            'allModels' => PropuestaEvaluador::find()->where(['propuesta_id' => $id])->orderBy(['fase' => SORT_ASC])->all(),
         ]);
 
         return $this->render('editar-evaluadores', ['model' => $model, 'propuesta' => $propuesta, 'dataProvider' => $dataProvider]);

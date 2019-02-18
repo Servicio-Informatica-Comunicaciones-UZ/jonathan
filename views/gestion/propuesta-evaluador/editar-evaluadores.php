@@ -39,6 +39,7 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
         [
             'dataProvider' => $dataProvider,
             'columns' => [
+                'fase',
                 [
                     'attribute' => 'user.username',
                     'label' => Yii::t('models', 'Usuario'),
@@ -131,6 +132,9 @@ echo $form->field($model, 'user_id')->dropDownList(
 
 // attribute estado_id
 echo $form->field($model, 'estado_id')->hiddenInput(['value' => Estado::VALORACION_PENDIENTE])->label(false);
+
+// attribute fase
+echo $form->field($model, 'fase')->hiddenInput(['value' => $propuesta->fase])->label(false);
 
 echo $form->errorSummary($model) . "\n";
 

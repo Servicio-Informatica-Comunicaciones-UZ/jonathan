@@ -83,6 +83,10 @@ class Propuesta extends BasePropuesta
     public function getEvaluadores()
     {
         $asignaciones = $this->propuestaEvaluadors;
+        $fase = $this->fase;
+        $asignaciones = array_filter($asignaciones, function ($asignacion) use ($fase) {
+            return $asignacion->fase === $fase;
+        });
         $evaluadores = ArrayHelper::getColumn($asignaciones, 'user');
         usort($evaluadores, ['\app\models\User', 'cmpProfileName']);
 

@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'estado_id') ?>
 
+		<?= $form->field($model, 'fase') ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('cruds', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('cruds', 'Reset'), ['class' => 'btn btn-default']) ?>

@@ -13,6 +13,7 @@ use Yii;
  * @property integer $propuesta_id
  * @property integer $user_id
  * @property integer $estado_id
+ * @property integer $fase
  *
  * @property \app\models\Estado $estado
  * @property \app\models\Propuesta $propuesta
@@ -38,7 +39,7 @@ abstract class PropuestaEvaluador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['propuesta_id', 'user_id', 'estado_id'], 'integer'],
+            [['propuesta_id', 'user_id', 'estado_id', 'fase'], 'integer'],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['propuesta_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Propuesta::className(), 'targetAttribute' => ['propuesta_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\User::className(), 'targetAttribute' => ['user_id' => 'id']]
@@ -55,6 +56,7 @@ abstract class PropuestaEvaluador extends \yii\db\ActiveRecord
             'propuesta_id' => Yii::t('models', 'Propuesta ID'),
             'user_id' => Yii::t('models', 'User ID'),
             'estado_id' => Yii::t('models', 'Estado ID'),
+            'fase' => Yii::t('models', 'Fase'),
         ];
     }
 

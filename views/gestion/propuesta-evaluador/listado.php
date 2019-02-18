@@ -4,6 +4,7 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Estado;
 
 $this->title = Yii::t('jonathan', 'Asignaciones Propuesta⟷Evaluador');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
@@ -17,23 +18,33 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 <hr><br>
 
 <?php
-echo \yii\bootstrap\Alert::widget([
-    'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
-        . Yii::t('jonathan', 'Sólo se muestran las propuestas que hayan sido aprobadas internamente.'),
-    'options' => ['class' => 'alert-info'],
-]);
+echo \yii\bootstrap\Alert::widget(
+    [
+        'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+            . Yii::t(
+                'jonathan',
+                'Sólo se muestran las propuestas que hayan sido aprobadas internamente (fase 1)'
+                . ' o que hayan sido presentadas en la fase 2.'
+            ),
+        'options' => ['class' => 'alert-info'],
+    ]
+);
 
-\yii\widgets\Pjax::begin([
-    'id' => 'pjax-main',
-    'enableReplaceState' => false,
-    'linkSelector' => '#pjax-main ul.pagination a, th a',
-    // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
-]);
+\yii\widgets\Pjax::begin(
+    [
+        'id' => 'pjax-main',
+        'enableReplaceState' => false,
+        'linkSelector' => '#pjax-main ul.pagination a, th a',
+        // 'clientOptions' => ['pjax:success' => 'function() { alert("yo"); }'],
+    ]
+);
 ?>
 
 <div class="table-responsive">
-    <?php echo GridView::widget([
+    <?php echo GridView::widget(
+        [
         'dataProvider' => $dpEvaluables,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'denominacion',
@@ -54,6 +65,23 @@ echo \yii\bootstrap\Alert::widget([
 
                     return $nombres ? '<ul class="listado"><li>' . implode("</li>\n<li>", $nombres) . '</li></ul>' : null;
                 },
+            ], [
+                'attribute' => 'estado_id',
+                'filter' => Html::dropDownList(
+                    'estado_id',
+                    Yii::$app->request->get('estado_id'),
+                    [null => 'Todas', Estado::APROB_INTERNA => 1, Estado::PRESENTADA_FASE_2 => 2]
+                    // ['prompt' => Yii::t('gestion', 'Seleccione')]
+                ),
+                'label' => Yii::t('jonathan', 'Fase'),
+                'value' => function ($propuesta) {
+                    if ($propuesta->estado_id === Estado::APROB_INTERNA) {
+                        return 1;
+                    } elseif ($propuesta->estado_id == Estado::PRESENTADA_FASE_2) {
+                        return 2;
+                    }
+                    return null;
+                }
             ], [
                 'class' => 'yii\grid\ActionColumn',
                 'buttons' => [
@@ -82,7 +110,8 @@ echo \yii\bootstrap\Alert::widget([
         'options' => ['class' => 'cabecera-azul'],
         'summary' => false,
         'tableOptions' => ['class' => 'table table-bordered table-striped table-hover'],
-    ]); ?>
+        ]
+    ); ?>
 </div>
 
 <?php

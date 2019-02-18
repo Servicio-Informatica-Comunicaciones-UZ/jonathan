@@ -21,8 +21,8 @@ class PropuestaSearch extends Propuesta
     public function rules()
     {
         return [
-            [['id', 'anyo', 'user_id', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id', 'estado_id'], 'integer'],
-            [['denominacion', 'log'], 'safe'],
+            [['id', 'anyo', 'user_id', 'orientacion_id', 'creditos', 'duracion', 'modalidad_id', 'plazas', 'tipo_estudio_id'], 'integer'],
+            [['denominacion', 'log', 'estado_id'], 'safe'],
             [['creditos_practicas'], 'number'],
             // Reglas para los atributos calculados/referenciados
             [['nombreProponente'], 'safe']
@@ -55,6 +55,7 @@ class PropuestaSearch extends Propuesta
                 'attributes' => [
                     'anyo',
                     'denominacion',
+                    'estado_id',
                     // Setup our sorting attributes
                     'nombreProponente' => [
                         'asc' => ['profile.name' => SORT_ASC],

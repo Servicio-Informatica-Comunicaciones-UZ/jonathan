@@ -66,7 +66,7 @@ if(\Yii::$app->user->can('app_propuesta-evaluador_create', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                                                                                                            
+                                                                                                                                        
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -80,6 +80,10 @@ if(\Yii::$app->user->can('app_propuesta-evaluador_create', ['route' => true])){
             'encodeLabels' => false,
             'items' => [
             [
+                'url' => ['profile/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-left"></i> ' . Yii::t('models', 'Profile'),
+            ],
+                                [
                 'url' => ['estado/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-left"></i> ' . Yii::t('models', 'Estado'),
             ],
@@ -177,6 +181,7 @@ if(\Yii::$app->user->can('app_propuesta-evaluador_create', ['route' => true])){
 			    },
 			    'format' => 'raw',
 			],
+			'fase',
         ],
         ]); ?>
     </div>

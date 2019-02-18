@@ -69,6 +69,9 @@ $form->field($model, 'estado_id')->dropDownList(
         'disabled' => (isset($relAttributes) && isset($relAttributes['estado_id'])),
     ]
 ); ?>
+
+<!-- attribute fase -->
+			<?= $form->field($model, 'fase')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
         
