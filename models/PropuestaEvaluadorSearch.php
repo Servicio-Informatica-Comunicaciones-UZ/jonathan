@@ -17,20 +17,20 @@ class PropuestaEvaluadorSearch extends PropuestaEvaluador
     public $nombreEvaluador;
 
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['id', 'propuesta_id', 'user_id', 'estado_id'], 'integer'],
+            [['id', 'propuesta_id', 'user_id', 'estado_id', 'fase'], 'integer'],
             // Reglas para los atributos calculados/referenciados
             [['anyo', 'nombreEvaluador'], 'safe'],
         ];
     }
 
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -38,42 +38,45 @@ class PropuestaEvaluadorSearch extends PropuestaEvaluador
     }
 
     /**
-    * Creates data provider instance with search query applied
-    *
-    * @param array $params
-    *
-    * @return ActiveDataProvider
-    */
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $query = PropuestaEvaluador::find()
             ->innerJoinWith('propuesta')
-            ->where([
-                'propuesta.anyo' => $this->anyo,
-            ]);
+            ->where(['propuesta.anyo' => $this->anyo]);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => false,
-        ]);
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => $query,
+                'pagination' => false,
+            ]
+        );
 
         /**
          * Setup our sorting attributes
          * Note: This is setup before the $this->load($params) statement below
          */
-        $dataProvider->setSort([
-            'attributes' => [
-                'estado_id',
-                'nombreEvaluador' => [
-                    'asc' => ['profile.name' => SORT_ASC],
-                    'desc' => ['profile.name' => SORT_DESC],
-                    // 'label' => 'Nombre del evaluador'
-                    'default' => SORT_ASC,
+        $dataProvider->setSort(
+            [
+                'attributes' => [
+                    'estado_id',
+                    'fase',
+                    'nombreEvaluador' => [
+                        'asc' => ['profile.name' => SORT_ASC],
+                        'desc' => ['profile.name' => SORT_DESC],
+                        // 'label' => 'Nombre del evaluador'
+                        'default' => SORT_ASC,
+                    ],
+                    'propuesta.denominacion',
                 ],
-                'propuesta.denominacion',
-            ],
-            'defaultOrder' => ['estado_id' => SORT_ASC, 'propuesta.denominacion' => SORT_ASC],
-        ]);
+                'defaultOrder' => ['fase' => SORT_ASC, 'estado_id' => SORT_ASC, 'propuesta.denominacion' => SORT_ASC],
+            ]
+        );
 
         $this->load($params);
 
@@ -83,18 +86,23 @@ class PropuestaEvaluadorSearch extends PropuestaEvaluador
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'propuesta_id' => $this->propuesta_id,
-            'user_id' => $this->user_id,
-            'propuesta_evaluador.estado_id' => $this->estado_id,
-        ]);
+        $query->andFilterWhere(
+            [
+                'id' => $this->id,
+                'propuesta_id' => $this->propuesta_id,
+                'user_id' => $this->user_id,
+                'propuesta_evaluador.estado_id' => $this->estado_id,
+                'fase' => $this->fase,
+            ]
+        );
 
         // filter by profile name
-        $query->joinWith(['profile' => function ($q) {
-            // $q->where(['LIKE', 'profile.name', $this->nombreEvaluador ?: '']);
-            $q->where("profile.name LIKE '%{$this->nombreEvaluador}%'");
-        }]);
+        $query->joinWith(
+            ['profile' => function ($q) {
+                // $q->where(['LIKE', 'profile.name', $this->nombreEvaluador ?: '']);
+                $q->where("profile.name LIKE '%{$this->nombreEvaluador}%'");
+            }]
+        );
 
         return $dataProvider;
     }

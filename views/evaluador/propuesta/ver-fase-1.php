@@ -15,13 +15,15 @@ $asignacion = $model->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id
 
 <?php
 if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
-    echo \yii\bootstrap\Alert::widget([
-        'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
-            . Yii::t('evaluador', 'En esta página puede comentar y puntuar cada uno de los apartados de la propuesta.') . ' '
-            . Yii::t('evaluador', 'Puede modificar sus comentarios y puntuaciones tantas veces como desee.') . "<br>\n"
-            . Yii::t('evaluador', 'Una vez esté satisfecho, pulse el botón «Presentar la valoración».') . "<br>\n",
-    'options' => ['class' => 'alert-info'],
-    ]);
+    echo \yii\bootstrap\Alert::widget(
+        [
+            'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+                . Yii::t('evaluador', 'En esta página puede comentar y puntuar cada uno de los apartados de la propuesta.') . ' '
+                . Yii::t('evaluador', 'Puede modificar sus comentarios y puntuaciones tantas veces como desee.') . "<br>\n"
+                . Yii::t('evaluador', 'Una vez esté satisfecho, pulse el botón «Presentar la valoración».') . "<br>\n",
+            'options' => ['class' => 'alert-info'],
+        ]
+    );
 }
 ?>
 
@@ -33,120 +35,125 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
 
 echo '<h2>' . Yii::t('jonathan', '1. Datos identificativos del máster') . '</h2>' . PHP_EOL;
 
-echo DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-        // 'id',
-        // 'anyo',
-        [
-            'label' => Yii::t('jonathan', 'Usuario responsable'),
-            'attribute' => 'user.username',
-        ], [
-            'label' => Yii::t('jonathan', 'Nombre del responsable'),
-            'attribute' => 'user.profile.name',
-        ], [
-            'label' => Yii::t('jonathan', 'Correo del responsable'),
-            'attribute' => 'user.email',
-        ], [
-            'attribute' => 'denominacion',
-            'value' => function ($model) {
-                return trim($model->denominacion) ?: null;
-            }
-        ], [
-            'label' => Yii::t('jonathan', 'Macroárea(s)'),
-            'value' => function ($model) {
-                $nombres = \yii\helpers\ArrayHelper::getColumn($model->propuestaMacroareas, 'macroarea.nombre');
-                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
+echo DetailView::widget(
+    [
+        'model' => $model,
+        'attributes' => [
+            // 'id',
+            // 'anyo',
+            [
+                'label' => Yii::t('jonathan', 'Usuario responsable'),
+                'attribute' => 'user.username',
+            ], [
+                'label' => Yii::t('jonathan', 'Nombre del responsable'),
+                'attribute' => 'user.profile.name',
+            ], [
+                'label' => Yii::t('jonathan', 'Correo del responsable'),
+                'attribute' => 'user.email',
+            ], [
+                'attribute' => 'denominacion',
+                'value' => function ($model) {
+                    return trim($model->denominacion) ?: null;
+                },
+            ], [
+                'label' => Yii::t('jonathan', 'Macroárea(s)'),
+                'value' => function ($model) {
+                    $nombres = \yii\helpers\ArrayHelper::getColumn($model->propuestaMacroareas, 'macroarea.nombre');
+                    $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
-                return $nombres ? '<ul class="listado"><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
-            },
-            'format' => 'html',
-        ], [
-            'label' => Yii::t('jonathan', 'Centro(s)'),
-            'value' => function ($model) {
-                $centros = $model->propuestaCentros;
+                    return $nombres ? '<ul class="listado"><li>' . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                },
+                'format' => 'html',
+            ], [
+                'label' => Yii::t('jonathan', 'Centro(s)'),
+                'value' => function ($model) {
+                    $centros = $model->propuestaCentros;
 
-                $salida = null;
-                if ($centros) {
-                    $salida = "<ul class='listado'>\n";
-                    foreach ($centros as $centro) {
-                        $salida .= '<li>' . Html::encode($centro->nombre_centro);
-                        if ($centro->documento_firma) {
-                            $salida .= ' ['
-                            . Html::a(
-                                Html::encode($centro->documento_firma),
-                                Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
-                            ) . ']';
+                    $salida = null;
+                    if ($centros) {
+                        $salida = "<ul class='listado'>\n";
+                        foreach ($centros as $centro) {
+                            $salida .= '<li>' . Html::encode($centro->nombre_centro);
+                            if ($centro->documento_firma) {
+                                $salida .= ' ['
+                                . Html::a(
+                                    Html::encode($centro->documento_firma),
+                                    Url::home() . "pdf/firmas_centros/{$centro->id}.pdf"
+                                ) . ']';
+                            }
+                            $salida .= "</li>\n";
                         }
-                        $salida .= "</li>\n";
+                        $salida .= "</ul>\n";
                     }
-                    $salida .= "</ul>\n";
-                }
 
-                return $salida;
-            },
-            'format' => 'html',
-        ], [
-            'label' => Yii::t('jonathan', 'Orientación'),
-            'attribute' => 'orientacion.nombre',
-        ],
-        'creditos',
-        'duracion',
-        [
-            'label' => Yii::t('jonathan', 'Modalidad de impartición'),
-            'attribute' => 'modalidad.nombre',
-        ],
-        'plazas',
-        'creditos_practicas',
-        [
-            'label' => Yii::t('jonathan', 'Titulaciones a las que va dirigido'),
-            'value' => function ($model) {
-                $nombres = array_column($model->propuestaTitulacions, 'nombre_titulacion');
-                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
+                    return $salida;
+                },
+                'format' => 'html',
+            ], [
+                'label' => Yii::t('jonathan', 'Orientación'),
+                'attribute' => 'orientacion.nombre',
+            ],
+            'creditos',
+            'duracion',
+            [
+                'label' => Yii::t('jonathan', 'Modalidad de impartición'),
+                'attribute' => 'modalidad.nombre',
+            ],
+            'plazas',
+            'creditos_practicas',
+            [
+                'label' => Yii::t('jonathan', 'Titulaciones a las que va dirigido'),
+                'value' => function ($model) {
+                    $nombres = array_column($model->propuestaTitulacions, 'nombre_titulacion');
+                    $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
-                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
-            },
-            'format' => 'html',
-        ], [
-            'label' => Yii::t('jonathan', 'Programa de doctorado a los que podría dar acceso'),
-            'value' => function ($model) {
-                $nombres = array_column($model->propuestaDoctorados, 'nombre_doctorado');
-                $nombres = array_map('\yii\helpers\Html::encode', $nombres);
+                    return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                },
+                'format' => 'html',
+            ], [
+                'label' => Yii::t('jonathan', 'Programa de doctorado a los que podría dar acceso'),
+                'value' => function ($model) {
+                    $nombres = array_column($model->propuestaDoctorados, 'nombre_doctorado');
+                    $nombres = array_map('\yii\helpers\Html::encode', $nombres);
 
-                return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
-            },
-            'format' => 'html',
-        ], [
-            'label' => Yii::t('jonathan', 'Grupos de investigación reconocidos por el Gobierno de Aragón' .
-                ' que apoyan la propuesta'),
-            'value' => function ($model) {
-                $salida = null;
-                $grupos = $model->propuestaGrupoInves;
-                if ($grupos) {
-                    $salida = "<ul class='listado'>\n";
-                    foreach ($grupos as $grupo) {
-                        $salida .= '<li>' . Html::encode($grupo->nombre_grupo_inves);
-                        if ($grupo->documento_firma) {
-                            $salida .= ' ['
-                            . Html::a(
-                                Html::encode($grupo->documento_firma),
-                                Url::home() . "pdf/firmas_grupos_inves/{$grupo->id}.pdf"
-                            ) . ']';
+                    return $nombres ? "<ul class='listado'><li>" . implode('</li><li>', $nombres) . '</li></ul>' : null;
+                },
+                'format' => 'html',
+            ], [
+                'label' => Yii::t(
+                    'jonathan',
+                    'Grupos de investigación reconocidos por el Gobierno de Aragón' .
+                    ' que apoyan la propuesta'
+                ),
+                'value' => function ($model) {
+                    $salida = null;
+                    $grupos = $model->propuestaGrupoInves;
+                    if ($grupos) {
+                        $salida = "<ul class='listado'>\n";
+                        foreach ($grupos as $grupo) {
+                            $salida .= '<li>' . Html::encode($grupo->nombre_grupo_inves);
+                            if ($grupo->documento_firma) {
+                                $salida .= ' ['
+                                . Html::a(
+                                    Html::encode($grupo->documento_firma),
+                                    Url::home() . "pdf/firmas_grupos_inves/{$grupo->id}.pdf"
+                                ) . ']';
+                            }
+                            $salida .= "</li>\n";
                         }
-                        $salida .= "</li>\n";
+                        $salida .= "</ul>\n";
                     }
-                    $salida .= "</ul>\n";
-                }
 
-                return $salida;
-            },
-            'format' => 'html',
-        ], [
-            'label' => 'Estado de la propuesta',
-            'attribute' => 'estado.nombre',
+                    return $salida;
+                },
+                'format' => 'html',
+            ], [
+                'label' => 'Estado de la propuesta',
+                'attribute' => 'estado.nombre',
+            ],
         ],
-    ],
-]) . "\n\n";
+    ]
+) . "\n\n";
 
 
 /*̣ ⸻⸻⸻⸻⸻⸻⸻⸻ Preguntas y respuestas de la propuesta ⸻⸻⸻⸻⸻⸻⸻⸻ */
@@ -285,12 +292,14 @@ if ($asignacion->estado_id === Estado::VALORACION_PENDIENTE) {
                     $model->denominacion
                 );
             } else {
-                echo \yii\bootstrap\Alert::widget([
+                echo \yii\bootstrap\Alert::widget(
+                    [
                     'body' => "<span class='glyphicon glyphicon-exclamation-sign'></span>"
                         . Yii::t('evaluador', 'No puede presentar la valoración en estos momentos.') . "<br>\n"
                         . Yii::t('evaluador', 'Por favor, verifique que ha puntuado todos los apartados.') . "<br>\n",
                     'options' => ['class' => 'alert-danger'],
-                ]);
+                    ]
+                );
             }?></p>
             </div>
 

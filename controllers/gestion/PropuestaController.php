@@ -99,10 +99,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionAprobarExternamente($id)
     {
         $model = $this->findModel($id);
-        if (Estado::APROB_INTERNA !== $model->estado_id) {
-            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Aprobada internamente». 😨'));
+        if (!in_array($model->estado_id, [Estado::APROB_INTERNA, Estado::PRESENTADA_FASE_2])) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en un estado que permita se aprobada. 😨'));
         }
-        $model->estado_id = Estado::APROB_EXTERNA;
+        $fase = $model->fase;
+        $model->estado_id = ($fase === 1) ? Estado::APROB_EXTERNA : Estado::APROB_EXTERNA_FASE_2;
         $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Aprobación externa de la propuesta') . "\n";
         $model->save();
         Yii::info(
@@ -130,7 +131,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             )
         );
 
-        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo]);
+        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo, 'fase' => $fase]);
     }
 
 
@@ -233,10 +234,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionRechazarExternamente($id)
     {
         $model = $this->findModel($id);
-        if (Estado::APROB_INTERNA !== $model->estado_id) {
-            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Aprobada internamente». 😨'));
+        if (!in_array($model->estado_id, [Estado::APROB_INTERNA, Estado::PRESENTADA_FASE_2])) {
+            throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en un estado que permita ser rechazada. 😨'));
         }
-        $model->estado_id = Estado::RECHAZ_EXTERNO;
+        $fase = $model->fase;
+        $model->estado_id = ($fase === 1) ? Estado::RECHAZ_EXTERNO : Estado::RECHAZ_EXTERNO_FASE_2;
         $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Rechazo externo de la propuesta') . "\n";
         $model->save();
         Yii::info(
@@ -264,7 +266,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             )
         );
 
-        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo]);
+        return $this->redirect(['gestion/valoracion/resumen', 'anyo' => $model->anyo, 'fase' => $fase]);
     }
 
     /**
@@ -282,9 +284,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'id',
             'nombre'
         );
-        $mapa_estados = array_map(function ($nombre_estado) {
-            return Yii::t('db', $nombre_estado);
-        }, $estados_map);
+        $mapa_estados = array_map(
+            function ($nombre_estado) {
+                return Yii::t('db', $nombre_estado);
+            }, $estados_map
+        );
 
         return $this->render(
             'listado-propuestas',

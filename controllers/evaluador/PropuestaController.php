@@ -62,11 +62,15 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     {
         Url::remember();
         $propuesta = $this->findModel($propuesta_id);
-        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->deLaFase($propuesta->fase)->all();
+        $preguntas = Pregunta::find()
+            ->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)
+            ->deLaFase($propuesta->fase)
+            ->orderBy('orden')
+            ->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
         $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador(Yii::$app->user->id)->all();
 
-        return $this->render('ver', [
+        return $this->render("ver-fase-{$propuesta->fase}", [
             'bloques_autonomos' => Bloque::find()->where(['pregunta_id' => null])->all(),
             'model' => $propuesta,
             'preguntas' => $preguntas,

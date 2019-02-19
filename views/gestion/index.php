@@ -38,8 +38,13 @@ $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsse
 ); ?></li>
 
 <li><?php echo Html::a(
-    Yii::t('jonathan', 'Resumen de valoraciones'),
-    ['//gestion/valoracion/resumen', 'anyo' => $anyo_academico]
+    Yii::t('jonathan', 'Resumen de valoraciones (fase 1)'),
+    ['//gestion/valoracion/resumen', 'anyo' => $anyo_academico, 'fase' => 1]
+); ?></li>
+
+<li><?php echo Html::a(
+    Yii::t('jonathan', 'Resumen de valoraciones (fase 2)'),
+    ['//gestion/valoracion/resumen', 'anyo' => $anyo_academico, 'fase' => 2]
 ); ?></li>
 
 </ul>

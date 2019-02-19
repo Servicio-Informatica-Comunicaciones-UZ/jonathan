@@ -1,11 +1,10 @@
 <?php
 
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use app\models\Estado;
 
-$this->title = Yii::t('gestion', 'Resumen de valoraciones');
+$this->title = sprintf(Yii::t('gestion', 'Resumen de valoraciones (fase %d)'), $fase);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -82,10 +81,11 @@ foreach ($propuestas as $bloques_propuesta) {
     </tr></tfoot>
     </table>
     </div>
+
     <div style='text-align: right'>
     <?php
     $propuesta = $primera_valoracion->propuesta;
-    if ($propuesta->estado_id === Estado::APROB_INTERNA) {
+    if (($fase === 1 and $propuesta->estado_id === Estado::APROB_INTERNA) or ($fase === 2 and $propuesta->estado_id === Estado::PRESENTADA_FASE_2)) {
         echo Html::a(
             '<span class="glyphicon glyphicon-remove"></span> &nbsp;' . Yii::t('jonathan', 'Rechazar externamente'),
             ['gestion/propuesta/rechazar-externamente', 'id' => $propuesta->id],
@@ -113,7 +113,7 @@ foreach ($propuestas as $bloques_propuesta) {
                 'class' => 'btn btn-success',
                 'data-confirm' => Yii::t(
                     'gestion',
-                    '¿Seguro que los evaluadores externos han valorado positivamente esta propuesta y puede pasar a la fase 2?'
+                    '¿Seguro que los evaluadores externos han valorado positivamente esta propuesta?'
                 ),
                 'data-method' => 'post',
                 'title' => Yii::t(
