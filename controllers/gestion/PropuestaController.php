@@ -274,6 +274,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
      */
     public function actionListadoPropuestas($anyo)
     {
+        Url::remember(Url::current(), 'listado');
         $searchModel = new PropuestaSearch();
         $params = Yii::$app->request->queryParams;
         $params['PropuestaSearch']['anyo'] = $anyo;
@@ -287,7 +288,8 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $mapa_estados = array_map(
             function ($nombre_estado) {
                 return Yii::t('db', $nombre_estado);
-            }, $estados_map
+            },
+            $estados_map
         );
 
         return $this->render(
@@ -305,6 +307,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
      */
     public function actionVer($id)
     {
+        Url::remember(Url::previous('listado'), 'listado');
         Url::remember();
         $propuesta = $this->findModel($id);
         $preguntas = Pregunta::find()
@@ -314,7 +317,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             ->all();
 
         return $this->render(
-            'ver',
+            "ver-fase-{$propuesta->fase}",
             [
                 'model' => $propuesta,
                 'preguntas' => $preguntas,
