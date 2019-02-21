@@ -27,7 +27,8 @@ Requisitos
 * La última versión de [Composer](https://getcomposer.org/download/)
 * [Node.js](https://nodejs.org/es/download/package-manager/#distribuciones-de-linux-basadas-en-debian-y-ubuntu) 6.4.0+
   para utilizar [Puppeteer](https://developers.google.com/web/tools/puppeteer/)
-  que a su vez usará Google Chrome / Chromium en modo _headless_ para generar los PDF.
+  que a su vez usará Google Chrome / Chromium en modo _headless_ para generar los PDF.  Las version de Puppeteer y
+  Chrome tienen que ser acordes: 1.6 -> chrome-69, 1.7 -> chrome-70, 1.9 -> chrome-71, 1.11 -> chrome-72, etc.
 * Tipos de letra [Gentium](https://software.sil.org/gentium/) y [EB Garamond](http://www.georgduffner.at/ebgaramond/)
   (paquetes Debian fonts-sil-gentium y fonts-ebgaramond).
 
