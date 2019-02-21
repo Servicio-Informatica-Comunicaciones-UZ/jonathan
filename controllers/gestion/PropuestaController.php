@@ -146,10 +146,10 @@ class PropuestaController extends \app\controllers\base\PropuestaController
     public function actionDevolver($id)
     {
         $model = $this->findModel($id);
-        if (Estado::PRESENTADA !== $model->estado_id) {
+        if (!in_array($model->estado_id, [Estado::PRESENTADA, Estado::PRESENTADA_FASE_2])) {
             throw new ServerErrorHttpException(Yii::t('jonathan', 'Esta propuesta no está en estado «Presentada». 😨'));
         }
-        $model->estado_id = Estado::BORRADOR;
+        $model->estado_id = ($model->estado_id === Estado::PRESENTADA) ? Estado::BORRADOR : Estado::APROB_EXTERNA;
         $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Devolución de la propuesta') . "\n";
         $model->save();
         Yii::info(
@@ -167,7 +167,7 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             'success',
             Yii::t(
                 'jonathan',
-                "La propuesta ha sido devuelta al estado Borrador para que el proponente subsane sus defectos.\n" .
+                "La propuesta ha sido devuelta al estado anterior a la presentación para que el proponente subsane sus defectos.\n" .
                     'Por favor, <strong>informe al autor de la propuesta</strong> enviándole un mensaje de correo electrónico: '
             ) . Html::mailto(
                 '"' . Html::encode($model->user->profile->name) . '" &lt;' . Html::encode($model->user->email) . '&gt;',

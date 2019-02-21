@@ -254,3 +254,22 @@ foreach ($preguntas as $pregunta) {
         )
     ) . "</div>\n\n";
 }
+
+echo "<hr><br>\n";
+if (Estado::PRESENTADA_FASE_2 === $model->estado_id) {
+    echo Html::a(
+        '<span class="glyphicon glyphicon-step-backward"></span> &nbsp;' . Yii::t('jonathan', 'Devolver al proponente'),
+        ['devolver', 'id' => $model->id],
+        [
+            'id' => 'devolver',
+            'class' => 'btn btn-warning',
+            'data-confirm' => Yii::t('gestion', '¿Seguro que desea devolver esta propuesta al proponente?') . "\n\n"
+                . Yii::t('gestion', 'El proponente podrá hacer modificaciones y volver a presentarla.'),
+            'data-method' => 'post',
+            'title' => Yii::t(
+                'jonathan',
+                "La propuesta requiere correcciones.\nVolverla a poner en el estado anterior a la presentación."
+            ),
+        ]
+    ) . "&nbsp;\n&nbsp;";
+}
