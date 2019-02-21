@@ -187,7 +187,7 @@ if (Estado::APROB_EXTERNA === $model->estado_id && $model->user_id === Yii::$app
 /* Preguntas y respuestas de la propuesta */
 foreach ($preguntas as $pregunta) {
     echo "<br>\n<h2>" . HtmlPurifier::process($pregunta->titulo) . '</h2>' . PHP_EOL;
-    // echo "<p class='pregunta'><strong>" . HtmlPurifier::process($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
+    echo "<p class='pregunta'><strong>" . HtmlPurifier::process($pregunta->descripcion) . '</strong></p>' . PHP_EOL;
     $respuestas = array_filter(
         $model->respuestas,
         function ($r) use ($pregunta) {
