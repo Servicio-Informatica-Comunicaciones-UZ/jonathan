@@ -11,4 +11,4 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?php echo Yii::t('models', 'Nueva propuesta'); ?></h1>
 <hr><br>
 
-<?php echo $this->render('_formulario', ['model' => $model]); ?>
+<?php echo $this->render('_formulario-fase-1', ['model' => $model]); ?>
