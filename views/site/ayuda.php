@@ -16,10 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>Contacte con la Dirección de Organización Académica &lt;diroa@unizar.es&gt;.</p>
 
-    <!--
+
     <h2>Soporte técnico</h2>
 
     <p>Abra un ticket en <?php echo Html::a('Ayudica', 'https://ayudica.unizar.es/otrs/customer.pl'); ?>.</p>
 
-    -->
 </div>
