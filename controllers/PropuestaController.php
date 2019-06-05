@@ -398,6 +398,20 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
     private function editarFase2($model)
     {
+        $convocatoria = Convocatoria::findOne(['id' => $model->anyo]);
+        if (date("Y-m-d") > $convocatoria->fecha_max_presentacion_fase_2) {
+            $model->estado_id = Estado::FUERA_DE_PLAZO_FASE_2;
+            $model->save();
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
+                . sprintf(Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 2 se cerró el %s."),
+                        strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_2 . "+1 day"))
+                    ) . "\n" . sprintf(Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                )
+            );
+        }
+
         $transaction = Yii::$app->db->beginTransaction();
 
         if (Yii::$app->request->isPost) {
