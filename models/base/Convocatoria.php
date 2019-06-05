@@ -10,7 +10,8 @@ use Yii;
  * This is the base-model class for table "convocatoria".
  *
  * @property integer $id
- * @property string $fecha_max_presentacion
+ * @property string $fecha_max_presentacion_fase_1
+ * @property string $fecha_max_presentacion_fase_2
  * @property string $aliasModel
  */
 abstract class Convocatoria extends \yii\db\ActiveRecord
@@ -34,7 +35,7 @@ abstract class Convocatoria extends \yii\db\ActiveRecord
         return [
             [['id'], 'required'],
             [['id'], 'integer'],
-            [['fecha_max_presentacion'], 'safe'],
+            [['fecha_max_presentacion_fase_1', 'fecha_max_presentacion_fase_2'], 'safe'],
             [['id'], 'unique']
         ];
     }
@@ -46,7 +47,8 @@ abstract class Convocatoria extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('models', 'ID'),
-            'fecha_max_presentacion' => Yii::t('models', 'Fecha Max Presentacion'),
+            'fecha_max_presentacion_fase_1' => Yii::t('models', 'Fecha Max Presentacion Fase 1'),
+            'fecha_max_presentacion_fase_2' => Yii::t('models', 'Fecha Max Presentacion Fase 2'),
         ];
     }
 
