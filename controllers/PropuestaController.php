@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use app\jobs\PrintPdfJob;
 use app\jobs\SendMailJob;
+use app\models\ConvenioIntercambios;
+use app\models\ConvenioPracticas;
+use app\models\Convocatoria;
 use app\models\Estado;
 use app\models\FicheroPdf;
 use app\models\Pregunta;
@@ -22,8 +25,7 @@ use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\ServerErrorHttpException;
 use yii\web\UploadedFile;
-use app\models\ConvenioIntercambios;
-use app\models\ConvenioPracticas;
+
 
 /**
  * This is the class for controller "PropuestaController".
@@ -590,6 +592,19 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 Yii::t('jonathan', 'El estado de esta propuesta no es válido para presentarla. 😨')
             );
         }
+
+        $convocatoria = Convocatoria::findOne(['id' => $model->anyo]);
+        if ($model->fase === 1 && date("Y-m-d") > $convocatoria->fecha_max_presentacion) {
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
+                . sprintf(Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 1 se cerró el %s."),
+                        strftime('%c', strtotime($convocatoria->fecha_max_presentacion . "+1 day"))
+                    ) . "\n" . sprintf(Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                )
+            );
+        }
+
         if ($model->fase === 1) {
             $model->estado_id = Estado::PRESENTADA;
         } else {
