@@ -113,10 +113,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 if ($centros) {
                     foreach ($centros as $num => $centro) {
                         if ($centro['nombre_centro']) {
-                            $pc = new PropuestaCentro([
-                                'propuesta_id' => $model->id,
-                                'nombre_centro' => $centro['nombre_centro'],
-                            ]);
+                            $pc = new PropuestaCentro(
+                                [
+                                    'propuesta_id' => $model->id,
+                                    'nombre_centro' => $centro['nombre_centro'],
+                                ]
+                            );
                             if ($pc->validate()) {
                                 $pc->save(false);
                             } else {
@@ -183,10 +185,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
                 if ($grupos) {
                     foreach ($grupos as $num => $grupo) {
                         if ($grupo['nombre_grupo_inves']) {
-                            $pg = new PropuestaGrupoInves([
-                                'propuesta_id' => $model->id,
-                                'nombre_grupo_inves' => $grupo['nombre_grupo_inves'],
-                            ]);
+                            $pg = new PropuestaGrupoInves(
+                                [
+                                    'propuesta_id' => $model->id,
+                                    'nombre_grupo_inves' => $grupo['nombre_grupo_inves'],
+                                ]
+                            );
                             if ($pg->validate()) {
                                 $pg->save(false);
                             } else {
@@ -246,6 +250,24 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
     private function editarFase1($model)
     {
+        $convocatoria = Convocatoria::findOne(['id' => $model->anyo]);
+        if (date("Y-m-d") > $convocatoria->fecha_max_presentacion_fase_1) {
+            $model->estado_id = Estado::FUERA_DE_PLAZO;
+            $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Fuera de plazo (F1)') . "\n";
+            $model->save();
+            throw new ServerErrorHttpException(
+                Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
+                . sprintf(
+                    Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 1 se cerró el %s."
+                    ),
+                    strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_1 . "+1 day"))
+                ) . "\n" . sprintf(
+                    Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                )
+            );
+        }
+
         $transaction = Yii::$app->db->beginTransaction();
 
         if ($model->load($_POST) && $model->save()) {
@@ -254,17 +276,22 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             $macroareas = Yii::$app->request->post('Propuesta')['propuestaMacroareas'] ?: [];
             // Añadimos las nuevas macroáreas que pueda haber
             foreach ($macroareas as $macroarea) {
-                if (!array_filter($pms, function ($pm) use ($macroarea) {
-                    return $pm->macroarea_id == $macroarea;
-                })) {
+                if (!array_filter(
+                    $pms, function ($pm) use ($macroarea) {
+                        return $pm->macroarea_id == $macroarea;
+                    }
+                )
+                ) {
                     $pm = new PropuestaMacroarea(['propuesta_id' => $model->id, 'macroarea_id' => $macroarea]);
                     $pm->save();
                 }
             }
             // Eliminamos las macroáreas que se hayan quitado
-            $pms_quitadas = array_filter($pms, function ($pm) use ($macroareas) {
-                return !in_array($pm->macroarea_id, $macroareas);
-            });
+            $pms_quitadas = array_filter(
+                $pms, function ($pm) use ($macroareas) {
+                    return !in_array($pm->macroarea_id, $macroareas);
+                }
+            );
             foreach ($pms_quitadas as $pm) {
                 $pm->delete();
             }
@@ -301,9 +328,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             }
             // Eliminamos los centros que se hayan quitado.
             $ids_recibidos = array_column($centros_recibidos, 'id');
-            $centros_quitados = array_filter($centros_anteriores, function ($c) use ($ids_recibidos) {
-                return !in_array($c->id, $ids_recibidos);
-            });
+            $centros_quitados = array_filter(
+                $centros_anteriores, function ($c) use ($ids_recibidos) {
+                    return !in_array($c->id, $ids_recibidos);
+                }
+            );
             foreach ($centros_quitados as $c) {
                 @unlink(Yii::getAlias('@webroot') . "/pdf/firmas_centros/{$c->id}.pdf");
                 $c->delete();
@@ -316,10 +345,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             if ($titulaciones) {
                 foreach ($titulaciones as $titulacion) {
                     if ($titulacion['nombre_titulacion']) {
-                        $pt = new PropuestaTitulacion([
-                            'propuesta_id' => $model->id,
-                            'nombre_titulacion' => $titulacion['nombre_titulacion'],
-                        ]);
+                        $pt = new PropuestaTitulacion(
+                            [
+                                'propuesta_id' => $model->id,
+                                'nombre_titulacion' => $titulacion['nombre_titulacion'],
+                            ]
+                        );
                         $pt->save();
                     }
                 }
@@ -332,10 +363,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             if ($doctorados) {
                 foreach ($doctorados as $doctorado) {
                     if ($doctorado['nombre_doctorado']) {
-                        $pd = new PropuestaDoctorado([
-                            'propuesta_id' => $model->id,
-                            'nombre_doctorado' => $doctorado['nombre_doctorado'],
-                        ]);
+                        $pd = new PropuestaDoctorado(
+                            [
+                                'propuesta_id' => $model->id,
+                                'nombre_doctorado' => $doctorado['nombre_doctorado'],
+                            ]
+                        );
                         $pd->save();
                     }
                 }
@@ -373,9 +406,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             }
             // Eliminamos los grupos de investigación que se hayan quitado.
             $ids_recibidos = array_column($grupos_recibidos, 'id');
-            $grupos_quitados = array_filter($grupos_anteriores, function ($g) use ($ids_recibidos) {
-                return !in_array($g->id, $ids_recibidos);
-            });
+            $grupos_quitados = array_filter(
+                $grupos_anteriores, function ($g) use ($ids_recibidos) {
+                    return !in_array($g->id, $ids_recibidos);
+                }
+            );
             foreach ($grupos_quitados as $g) {
                 @unlink(Yii::getAlias('@webroot') . "/pdf/firmas_grupos_inves/{$g->id}.pdf");
                 $g->delete();
@@ -389,9 +424,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
             return $this->redirect(Url::previous());
         } else {
-            return $this->render('editar', [
-                'model' => $model,
-            ]);
+            return $this->render(
+                'editar', [
+                    'model' => $model,
+                ]
+            );
         }
     }
 
@@ -401,13 +438,17 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $convocatoria = Convocatoria::findOne(['id' => $model->anyo]);
         if (date("Y-m-d") > $convocatoria->fecha_max_presentacion_fase_2) {
             $model->estado_id = Estado::FUERA_DE_PLAZO_FASE_2;
+            $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Fuera de plazo (F2)') . "\n";
             $model->save();
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
-                . sprintf(Yii::t(
-                        'jonathan', "El plazo de presentación de la fase 2 se cerró el %s."),
-                        strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_2 . "+1 day"))
-                    ) . "\n" . sprintf(Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                . sprintf(
+                    Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 2 se cerró el %s."
+                    ),
+                    strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_2 . "+1 day"))
+                ) . "\n" . sprintf(
+                    Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
                 )
             );
         }
@@ -487,9 +528,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             }
             // Eliminamos los convenios que se hayan quitado.
             $ids_recibidos = array_column($convenios_recibidos, 'id');
-            $convenios_quitados = array_filter($convenios_anteriores, function ($c) use ($ids_recibidos) {
-                return !in_array($c->id, $ids_recibidos);
-            });
+            $convenios_quitados = array_filter(
+                $convenios_anteriores, function ($c) use ($ids_recibidos) {
+                    return !in_array($c->id, $ids_recibidos);
+                }
+            );
             foreach ($convenios_quitados as $c) {
                 @unlink(Yii::getAlias('@webroot') . "/pdf/convenios_practicas/{$c->id}.pdf");
                 $c->delete();
@@ -527,9 +570,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             }
             // Eliminamos los convenios que se hayan quitado.
             $ids_recibidos = array_column($convenios_recibidos, 'id');
-            $convenios_quitados = array_filter($convenios_anteriores, function ($c) use ($ids_recibidos) {
-                return !in_array($c->id, $ids_recibidos);
-            });
+            $convenios_quitados = array_filter(
+                $convenios_anteriores, function ($c) use ($ids_recibidos) {
+                    return !in_array($c->id, $ids_recibidos);
+                }
+            );
             foreach ($convenios_quitados as $c) {
                 @unlink(Yii::getAlias('@webroot') . "/pdf/convenios_intercambios/{$c->id}.pdf");
                 $c->delete();
@@ -543,9 +588,11 @@ class PropuestaController extends \app\controllers\base\PropuestaController
 
             return $this->redirect(Url::previous());
         } else {
-            return $this->render('editar', [
-                'model' => $model,
-            ]);
+            return $this->render(
+                'editar', [
+                    'model' => $model,
+                ]
+            );
         }
     }
 
@@ -585,10 +632,12 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             ->orderBy('orden')
             ->all();
 
-        return $this->render("ver-fase-{$propuesta->fase}", [
-            'model' => $propuesta,
-            'preguntas' => $preguntas,
-        ]);
+        return $this->render(
+            "ver-fase-{$propuesta->fase}", [
+                'model' => $propuesta,
+                'preguntas' => $preguntas,
+            ]
+        );
     }
 
     /**
@@ -610,24 +659,32 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         $convocatoria = Convocatoria::findOne(['id' => $model->anyo]);
         if ($model->fase === 1 && date("Y-m-d") > $convocatoria->fecha_max_presentacion_fase_1) {
             $model->estado_id = Estado::FUERA_DE_PLAZO;
+            $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Fuera de plazo (F1)') . "\n";
             $model->save();
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
-                . sprintf(Yii::t(
-                        'jonathan', "El plazo de presentación de la fase 1 se cerró el %s."),
-                        strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_1 . "+1 day"))
-                    ) . "\n" . sprintf(Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                . sprintf(
+                    Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 1 se cerró el %s."
+                    ),
+                    strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_1 . "+1 day"))
+                ) . "\n" . sprintf(
+                    Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
                 )
             );
         } elseif ($model->fase === 2 && date("Y-m-d") > $convocatoria->fecha_max_presentacion_fase_2) {
             $model->estado_id = Estado::FUERA_DE_PLAZO_FASE_2;
+            $model->log .= date(DATE_RFC3339) . ' — ' . Yii::t('jonathan', 'Fuera de plazo (F2)') . "\n";
             $model->save();
             throw new ServerErrorHttpException(
                 Yii::t('jonathan', 'El plazo de presentación de propuestas ya está cerrado. 😨') . "\n\n"
-                . sprintf(Yii::t(
-                        'jonathan', "El plazo de presentación de la fase 2 se cerró el %s."),
-                        strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_2 . "+1 day"))
-                    ) . "\n" . sprintf(Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
+                . sprintf(
+                    Yii::t(
+                        'jonathan', "El plazo de presentación de la fase 2 se cerró el %s."
+                    ),
+                    strftime('%c', strtotime($convocatoria->fecha_max_presentacion_fase_2 . "+1 day"))
+                ) . "\n" . sprintf(
+                    Yii::t('jonathan', 'La fecha actual es: %s.'), strftime('%c')
                 )
             );
         }
@@ -651,23 +708,31 @@ class PropuestaController extends \app\controllers\base\PropuestaController
         );
 
         // Creamos una tarea para generar un PDF.
-        Yii::$app->queue->push(new PrintPdfJob([
-            'chromePath' => Yii::$app->params['chromePath'],
-            'url' => Url::to(['propuesta/ver', 'id' => $id], true),
-            'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
-            'filename' => "{$id}-fase{$model->fase}.pdf",
-            'margins' => [20, 25, 20, 30],  // top, right, bottom, left
-        ]));
+        Yii::$app->queue->push(
+            new PrintPdfJob(
+                [
+                    'chromePath' => Yii::$app->params['chromePath'],
+                    'url' => Url::to(['propuesta/ver', 'id' => $id], true),
+                    'outputDirectory' => Yii::getAlias('@webroot') . '/pdf/propuestas',
+                    'filename' => "{$id}-fase{$model->fase}.pdf",
+                    'margins' => [20, 25, 20, 30],  // top, right, bottom, left
+                ]
+            )
+        );
 
         // Encolamos otra tarea a continuación de la anterior, para enviar correo.
-        Yii::$app->queue->push(new SendMailJob([
-            'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}-fase{$model->fase}.pdf",
-            'recipients' => $model->user->email,
-            'sender' => [Yii::$app->params['adminEmail'] => 'Robot Olba'],
-            'subject' => Yii::t('jonathan', 'Propuesta presentada') . ': ' . $model->denominacion,
-            'view' => 'propuesta-presentada',  // Fichero de vista, por omisión en @app/mail
-            'viewParams' => ['denominacion' => $model->denominacion],
-        ]));
+        Yii::$app->queue->push(
+            new SendMailJob(
+                [
+                    'attachmentPath' => Yii::getAlias('@webroot') . "/pdf/propuestas/{$id}-fase{$model->fase}.pdf",
+                    'recipients' => $model->user->email,
+                    'sender' => [Yii::$app->params['adminEmail'] => 'Robot Olba'],
+                    'subject' => Yii::t('jonathan', 'Propuesta presentada') . ': ' . $model->denominacion,
+                    'view' => 'propuesta-presentada',  // Fichero de vista, por omisión en @app/mail
+                    'viewParams' => ['denominacion' => $model->denominacion],
+                ]
+            )
+        );
 
         // Lanzamos el procesamiento de la cola en segundo plano
         $cmd = Yii::getAlias('@app') . '/yii queue/run';  // --verbose --isolate
