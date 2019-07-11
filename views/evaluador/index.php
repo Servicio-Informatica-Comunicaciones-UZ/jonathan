@@ -8,6 +8,16 @@ $this->title = Yii::t('jonathan', 'Propuestas asignadas para su valoración');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php
+echo \yii\bootstrap\Alert::widget(
+    [
+        'body' => "<span class='glyphicon glyphicon-info-sign'></span>"
+            . Yii::t('evaluador', 'En esta página puede las propuestas que tiene asignadas para su valoración.') . "<br>\n"
+            . Yii::t('evaluador', 'Pulse en la denominación de una propuesta para verla y valorar cada uno de sus apartados.') . "<br>\n",
+        'options' => ['class' => 'alert-info'],
+    ]
+);
+?>
 
 <h1><?php echo Html::encode($this->title); ?></h1>
 <hr><br>
@@ -39,7 +49,7 @@ echo GridView::widget([
         ], [
             'label' => Yii::t('jonathan', 'Estado'),
             'value' => function ($propuesta) {
-                $asignacion = $propuesta->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->one();
+                $asignacion = $propuesta->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->orderBy(['fase' => SORT_DESC])->one();
                 return $asignacion->estado_id ? $asignacion->estado->nombre : null;
             }
         ], /* [
