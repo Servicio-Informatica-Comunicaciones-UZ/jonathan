@@ -11,7 +11,7 @@ $this->title = $model->denominacion;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Propuestas asignadas'), 'url' => ['evaluador/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$asignacion = $model->getPropuestaEvaluadors()->delEvaluador(Yii::$app->user->id)->where(['fase' => 2])->one();
+$asignacion = $model->getPropuestaEvaluadors()->where(['fase' => 2])->delEvaluador(Yii::$app->user->id)->one();
 ?>
 
 <?php
