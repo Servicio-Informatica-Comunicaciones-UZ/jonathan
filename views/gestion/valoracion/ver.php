@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use app\models\Estado;
 
-$this->title = $propuesta->denominacion;
+$this->title = sprintf(Yii::t('gestion', '%s (fase %d)'), $propuesta->denominacion, $fase);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Gestión'), 'url' => ['//gestion/index']];
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('models', 'Valoraciones individuales'),
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $propuesta->denominacion,
     ['//gestion/propuesta/ver', 'id' => $propuesta->id],
     ['target' => '_blank']
-); ?></h1>
+) . sprintf(Yii::t('gestion', ' (fase %d)'), $fase); ?></h1>
 <hr><br>
 
 <!-- ⸻⸻⸻⸻⸻⸻⸻⸻⸻ Puntuaciones de los bloques ⸻⸻⸻⸻⸻⸻⸻⸻⸻ -->

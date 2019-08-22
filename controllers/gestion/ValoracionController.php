@@ -45,22 +45,28 @@ class ValoracionController extends \app\controllers\base\ValoracionController
     /**
      * Muestra una propuesta y sus valoraciones por el evaluador indicado.
      */
-    public function actionVer($propuesta_id, $user_id)
+    public function actionVer($propuesta_id, $user_id, $fase)
     {
         Url::remember();
-        $asignacion = PropuestaEvaluador::find()->where(['propuesta_id' => $propuesta_id, 'user_id' => $user_id])->one();
+        $asignacion = PropuestaEvaluador::find()->where(['propuesta_id' => $propuesta_id, 'user_id' => $user_id, 'fase' => $fase])->one();
         $propuesta = Propuesta::getPropuesta($propuesta_id);
-        $preguntas = Pregunta::find()->delAnyoYTipo($propuesta->anyo, $propuesta->tipo_estudio_id)->deLaFase($propuesta->fase)->all();
-        $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
-        $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador($user_id)->orderBy('bloque_id')->indexBy('bloque_id')->all();
+        $valoraciones = Valoracion::find()
+            ->joinWith('propuesta')
+            ->innerJoin('propuesta_evaluador', 'valoracion.user_id = propuesta_evaluador.user_id AND valoracion.propuesta_id = propuesta_evaluador.propuesta_id')
+            ->innerJoin('bloque', 'valoracion.bloque_id = bloque.id')
+            ->where(['propuesta_evaluador.id' => $asignacion->id, 'bloque.fase' => $fase])
+            ->orWhere(['propuesta_evaluador.id' => $asignacion->id, 'bloque.fase' => null])
+            ->orderBy('bloque_id')
+            // ->createCommand()->getRawSql();
+            ->indexBy('bloque_id')
+            ->all();
 
         return $this->render(
             'ver',
             [
                 'asignacion' => $asignacion,
+                'fase' => $fase,
                 'propuesta' => $propuesta,
-                'preguntas' => $preguntas,
-                'respuestas' => $respuestas,
                 'valoraciones' => $valoraciones,
             ]
         );

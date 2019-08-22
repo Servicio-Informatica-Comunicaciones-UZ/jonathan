@@ -72,6 +72,7 @@ echo GridView::widget(
                                 '@web/gestion/valoracion/ver',
                                 'user_id' => $asignacion->user_id,
                                 'propuesta_id' => $asignacion->propuesta_id,
+                                'fase' => $asignacion->fase,
                             ]
                         );
                     }
