@@ -68,7 +68,13 @@ class PropuestaController extends \app\controllers\base\PropuestaController
             ->orderBy('orden')
             ->all();
         $respuestas = $propuesta->getRespuestas()->indexBy('pregunta_id')->all();
-        $valoraciones = Valoracion::find()->deLaPropuesta($propuesta_id)->delEvaluador(Yii::$app->user->id)->all();
+        $valoraciones = Valoracion::find()
+            ->innerJoin('bloque', 'valoracion.bloque_id = bloque.id')
+            ->where(['propuesta_id' => $propuesta_id])
+            ->andWhere(['user_id' => Yii::$app->user->id])
+            ->andWhere(['bloque.fase' => $propuesta->fase])
+            // ->createCommand()->getRawSql();  # DEBUG
+            ->all();
 
         return $this->render("ver-fase-{$propuesta->fase}", [
             'bloques_autonomos' => Bloque::find()->where(['pregunta_id' => null])->all(),
