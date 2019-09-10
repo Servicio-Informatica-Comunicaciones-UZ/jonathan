@@ -248,7 +248,7 @@ echo Yii::$app->formatter->asDecimal(
             $valoraciones
         )
     ),
-    2
+    3
 );
 echo "</div>\n<br>\n";
 

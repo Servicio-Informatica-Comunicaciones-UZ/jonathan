@@ -54,7 +54,7 @@ foreach ($valoraciones as $valoracion) {
                     $valoraciones
                 )
             ),
-            2
+            3
         );
         ?></td>
     </tr></tfoot>

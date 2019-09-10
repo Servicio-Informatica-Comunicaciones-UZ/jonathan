@@ -64,7 +64,7 @@ foreach ($propuestas as $bloques_propuesta) {
         }
 
         $medias_bloques[$bloque->id] = $puntos_bloque/sizeof($evaluadores);
-        echo '<td>' . Yii::$app->formatter->asDecimal($medias_bloques[$bloque->id], 2) . "</td>\n";
+        echo '<td>' . Yii::$app->formatter->asDecimal($medias_bloques[$bloque->id], 3) . "</td>\n";
         echo "</tr>\n";
     } ?>
     </tbody>
@@ -73,11 +73,11 @@ foreach ($propuestas as $bloques_propuesta) {
         <td><?php echo Yii::t('gestion', 'Puntuación final'); ?></td>
         <?php
         foreach ($evaluadores as $evaluador_id) {
-            printf("<td>%s</td>\n", Yii::$app->formatter->asDecimal($puntos_evaluadores[$evaluador_id], 2));
+            printf("<td>%s</td>\n", Yii::$app->formatter->asDecimal($puntos_evaluadores[$evaluador_id], 3));
         }
 
         $puntuacion_final = array_sum($puntos_evaluadores) / sizeof($evaluadores);
-        printf("<td>%s</td>\n", Yii::$app->formatter->asDecimal($puntuacion_final, 2)); ?>
+        printf("<td>%s</td>\n", Yii::$app->formatter->asDecimal($puntuacion_final, 3)); ?>
     </tr></tfoot>
     </table>
     </div>
