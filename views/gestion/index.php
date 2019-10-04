@@ -5,7 +5,8 @@ use app\models\Estado;
 
 $this->title = Yii::t('app', 'Gestión');
 $this->params['breadcrumbs'][] = $this->title;
-$anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+# $anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+$anyo_academico = date('Y');  # TODO: Hacerlo configurable.
 
 // Change background color
 $this->registerCssFile('@web/css/gestion.css', ['depends' => 'app\assets\AppAsset']);

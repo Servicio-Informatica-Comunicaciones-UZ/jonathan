@@ -35,7 +35,8 @@ $max_filesize = ini_get('upload_max_filesize');
     ]);
 
     // attribute anyo
-    $anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+    # $anyo_academico = date('m') < 10 ? date('Y') - 1 : date('Y');
+    $anyo_academico = date('Y');  # TODO Hacerlo configurable
     echo $form->field($model, 'anyo')->hiddenInput(['value' => $anyo_academico])->label(false);
 
     // attribute user_id
