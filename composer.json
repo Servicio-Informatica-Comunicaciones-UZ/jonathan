@@ -26,9 +26,10 @@
         "dawood/phpchromepdf": "^1.3",
         "cocur/background-process": "^0.7.0",
         "apaoww/yii2-oci8": "dev-master",
-        "npm-asset/puppeteer": "^1.9",
         "spatie/browsershot": "^3.22",
-        "marqu3s/yii2-summernote": "dev-master"
+        "marqu3s/yii2-summernote": "dev-master",
+        "npm-asset/devtools-protocol": "0.0.901419",
+        "npm-asset/puppeteer": "^10.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -40,13 +41,7 @@
         "codeception/specify": "~0.4.3"
     },
     "config": {
-        "process-timeout": 1800,
-        "fxp-asset": {
-            "enabled": false,
-            "resolutions": {
-                "npm-asset/debug": "^3.1"
-            }
-        }
+        "process-timeout": 1800
     },
     "scripts": {
         "post-install-cmd": [

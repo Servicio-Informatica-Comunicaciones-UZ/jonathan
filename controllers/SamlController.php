@@ -16,6 +16,8 @@ class SamlController extends Controller
 
     public function actions()
     {
+        $session = Yii::$app->session;
+
         return [
             'login' => [
                 // This action will initiate the login process with the Identity Provider specified in the config file.
@@ -37,13 +39,22 @@ class SamlController extends Controller
             'logout' => [
                 // This action will initiate the SingleLogout process with the Identity Provider.
                 'class' => 'asasmoyo\yii2saml\actions\LogoutAction',
-                'returnTo' => Url::to(['//site/index']),
+                'returnTo' => Url::to(['//site/index']),  // The target URL the user should be returned to after logout.
+                'parameters' => [],  // Extra parameters to be added to the GET
+                'nameId' => $session->get('nameId'),  // The NameID that will be set in the LogoutRequest.
+                'sessionIndex' => $session->get('sessionIndex'),  //T he SessionIndex (taken from the SAML Response in the SSO process).
+                'stay' => false,  // True if we want to stay (returns the url string) False to redirect
+                'nameIdFormat' => null,  // The NameID Format will be set in the LogoutRequest.
+                'nameIdNameQualifier' => $session->get('nameIdNameQualifier'),  // The NameID NameQualifier will be set in the LogoutRequest.
+                'nameIdSPNameQualifier' => $session->get('nameIdSPNameQualifier'),
+                'logoutIdP' => true,  // true if you want to logout on Identity Provider too
             ],
             'sls' => [
                 // Single Logout Service
                 // This action will process the SAML logout request/response sent by the Identity Provider.
                 'class' => 'asasmoyo\yii2saml\actions\SlsAction',
                 'successUrl' => Url::to(['//site/index']),
+                'logoutIdP' => true,  // true if you want to logout on Identity Provider too
             ],
         ];  // NOTE: The acs and sls URLs should be set in the AssertionConsumerService and SingleLogoutService sections
             // of the metadata of this Service Provider in the IdP.
@@ -58,7 +69,7 @@ class SamlController extends Controller
         // SAML validation succeeded.  Let's login
         // Yii::info('SAML received attributes: ' . VarDumper::dumpAsString($attributes));
 
-        $nip = $attributes['uid'][0];
+        $nip = $attributes['attributes']['uid'][0];
         $user = User::findByUsername($nip);
 
         // If it is the first time the user logs in, let's add it to the database.
@@ -66,7 +77,7 @@ class SamlController extends Controller
             $user = new User;
             $user->username = $nip;
             $user->email = "{$nip}@unizar.es";  // Defined as UNIQUE in the DB.
-            $user->password_hash = $attributes['businessCategory'][0];  // Just because it is defined as NOT NULL in DB.
+            $user->password_hash = $attributes['attributes']['businessCategory'][0];  // Just because it is defined as NOT NULL in DB.
             $user->save();
         }
 
