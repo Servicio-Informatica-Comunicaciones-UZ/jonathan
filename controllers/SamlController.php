@@ -69,7 +69,8 @@ class SamlController extends Controller
         // SAML validation succeeded.  Let's login
         // Yii::info('SAML received attributes: ' . VarDumper::dumpAsString($attributes));
 
-        $nip = $attributes['attributes']['uid'][0];
+        # $nip = $attributes['attributes']['uid'][0];
+        $nip = $attributes['attributes']['urn:oid:0.9.2342.19200300.100.1.1'][0];
         $user = User::findByUsername($nip);
 
         // If it is the first time the user logs in, let's add it to the database.
