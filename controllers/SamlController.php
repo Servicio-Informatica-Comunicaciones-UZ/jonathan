@@ -69,8 +69,8 @@ class SamlController extends Controller
         // SAML validation succeeded.  Let's login
         // Yii::info('SAML received attributes: ' . VarDumper::dumpAsString($attributes));
 
-        # $nip = $attributes['attributes']['uid'][0];
-        $nip = $attributes['attributes']['urn:oid:0.9.2342.19200300.100.1.1'][0];
+        # $nip = $attributes['attributes']['uid'][0];  # estudios sso (lord)
+        $nip = $attributes['attributes']['urn:oid:0.9.2342.19200300.100.1.1'][0];  # sir sso
         $user = User::findByUsername($nip);
 
         // If it is the first time the user logs in, let's add it to the database.
@@ -78,7 +78,8 @@ class SamlController extends Controller
             $user = new User;
             $user->username = $nip;
             $user->email = "{$nip}@unizar.es";  // Defined as UNIQUE in the DB.
-            $user->password_hash = $attributes['attributes']['businessCategory'][0];  // Just because it is defined as NOT NULL in DB.
+            # $user->password_hash = $attributes['attributes']['businessCategory'][0];  // estudios sso. Just because it is defined as NOT NULL in DB.
+            $user->password_hash = $attributes['attributes']['urn:oid:2.5.4.15'][0];  // sir sso. Just because it is defined as NOT NULL in DB.
             $user->save();
         }
 
