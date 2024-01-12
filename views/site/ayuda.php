@@ -19,6 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2>Soporte técnico</h2>
 
-    <p>Abra un ticket en <?php echo Html::a('Ayudica', 'https://ayudica.unizar.es/otrs/customer.pl'); ?>.</p>
+    <p>Abra un ticket en <?php echo Html::a('Centro de Atención a Usuari@s', 'https://cau.unizar.es/'); ?>.</p>
 
 </div>
