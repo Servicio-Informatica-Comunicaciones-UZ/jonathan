@@ -25,6 +25,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'db' => $db['jonathan'],
+        'dbident' => $db['identidades'],
         'i18n' => [
             'translations' => [
                 '*' => [
